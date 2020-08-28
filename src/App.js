@@ -43,13 +43,10 @@ function App() {
       })
       .then((data) => {
         console.log("login promise data:  ", data);
-
-        // Need the server to return the user object after logging in
-        // and set the currentUser to the returned object
-        // setState(prev => ({
-        //   ...prev,
-        //   currentUser: data.data
-        // }))
+        setState((prev) => ({
+          ...prev,
+          currentUser: data.data.user,
+        }));
       })
       .catch((err) => {
         console.log("Login Error: ", err);
