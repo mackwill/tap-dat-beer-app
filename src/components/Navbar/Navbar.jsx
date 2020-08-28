@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { fade, makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -15,6 +15,8 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { createMuiTheme } from "@material-ui/core/styles";
+import PersonAddIcon from "@material-ui/icons/PersonAdd";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
 
 const theme = createMuiTheme({
   palette: {
@@ -97,9 +99,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -149,32 +151,27 @@ export default function PrimarySearchAppBar() {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
+      <MenuItem onClick={props.handleRegisterOpen}>
         <IconButton
-          aria-label="account of current user"
+          aria-label="register new user"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
           color="inherit"
         >
-          <AccountCircle />
+          <PersonAddIcon />
         </IconButton>
-        <p>Profile</p>
+        <p>Register</p>
+      </MenuItem>
+      <MenuItem onClick={props.handleLoginOpen}>
+        <IconButton
+          aria-label="login user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <LockOpenIcon />
+        </IconButton>
+        <p>Login</p>
       </MenuItem>
     </Menu>
   );
@@ -210,28 +207,25 @@ export default function PrimarySearchAppBar() {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton aria-label="show 4 new mails" color="inherit">
-                <Badge badgeContent={4} color="secondary">
-                  <MailIcon />
-                </Badge>
-              </IconButton>
               <IconButton
-                aria-label="show 17 new notifications"
+                edge="end"
+                aria-label="register new user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={props.handleRegisterOpen}
                 color="inherit"
               >
-                <Badge badgeContent={17} color="secondary">
-                  <NotificationsIcon />
-                </Badge>
+                <PersonAddIcon />
               </IconButton>
               <IconButton
                 edge="end"
-                aria-label="account of current user"
+                aria-label="login user"
                 aria-controls={menuId}
                 aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
+                onClick={props.handleLoginOpen}
                 color="inherit"
               >
-                <AccountCircle />
+                <LockOpenIcon />
               </IconButton>
             </div>
             <div className={classes.sectionMobile}>
