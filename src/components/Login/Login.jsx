@@ -33,9 +33,9 @@ export default function Login(props) {
               autoFocus
               margin="dense"
               id="name"
-              label="Username"
-              type="username"
-              name="username"
+              label="Email"
+              type="email"
+              name="email"
               fullWidth
               onChange={props.onChange}
             />

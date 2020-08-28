@@ -10,7 +10,7 @@ function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [state, setState] = useState({
-    username: null,
+    email: null,
     password: null,
     currentUser: null,
   });
@@ -33,7 +33,7 @@ function App() {
 
     return axios
       .post("/api/login", {
-        username: state.username,
+        email: state.email,
         password: state.password,
       })
       .then((data) => {
