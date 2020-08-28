@@ -88,6 +88,10 @@ function App() {
       .post("/api/register", newUser)
       .then((data) => {
         console.log("Register promise data: ", data);
+        setState((prev) => ({
+          ...prev,
+          currentUser: data.data.user,
+        }));
       })
       .catch((err) => {
         console.log("Register Error: ", err);
