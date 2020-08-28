@@ -32,6 +32,15 @@ function App() {
     }));
   };
 
+  const handleLoginClose = (e) => {
+    setLoginOpen(false);
+    setState((prev) => ({
+      ...prev,
+      email: null,
+      password: null,
+    }));
+  };
+
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     console.log("Here");
@@ -47,6 +56,8 @@ function App() {
           ...prev,
           currentUser: data.data.user,
         }));
+
+        handleLoginClose();
       })
       .catch((err) => {
         console.log("Login Error: ", err);
@@ -64,6 +75,17 @@ function App() {
     setState((prev) => ({
       ...prev,
       [e.target.name]: e.target.value.trim(),
+    }));
+  };
+
+  const handleRegisterClose = (e) => {
+    setRegisterOpen(false);
+    setState((prev) => ({
+      ...prev,
+      firstName: null,
+      lastName: null,
+      email: null,
+      password: null,
     }));
   };
 
@@ -89,10 +111,23 @@ function App() {
           ...prev,
           currentUser: data.data.user,
         }));
+        handleRegisterClose();
       })
       .catch((err) => {
         console.log("Register Error: ", err);
       });
+  };
+
+  const handleLogout = (e) => {
+    e.preventDefault();
+
+    console.log("Logout clicked");
+    return axios.post("/api/logout").then((data) => {
+      setState((prev) => ({
+        ...prev,
+        currentUser: null,
+      }));
+    });
   };
 
   return (
@@ -100,17 +135,19 @@ function App() {
       <Navbar
         handleRegisterOpen={handleRegisterOpen}
         handleLoginOpen={handleLoginOpen}
+        currentUser={state.currentUser}
+        handleLogout={handleLogout}
       />
       <Login
         open={loginOpen}
         onChange={handleLoginChange}
-        handleClose={() => setLoginOpen(false)}
+        handleClose={handleLoginClose}
         onSubmit={handleLoginSubmit}
       />
       <Register
         open={registerOpen}
         onChange={handleRegisterChange}
-        handleClose={() => setRegisterOpen(false)}
+        handleClose={handleRegisterClose}
         onSubmit={handleRegisterSubmit}
       />
       <h1>TAP DAT BEER APP</h1>

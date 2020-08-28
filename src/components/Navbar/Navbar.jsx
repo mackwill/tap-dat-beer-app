@@ -17,6 +17,8 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import { createMuiTheme } from "@material-ui/core/styles";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
+import Box from "@material-ui/core/Box";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
 const theme = createMuiTheme({
   palette: {
@@ -107,9 +109,9 @@ export default function PrimarySearchAppBar(props) {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleProfileMenuOpen = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
@@ -123,6 +125,14 @@ export default function PrimarySearchAppBar(props) {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  let visitorShow = "block";
+  let userShow = "none";
+
+  if (props.currentUser) {
+    visitorShow = "none";
+    userShow = "block";
+  }
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -151,28 +161,43 @@ export default function PrimarySearchAppBar(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={props.handleRegisterOpen}>
-        <IconButton
-          aria-label="register new user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <PersonAddIcon />
-        </IconButton>
-        <p>Register</p>
-      </MenuItem>
-      <MenuItem onClick={props.handleLoginOpen}>
-        <IconButton
-          aria-label="login user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <LockOpenIcon />
-        </IconButton>
-        <p>Login</p>
-      </MenuItem>
+      <Box display={visitorShow}>
+        <MenuItem onClick={props.handleRegisterOpen}>
+          <IconButton
+            aria-label="register new user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <PersonAddIcon />
+          </IconButton>
+          <p>Register</p>
+        </MenuItem>
+        <MenuItem onClick={props.handleLoginOpen}>
+          <IconButton
+            aria-label="login user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <LockOpenIcon />
+          </IconButton>
+          <p>Login</p>
+        </MenuItem>
+      </Box>
+      <Box display={userShow}>
+        <MenuItem onClick={props.handleLogout}>
+          <IconButton
+            aria-label="logout user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <LockOpenIcon />
+          </IconButton>
+          <p>Logout</p>
+        </MenuItem>
+      </Box>
     </Menu>
   );
 
@@ -207,26 +232,40 @@ export default function PrimarySearchAppBar(props) {
             </div>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
-              <IconButton
-                edge="end"
-                aria-label="register new user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={props.handleRegisterOpen}
-                color="inherit"
-              >
-                <PersonAddIcon />
-              </IconButton>
-              <IconButton
-                edge="end"
-                aria-label="login user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={props.handleLoginOpen}
-                color="inherit"
-              >
-                <LockOpenIcon />
-              </IconButton>
+              <Box display={visitorShow}>
+                <IconButton
+                  edge="end"
+                  aria-label="register new user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={props.handleRegisterOpen}
+                  color="inherit"
+                >
+                  <PersonAddIcon />
+                </IconButton>
+                <IconButton
+                  edge="end"
+                  aria-label="login user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={props.handleLoginOpen}
+                  color="inherit"
+                >
+                  <LockOpenIcon />
+                </IconButton>
+              </Box>
+              <Box display={userShow}>
+                <IconButton
+                  edge="end"
+                  aria-label="logout user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={props.handleLogout}
+                  color="inherit"
+                >
+                  <ExitToAppIcon />
+                </IconButton>
+              </Box>
             </div>
             <div className={classes.sectionMobile}>
               <IconButton
