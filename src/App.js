@@ -6,6 +6,7 @@ import axios from "axios";
 
 import "./App.css";
 import Register from "./components/Register/Register";
+import Banner from "./components/Banner/Banner";
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -150,7 +151,7 @@ function App() {
         handleClose={handleRegisterClose}
         onSubmit={handleRegisterSubmit}
       />
-      <h1>TAP DAT BEER APP</h1>
+      <Banner />
     </div>
   );
 }
