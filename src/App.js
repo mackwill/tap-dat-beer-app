@@ -30,6 +30,7 @@ function App() {
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
+    console.log("Here");
 
     return axios
       .post("/api/login", {
@@ -67,6 +68,7 @@ function App() {
         open={loginOpen}
         onChange={handleLoginChange}
         handleClose={() => setLoginOpen(false)}
+        onSubmit={handleLoginSubmit}
       />
       <h1>TAP DAT BEER APP</h1>
     </div>
