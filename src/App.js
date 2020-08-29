@@ -179,6 +179,20 @@ function App() {
       });
   }, []);
 
+  useEffect(() => {
+    Promise.resolve(axios.get("/api/user"))
+      .then((res) => {
+        console.log("user api :", res);
+        setState((prev) => ({
+          ...prev,
+          currentUser: res.data.data,
+        }));
+      })
+      .catch((err) => {
+        console.log("Error getting beers: ", err);
+      });
+  }, []);
+
   return (
     <div className="App">
       <Navbar
