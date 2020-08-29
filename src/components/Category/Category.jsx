@@ -6,7 +6,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
-import Link from "@material-ui/core/Link";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import { useTheme } from "@material-ui/core/styles";
 
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 
@@ -43,6 +44,27 @@ export default function Category(props) {
     first10Beers.push(props.beers[i]);
   }
 
+  let columns = 1;
+
+  const theme = useTheme();
+  const xsmall = useMediaQuery(theme.breakpoints.up("xs"));
+  const betweenXSAndS = useMediaQuery("(min-width: 425px)");
+  const small = useMediaQuery(theme.breakpoints.up("sm"));
+  const medium = useMediaQuery(theme.breakpoints.up("md"));
+  const large = useMediaQuery(theme.breakpoints.up("lg"));
+
+  console.log("matches: ", small);
+
+  if (large) {
+    columns = 4;
+  } else if (medium) {
+    columns = 3;
+  } else if (small) {
+    columns = 2;
+  } else if (betweenXSAndS) {
+    columns = 1.5;
+  }
+
   console.log("first10beers: ", first10Beers);
   const classes = useStyles();
   return (
@@ -57,7 +79,11 @@ export default function Category(props) {
         <h3 className="category_title">Popular >></h3>
 
         {/* <Grid container spacing={3} justify="space-around"> */}
-        <GridList className={classes.gridList} cols={2.5}>
+        <GridList
+          className={classes.gridList}
+          cols={columns}
+          cellHeight={"250"}
+        >
           {/* <Grid item xs={12} sm={4} md={3} lg={3}>
             <BeerCard beer={props.beers[2]} />
           </Grid>
@@ -78,7 +104,13 @@ export default function Category(props) {
           </Grid> */}
 
           {first10Beers.map((beer) => (
-            <GridListTile key={beer.beer_image} component="a" href="/stuff">
+            <GridListTile
+              key={beer.beer_image}
+              component="a"
+              href="#"
+              onClick={props.onClick}
+              xs={12}
+            >
               <img src={beer.beer_image} alt={beer.name} />
 
               <GridListTileBar

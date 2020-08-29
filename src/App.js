@@ -133,6 +133,10 @@ function App() {
     });
   };
 
+  const handleSingleBeerClick = (e) => {
+    console.log("STUFFF");
+  };
+
   // Get all the beers once the home page is loaded
   useEffect(() => {
     Promise.resolve(axios.get("/api/beers"))
@@ -169,7 +173,15 @@ function App() {
         onSubmit={handleRegisterSubmit}
       />
       <Banner />
-      {state.beers.length > 0 && <Category beers={state.beers} />}
+      {state.beers.length > 0 && (
+        <Category beers={state.beers} onClick={handleSingleBeerClick} />
+      )}
+      {state.beers.length > 0 && (
+        <Category beers={state.beers} onClick={handleSingleBeerClick} />
+      )}
+      {state.beers.length > 0 && (
+        <Category beers={state.beers} onClick={handleSingleBeerClick} />
+      )}
     </div>
   );
 }
