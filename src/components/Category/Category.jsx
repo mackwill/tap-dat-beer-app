@@ -12,7 +12,7 @@ import { useTheme } from "@material-ui/core/styles";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 
 import "./Category.css";
-import { GridList } from "@material-ui/core";
+import { GridList, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,13 +38,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Category(props) {
-  const first10Beers = [];
+  let first10Beers = [];
 
-  for (let i = 1; i <= 10; i++) {
-    first10Beers.push(props.beers[i]);
+  if (props.beers.length > 10) {
+    for (let i = 1; i <= 10; i++) {
+      first10Beers.push(props.beers[i]);
+    }
+  } else {
+    first10Beers = [...props.beers];
   }
 
-  let columns = 1;
+  let columns = 2.5;
 
   const theme = useTheme();
   const xsmall = useMediaQuery(theme.breakpoints.up("xs"));
@@ -66,6 +70,9 @@ export default function Category(props) {
   }
 
   console.log("first10beers: ", first10Beers);
+  if (props.categories) {
+    console.log("categories: ", props.category);
+  }
   const classes = useStyles();
   return (
     <div>
@@ -76,13 +83,18 @@ export default function Category(props) {
         m={"auto"}
         maxWidth={true}
       >
-        <h3 className="category_title">Popular >></h3>
+        {/* <h3 className="category_title">Popular >></h3> */}
+        <Box width={1} component="h3" mb={"1rem"} mt={"1rem"} textAlign="left">
+          <Typography variant="h5" component="h3" mb={2}>
+            {props.category}
+          </Typography>
+        </Box>
 
         {/* <Grid container spacing={3} justify="space-around"> */}
         <GridList
           className={classes.gridList}
           cols={columns}
-          cellHeight={"250"}
+          cellHeight={"150"}
         >
           {/* <Grid item xs={12} sm={4} md={3} lg={3}>
             <BeerCard beer={props.beers[2]} />

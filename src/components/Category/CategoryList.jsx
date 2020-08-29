@@ -1,5 +1,10 @@
-import React from "react";
+import React, { Fragment } from "react";
 
-export default function CategoryList() {
-  return <div></div>;
+export default function CategoryList(props) {
+  console.log("beers: ", props.beers);
+  return (
+    <Fragment>
+      {/* <Category beers={props.beers} onClick={handleSingleBeerClick} /> */}
+    </Fragment>
+  );
 }

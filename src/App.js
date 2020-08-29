@@ -8,6 +8,7 @@ import "./App.css";
 import Register from "./components/Register/Register";
 import Banner from "./components/Banner/Banner";
 import Category from "./components/Category/Category";
+import CategoryList from "./components/Category/CategoryList";
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -22,6 +23,24 @@ function App() {
     beers: [],
   });
 
+  const filterBeerCategories = () => {
+    const categories = [];
+
+    state.beers.forEach((beer) => {
+      if (!categories.includes(beer.type)) {
+        categories.push(beer.type);
+      }
+    });
+    console.log("categories function: ", categories);
+    return categories;
+  };
+
+  const beersByCategory = (category) => {
+    const beerListCategory = state.beers.filter(
+      (beer) => beer.type === category
+    );
+    return beerListCategory;
+  };
   const handleLoginOpen = (e) => {
     console.log("Open Login modal");
     setLoginOpen(true);
@@ -134,7 +153,15 @@ function App() {
   };
 
   const handleSingleBeerClick = (e) => {
-    console.log("STUFFF");
+    console.log(e.target.value);
+  };
+
+  const renderBeerTypes = () => {
+    const beerTypes = filterBeerCategories();
+    beerTypes.forEach((cateogry) => {
+      const beersByType = state.beers.filter((beer) => beer.type === cateogry);
+      return <Category beers={beersByType} onClick={handleSingleBeerClick} />;
+    });
   };
 
   // Get all the beers once the home page is loaded
@@ -173,15 +200,18 @@ function App() {
         onSubmit={handleRegisterSubmit}
       />
       <Banner />
-      {state.beers.length > 0 && (
-        <Category beers={state.beers} onClick={handleSingleBeerClick} />
-      )}
-      {state.beers.length > 0 && (
-        <Category beers={state.beers} onClick={handleSingleBeerClick} />
-      )}
-      {state.beers.length > 0 && (
-        <Category beers={state.beers} onClick={handleSingleBeerClick} />
-      )}
+      {/* {state.beers.length > 0 && (
+        <Category
+          beers={state.beers}
+          categories={filterBeerCategories()}
+          onClick={handleSingleBeerClick}
+        />
+      )} */}
+      {/* {state.beers.length > 0 && renderBeerTypes()} */}
+      {state.beers.length > 0 &&
+        filterBeerCategories().map((type) => {
+          return <Category category={type} beers={beersByCategory(type)} />;
+        })}
     </div>
   );
 }
