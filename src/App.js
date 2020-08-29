@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "./logo.svg";
 import Navbar from "./components/Navbar/Navbar";
 import Login from "./components/Login/Login";
@@ -6,10 +6,16 @@ import axios from "axios";
 
 import "./App.css";
 import Register from "./components/Register/Register";
+import Search from "./components/Search/Search";
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [popularSearch, setPopularSearch] = useState([]);
+
   const [state, setState] = useState({
     firstName: null,
     lastName: null,
@@ -18,6 +24,21 @@ function App() {
     passwordConfirmation: null,
     currentUser: null,
   });
+
+  const onChangeSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchOpen = (e) => {
+    setSearchOpen(true);
+    return axios
+      .get("/search/analytics")
+      .then((data) => setPopularSearch(data.data.finalData))
+      .catch((e) => null);
+  };
+  const handleSearchClose = (e) => {
+    setSearchOpen(false);
+  };
 
   const handleLoginOpen = (e) => {
     console.log("Open Login modal");
@@ -89,6 +110,15 @@ function App() {
     }));
   };
 
+  useEffect(() => {
+    axios
+      .get(`/search?q=${encodeURI(searchQuery)}`)
+      .then((data) => {
+        setSearchResults(data.data.data);
+      })
+      .catch((e) => console.log("Error on search query:", e));
+  }, [searchQuery]);
+
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
     const newUser = {
@@ -133,6 +163,7 @@ function App() {
   return (
     <div className="App">
       <Navbar
+        handleSearchOpen={handleSearchOpen}
         handleRegisterOpen={handleRegisterOpen}
         handleLoginOpen={handleLoginOpen}
         currentUser={state.currentUser}
@@ -149,6 +180,14 @@ function App() {
         onChange={handleRegisterChange}
         handleClose={handleRegisterClose}
         onSubmit={handleRegisterSubmit}
+      />
+      <Search
+        popularSearch={popularSearch}
+        onChangeSearch={onChangeSearch}
+        searchQuery={searchQuery}
+        open={searchOpen}
+        close={handleSearchClose}
+        searchResults={searchResults}
       />
       <h1>TAP DAT BEER APP</h1>
     </div>

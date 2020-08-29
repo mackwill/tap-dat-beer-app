@@ -222,6 +222,7 @@ export default function PrimarySearchAppBar(props) {
                 <SearchIcon />
               </div>
               <InputBase
+                onClick={props.handleSearchOpen}
                 placeholder="Search…"
                 classes={{
                   root: classes.inputRoot,
