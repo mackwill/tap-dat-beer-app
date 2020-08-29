@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import logo from "./logo.svg";
 import Navbar from "./components/Navbar/Navbar";
 import Login from "./components/Login/Login";
@@ -7,6 +7,7 @@ import axios from "axios";
 import "./App.css";
 import Register from "./components/Register/Register";
 import Banner from "./components/Banner/Banner";
+import Category from "./components/Category/Category";
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -18,6 +19,7 @@ function App() {
     password: null,
     passwordConfirmation: null,
     currentUser: null,
+    beers: [],
   });
 
   const handleLoginOpen = (e) => {
@@ -131,6 +133,21 @@ function App() {
     });
   };
 
+  // Get all the beers once the home page is loaded
+  useEffect(() => {
+    Promise.resolve(axios.get("/api/beers"))
+      .then((res) => {
+        console.log("beers api :", res.data.data);
+        setState((prev) => ({
+          ...prev,
+          beers: [...res.data.data],
+        }));
+      })
+      .catch((err) => {
+        console.log("Error getting beers: ", err);
+      });
+  }, []);
+
   return (
     <div className="App">
       <Navbar
@@ -152,6 +169,7 @@ function App() {
         onSubmit={handleRegisterSubmit}
       />
       <Banner />
+      {state.beers.length > 0 && <Category beers={state.beers} />}
     </div>
   );
 }
