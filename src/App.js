@@ -9,10 +9,12 @@ import Register from "./components/Register/Register";
 import Banner from "./components/Banner/Banner";
 import Category from "./components/Category/Category";
 import CategoryList from "./components/Category/CategoryList";
+import ProductDetail from "./components/ProductDetail/ProductDetail";
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
+  const [beerDetailOpen, setBeerDetailOpen] = useState(false);
   const [state, setState] = useState({
     firstName: null,
     lastName: null,
@@ -21,6 +23,7 @@ function App() {
     passwordConfirmation: null,
     currentUser: null,
     beers: [],
+    currentBeer: {},
   });
 
   const filterBeerCategories = () => {
@@ -152,16 +155,22 @@ function App() {
     });
   };
 
-  const handleSingleBeerClick = (e) => {
-    console.log(e.target.value);
+  const handleBeerDetailClick = (id) => {
+    setBeerDetailOpen(true);
+
+    setState((prev) => ({
+      ...prev,
+      currentBeer: state.beers[id - 1],
+    }));
   };
 
-  const renderBeerTypes = () => {
-    const beerTypes = filterBeerCategories();
-    beerTypes.forEach((cateogry) => {
-      const beersByType = state.beers.filter((beer) => beer.type === cateogry);
-      return <Category beers={beersByType} onClick={handleSingleBeerClick} />;
-    });
+  const handleBeerDetailClose = (e) => {
+    setBeerDetailOpen(false);
+
+    // setState((prev) => ({
+    //   ...prev,
+    //   currentBeer: undefined,
+    // }));
   };
 
   // Get all the beers once the home page is loaded
@@ -214,18 +223,22 @@ function App() {
         onSubmit={handleRegisterSubmit}
       />
       <Banner />
-      {/* {state.beers.length > 0 && (
-        <Category
-          beers={state.beers}
-          categories={filterBeerCategories()}
-          onClick={handleSingleBeerClick}
-        />
-      )} */}
-      {/* {state.beers.length > 0 && renderBeerTypes()} */}
       {state.beers.length > 0 &&
         filterBeerCategories().map((type) => {
-          return <Category category={type} beers={beersByCategory(type)} />;
+          return (
+            <Category
+              category={type}
+              beers={beersByCategory(type)}
+              onClick={handleBeerDetailClick}
+            />
+          );
         })}
+
+      <ProductDetail
+        open={beerDetailOpen}
+        handleClose={handleBeerDetailClose}
+        currentBeer={state.currentBeer}
+      />
     </div>
   );
 }

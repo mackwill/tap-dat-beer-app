@@ -60,13 +60,13 @@ export default function Category(props) {
   console.log("matches: ", small);
 
   if (large) {
-    columns = 4;
+    columns = 6;
   } else if (medium) {
-    columns = 3;
+    columns = 5;
   } else if (small) {
-    columns = 2;
+    columns = 4;
   } else if (betweenXSAndS) {
-    columns = 1.5;
+    columns = 3;
   }
 
   console.log("first10beers: ", first10Beers);
@@ -76,13 +76,7 @@ export default function Category(props) {
   const classes = useStyles();
   return (
     <div>
-      <Box
-        component="div"
-        width={0.9}
-        className={classes.root}
-        m={"auto"}
-        maxWidth={true}
-      >
+      <Box component="div" width={0.9} className={classes.root} m={"auto"}>
         {/* <h3 className="category_title">Popular >></h3> */}
         <Box width={1} component="h3" mb={"1rem"} mt={"1rem"} textAlign="left">
           <Typography variant="h5" component="h3" mb={2}>
@@ -91,12 +85,14 @@ export default function Category(props) {
         </Box>
 
         {/* <Grid container spacing={3} justify="space-around"> */}
-        <GridList
-          className={classes.gridList}
-          cols={columns}
-          cellHeight={"150"}
-        >
-          {/* <Grid item xs={12} sm={4} md={3} lg={3}>
+        <Box width={1}>
+          <GridList
+            className={classes.gridList}
+            cols={columns}
+            cellHeight={"200"}
+            width={1}
+          >
+            {/* <Grid item xs={12} sm={4} md={3} lg={3}>
             <BeerCard beer={props.beers[2]} />
           </Grid>
           <Grid item xs={12} sm={4} md={3} lg={3}>
@@ -115,28 +111,27 @@ export default function Category(props) {
             <BeerCard beer={props.beers[7]} />
           </Grid> */}
 
-          {first10Beers.map((beer) => (
-            <GridListTile
-              key={beer.beer_image}
-              component="a"
-              href="#"
-              onClick={props.onClick}
-              xs={12}
-            >
-              <img src={beer.beer_image} alt={beer.name} />
+            {first10Beers.map((beer) => (
+              <GridListTile
+                id={beer.id}
+                key={beer.beer_image}
+                component="a"
+                href="JavaScript:void(0);"
+                onClick={() => props.onClick(beer.id)}
+              >
+                <img id={beer.id} src={beer.beer_image} alt={beer.name} />
 
-              <GridListTileBar
-                title={beer.name}
-                classes={{ root: classes.titleBar, title: classes.title }}
-                actionIcon={
-                  <IconButton aria-label={`star ${beer.name}`}>
-                    <StarBorderIcon className={classes.title} />
-                  </IconButton>
-                }
-              />
-            </GridListTile>
-          ))}
-        </GridList>
+                <Box id={beer.id}>
+                  <GridListTileBar
+                    key={beer.id}
+                    title={beer.name}
+                    classes={{ root: classes.titleBar, title: classes.title }}
+                  />
+                </Box>
+              </GridListTile>
+            ))}
+          </GridList>
+        </Box>
 
         {/* </Grid> */}
       </Box>
