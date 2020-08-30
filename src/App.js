@@ -24,6 +24,7 @@ function App() {
     currentUser: null,
     beers: [],
     currentBeer: {},
+    currentBeerReviews: [],
   });
 
   const filterBeerCategories = () => {
@@ -158,19 +159,29 @@ function App() {
   const handleBeerDetailClick = (id) => {
     setBeerDetailOpen(true);
 
-    setState((prev) => ({
-      ...prev,
-      currentBeer: state.beers[id - 1],
-    }));
+    return axios
+      .get(`/api/beers/${id}`)
+      .then((data) => {
+        console.log("single beer data: ", data.reviews);
+        setState((prev) => ({
+          ...prev,
+          currentBeer: data.data.beer,
+          currentBeerReviews: data.data.reviews,
+        }));
+      })
+      .catch((err) => console.log("Err: ", err));
   };
 
   const handleBeerDetailClose = (e) => {
     setBeerDetailOpen(false);
 
-    // setState((prev) => ({
-    //   ...prev,
-    //   currentBeer: undefined,
-    // }));
+    setTimeout(() => {
+      setState((prev) => ({
+        ...prev,
+        currentBeer: null,
+        currentBeerReviews: [],
+      }));
+    }, 300);
   };
 
   // Get all the beers once the home page is loaded
@@ -234,11 +245,13 @@ function App() {
           );
         })}
 
-      <ProductDetail
-        open={beerDetailOpen}
-        handleClose={handleBeerDetailClose}
-        currentBeer={state.currentBeer}
-      />
+      {state.currentBeer && (
+        <ProductDetail
+          open={beerDetailOpen}
+          handleClose={handleBeerDetailClose}
+          currentBeer={state.currentBeer}
+        />
+      )}
     </div>
   );
 }

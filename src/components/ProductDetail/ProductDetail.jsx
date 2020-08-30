@@ -16,6 +16,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
+import { Box, Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -71,16 +72,51 @@ export default function ProductDetail(props) {
                 <CloseIcon />
               </IconButton>
               <Typography variant="h6" className={classes.title}>
-                Sound
+                Beer Detail
               </Typography>
-              <Button autoFocus color="inherit" onClick={props.handleClose}>
-                save
-              </Button>
             </Toolbar>
           </AppBar>
           <List>
-            <ListItem button>
-              <ListItemText primary="Phone ringtone" secondary="Titania" />
+            <ListItem style={{ display: "flex", justifyContent: "center" }}>
+              <img src={props.currentBeer.beer_image} />
+            </ListItem>
+            <ListItem>
+              <Box width={1} textAlign="center">
+                <Typography variant="h6">{props.currentBeer.name}</Typography>
+              </Box>
+            </ListItem>
+            <ListItem>
+              <Box width={1} textAlign="center">
+                <Typography variant="p">{props.currentBeer.brewery}</Typography>
+              </Box>
+            </ListItem>
+            <ListItem style={{ width: "60%", margin: "auto" }}>
+              <Grid container spacing={1} textAlign="center">
+                <Grid container item xs={6} spacing={1}>
+                  <Box m={"auto"}>
+                    <Typography variant="p">
+                      ABV: {props.currentBeer.abv}
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid container item xs={6} spacing={1}>
+                  <Box m={"auto"}>
+                    <Typography variant="p">IBU: --</Typography>
+                  </Box>
+                </Grid>
+                <Grid container item xs={6} spacing={1}>
+                  <Box m={"auto"}>
+                    <Typography variant="p">
+                      Type: {props.currentBeer.type}
+                    </Typography>
+                  </Box>
+                </Grid>
+                <Grid container item xs={6} spacing={1}>
+                  <Box m={"auto"}>
+                    <Typography variant="p">Rating: --</Typography>
+                  </Box>
+                </Grid>
+              </Grid>
             </ListItem>
             <Divider />
             <ListItem button>
