@@ -17,6 +17,7 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import { Box, Grid } from "@material-ui/core";
+import Review from "../Review/Review";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -120,11 +121,16 @@ export default function ProductDetail(props) {
             </ListItem>
             <Divider />
             <ListItem button>
-              <ListItemText
-                primary="Default notification ringtone"
-                secondary="Tethys"
-              />
+              <Typography variant="h4" component="h4">
+                Reviews:
+              </Typography>
             </ListItem>
+            <Grid container spacing={3}>
+              {props.reviews &&
+                props.reviews.map((review) => {
+                  return <Review {...review} />;
+                })}
+            </Grid>
           </List>
           <Button variant="contained" color="primary">
             Review
