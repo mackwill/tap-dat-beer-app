@@ -10,11 +10,17 @@ import Banner from "./components/Banner/Banner";
 import Category from "./components/Category/Category";
 import CategoryList from "./components/Category/CategoryList";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
+import Search from "./components/Search/Search";
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [beerDetailOpen, setBeerDetailOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [popularSearch, setPopularSearch] = useState([]);
+
   const [state, setState] = useState({
     firstName: null,
     lastName: null,
@@ -45,6 +51,21 @@ function App() {
     );
     return beerListCategory;
   };
+  const onChangeSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleSearchOpen = (e) => {
+    setSearchOpen(true);
+    return axios
+      .get("/search/analytics")
+      .then((data) => setPopularSearch(data.data.finalData))
+      .catch((e) => null);
+  };
+  const handleSearchClose = (e) => {
+    setSearchOpen(false);
+  };
+
   const handleLoginOpen = (e) => {
     console.log("Open Login modal");
     setLoginOpen(true);
@@ -114,6 +135,15 @@ function App() {
       password: null,
     }));
   };
+
+  useEffect(() => {
+    axios
+      .get(`/search?q=${encodeURI(searchQuery)}`)
+      .then((data) => {
+        setSearchResults(data.data.data);
+      })
+      .catch((e) => console.log("Error on search query:", e));
+  }, [searchQuery]);
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
@@ -216,6 +246,7 @@ function App() {
   return (
     <div className="App">
       <Navbar
+        handleSearchOpen={handleSearchOpen}
         handleRegisterOpen={handleRegisterOpen}
         handleLoginOpen={handleLoginOpen}
         currentUser={state.currentUser}
@@ -252,6 +283,15 @@ function App() {
           currentBeer={state.currentBeer}
         />
       )}
+      <Search
+        popularSearch={popularSearch}
+        onChangeSearch={onChangeSearch}
+        searchQuery={searchQuery}
+        open={searchOpen}
+        close={handleSearchClose}
+        searchResults={searchResults}
+      />
+      <h1>TAP DAT BEER APP</h1>
     </div>
   );
 }
