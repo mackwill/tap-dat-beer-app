@@ -281,6 +281,7 @@ function App() {
           open={beerDetailOpen}
           handleClose={handleBeerDetailClose}
           currentBeer={state.currentBeer}
+          reviews={state.currentBeerReviews}
         />
       )}
       <Search

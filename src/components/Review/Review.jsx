@@ -1,10 +1,31 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
+import { Box, Grid } from "@material-ui/core";
+import Divider from "@material-ui/core/Divider";
+import Rating from "@material-ui/lab/Rating";
+import Avatar from "@material-ui/core/Avatar";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: "#7e5dc0",
+      main: "#5e35b1",
+      dark: "#41257b",
+      contrastText: "#fff",
+    },
+    secondary: {
+      light: "#637bfe",
+      main: "#3d5afe",
+      dark: "#2a3eb1",
+      contrastText: "#fff",
+    },
+  },
+});
 
 const useStyles = makeStyles({
   root: {
@@ -21,37 +42,93 @@ const useStyles = makeStyles({
   pos: {
     marginBottom: 12,
   },
+  mainBlue: {
+    color: theme.palette.secondary.contrastText,
+    backgroundColor: theme.palette.secondary.main,
+    marginRight: "0.5rem",
+  },
 });
 
-export default function OutlinedCard() {
+export default function Review(props) {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
+  console.log("review: ", props);
 
   return (
-    <Card className={classes.root} variant="outlined">
-      <CardContent>
-        <Typography
-          className={classes.title}
-          color="textSecondary"
-          gutterBottom
-        >
-          Word of the Day
-        </Typography>
-        <Typography variant="h5" component="h2">
-          be{bull}nev{bull}o{bull}lent
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          adjective
-        </Typography>
-        <Typography variant="body2" component="p">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
-    </Card>
+    <Grid item xs={11} md={6} lg={5} style={{ margin: "auto" }}>
+      <Box width={0.95} m={"auto"}>
+        <Card className={classes.root} variant="outlined">
+          <CardContent>
+            <Box
+              component="div"
+              display="flex"
+              alignItems="center"
+              width={1}
+              mb={0.5}
+              justifyContent="space-between"
+            >
+              <Box component="div" display="flex" alignItems="center">
+                <Avatar className={classes.mainBlue}>
+                  {props.first_name[0]}
+                </Avatar>
+                <Typography variant="h5" component="h5">
+                  {props.first_name}
+                </Typography>
+              </Box>
+
+              <Box textAlign="right">
+                <Rating
+                  name="read-only"
+                  value={props.rank / 2}
+                  precision={0.25}
+                  readOnly
+                />
+              </Box>
+            </Box>
+
+            <Divider />
+
+            <Grid
+              container
+              spacing={1}
+              textAlign="center"
+              style={{ paddingTop: "0.5rem", paddingBottom: "0.5rem" }}
+            >
+              <Grid container item xs={6} spacing={1}>
+                <Box m={"auto"}>
+                  <Typography variant="p">Sweet: {props.sweet}/5</Typography>
+                </Box>
+              </Grid>
+              <Grid container item xs={6} spacing={1}>
+                <Box m={"auto"}>
+                  <Typography variant="p">Sour: {props.sour}/5</Typography>
+                </Box>
+              </Grid>
+              <Grid container item xs={6} spacing={1}>
+                <Box m={"auto"}>
+                  <Typography variant="p">Bitter: {props.bitter}/5</Typography>
+                </Box>
+              </Grid>
+              <Grid container item xs={6} spacing={1}>
+                <Box m={"auto"}>
+                  <Typography variant="p">Hoppy: {props.hoppy}/5</Typography>
+                </Box>
+              </Grid>
+            </Grid>
+            <Divider />
+
+            <Typography
+              variant="body2"
+              component="p"
+              style={{ marginTop: "1rem" }}
+            >
+              {props.review}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small">Learn More</Button>
+          </CardActions>
+        </Card>
+      </Box>
+    </Grid>
   );
 }
