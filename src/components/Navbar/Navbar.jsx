@@ -217,20 +217,11 @@ export default function PrimarySearchAppBar(props) {
             <Typography className={classes.title} variant="h6" noWrap>
               Tap Dat
             </Typography>
-            <div className={classes.search}>
+            <IconButton onClick={props.handleSearchOpen}>
               <div className={classes.searchIcon}>
                 <SearchIcon />
               </div>
-              <InputBase
-                onClick={props.handleSearchOpen}
-                placeholder="Search…"
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
-              />
-            </div>
+            </IconButton>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               <Box display={visitorShow}>
