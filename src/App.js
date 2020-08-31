@@ -244,7 +244,6 @@ function App() {
   // Get list of beers wishlisted by the currently logged in user
   const handleMyWishlistOpen = (e) => {
     setMyWishlistOpen(true);
-    console.log("wishlist");
 
     return axios
       .get("/wishlists")
@@ -260,11 +259,16 @@ function App() {
   // Check if user has already wishlisted that beer
   const hasUserWishlistedBeer = (id) => {
     const filteredList = state.currentWishList.filter((beer) => {
-      console.log("id: ", id);
-      console.log("beer.id", beer.id);
       return id === beer.id;
     });
-    console.log("filtered list", filteredList);
+    return filteredList;
+  };
+
+  // Removes the deleted beer from the state list of currentWishlist
+  const removeDeletedBeer = (id) => {
+    const filteredList = state.currentWishList.filter((beer) => {
+      return id !== beer.id;
+    });
     return filteredList;
   };
 
@@ -274,9 +278,22 @@ function App() {
       setLoginOpen(true);
       return;
     }
+
+    // Check to see if the user has already wishlisted a beer
+    // and remove it from the wishlist if they have
     if (hasUserWishlistedBeer(state.currentBeer.id).length > 0) {
-      console.log("Already wishlisted");
-      return;
+      return axios
+        .post("/wishlists/delete", {
+          beer_id: state.currentBeer.id,
+          user_id: state.currentUser.id,
+        })
+        .then((res) => {
+          const newWishList = removeDeletedBeer(state.currentBeer.id);
+          setState((prev) => ({
+            ...prev,
+            currentWishList: [...newWishList],
+          }));
+        });
     }
 
     if (state.currentUser && state.currentBeer) {
