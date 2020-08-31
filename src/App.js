@@ -436,6 +436,13 @@ function App() {
         onSubmit={handleRegisterSubmit}
       />
       <Banner />
+      {state.currentUser && (
+        <Category
+          category={"Recommended"}
+          beers={state.recommendedBeers}
+          onClick={handleBeerDetailClick}
+        />
+      )}
       {state.beers.length > 0 && (
         <Fragment>
           <Category
