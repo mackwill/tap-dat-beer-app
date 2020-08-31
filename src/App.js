@@ -37,6 +37,7 @@ function App() {
     currentBeer: {},
     currentBeerReviews: [],
     currentWishList: [],
+    recommendedBeers: [],
   });
 
   const filterBeerCategories = () => {
@@ -318,12 +319,14 @@ function App() {
     console.log("review");
   };
   // Sort beers by highest rated
-  // const sortTopBeers = () => {
-  //   const topBeers = state.beers.sort((a, b) => {
-  //     return a.rating - b.rating
-  //   })
-  //   return topBeers
-  // }
+  const sortTopBeers = () => {
+    const beers = [...state.beers];
+
+    beers.sort((a, b) => {
+      return Number(a.avg_rank) - Number(b.avg_rank);
+    });
+    return beers.reverse();
+  };
 
   // Sort beers by most wishlisted
   // const sortWishlistedBeers = () => {
@@ -334,12 +337,13 @@ function App() {
   // }
 
   // Sort beers by most reviewed
-  // const sortReviewedBeers = () => {
-  //   const topBeers = state.beers.sort((a, b) => {
-  //     return a.reviews - b.reviews
-  //   })
-  //   return topBeers
-  // }
+  const sortReviewedBeers = () => {
+    const beers = [...state.beers];
+    beers.sort((a, b) => {
+      return a.num_reviews - b.num_reviews;
+    });
+    return beers.reverse();
+  };
 
   // Get all the beers once the home page is loaded
   useEffect(() => {
@@ -374,10 +378,38 @@ function App() {
           currentWishList: [...res.data.data],
         }));
       })
+      .then((res) => {
+        return axios.get("/api/beers/recommendations");
+      })
+      .then((res) => {
+        console.log("res: ", res);
+        // setState((prev) => ({
+        //   ...prev,
+        //   recommendedBeers: [...res.data.data],
+        // }));
+      })
       .catch((err) => {
         console.log("Error getting beers: ", err);
       });
   }, []);
+
+  // useEffect(() => {
+  //   console.log("heres");
+  //   if (state.currentUser) {
+  //     return axios
+  //       .get("/api/beers/recommendations")
+  //       .then((res) => {
+  //         console.log("res: ", res);
+  //         // setState((prev) => ({
+  //         //   ...prev,
+  //         //   recommendedBeers: [...res.data.data],
+  //         // }));
+  //       })
+  //       .catch((err) => {
+  //         console.log("Recoommendations err: ", err);
+  //       });
+  //   }
+  // }, []);
 
   return (
     <div className="App">
@@ -404,13 +436,21 @@ function App() {
         onSubmit={handleRegisterSubmit}
       />
       <Banner />
-      {/* {state.beers.length > 0 && (
+      {state.beers.length > 0 && (
         <Fragment>
-          <Category category={"Top Beers"} beers={sortTopBeers()} />
-          <Category category={"Most Wanted"} beers={sortWishlistedBeers()} />
-          <Category category={"Most Reviewed"} beers={sortReviewedBeers()} />
+          <Category
+            category={"Top Beers"}
+            beers={sortTopBeers()}
+            onClick={handleBeerDetailClick}
+          />
+          {/* <Category category={"Most Wanted"} beers={sortWishlistedBeers()} /> */}
+          <Category
+            category={"Most Reviewed"}
+            beers={sortReviewedBeers()}
+            onClick={handleBeerDetailClick}
+          />
         </Fragment>
-      )} */}
+      )}
 
       {state.beers.length > 0 &&
         filterBeerCategories().map((type) => {
@@ -453,8 +493,6 @@ function App() {
         beers={state.currentWishList}
         onClick={handleBeerDetailClick}
       />
-
-      <h1>TAP DAT BEER APP</h1>
     </div>
   );
 }

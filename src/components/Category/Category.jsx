@@ -41,7 +41,7 @@ export default function Category(props) {
   let first10Beers = [];
 
   if (props.beers.length > 10) {
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 0; i < 10; i++) {
       first10Beers.push(props.beers[i]);
     }
   } else {
