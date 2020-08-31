@@ -131,9 +131,15 @@ export default function ProductDetail(props) {
             <Divider />
             <ListItem>
               <Box width={1} textAlign="right">
-                <Button variant="contained" color="primary">
-                  Review
-                </Button>
+                {props.currentUser && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={props.openForm}
+                  >
+                    Review
+                  </Button>
+                )}
                 <IconButton>
                   <ShareIcon
                     color="secondary"

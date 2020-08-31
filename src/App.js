@@ -11,6 +11,7 @@ import Category from "./components/Category/Category";
 import CategoryList from "./components/Category/CategoryList";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import Search from "./components/Search/Search";
+import Review from "./components/ReviewForm/Review";
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -20,6 +21,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [popularSearch, setPopularSearch] = useState([]);
+  const [reviewOpen, setReviewOpen] = useState(false);
 
   const [state, setState] = useState({
     firstName: null,
@@ -64,6 +66,9 @@ function App() {
   };
   const handleSearchClose = (e) => {
     setSearchOpen(false);
+  };
+  const handleReviewOpen = (e) => {
+    setReviewOpen(true);
   };
 
   const handleLoginOpen = (e) => {
@@ -328,6 +333,8 @@ function App() {
           handleClose={handleBeerDetailClose}
           currentBeer={state.currentBeer}
           reviews={state.currentBeerReviews}
+          openForm={handleReviewOpen}
+          currentUser={state.currentUser}
         />
       )}
       <Search
@@ -340,6 +347,7 @@ function App() {
         onClick={handleClickFromSearchResult}
       />
       <h1>TAP DAT BEER APP</h1>
+      <Review currentBeer={state.currentBeer} open={reviewOpen} />
     </div>
   );
 }
