@@ -222,6 +222,11 @@ export default function PrimarySearchAppBar(props) {
                 <SearchIcon />
               </div>
             </IconButton>
+            <IconButton onClick={props.handleScannerOpen}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+            </IconButton>
             <div className={classes.grow} />
             <div className={classes.sectionDesktop}>
               <Box display={visitorShow}>

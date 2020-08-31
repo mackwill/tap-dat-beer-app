@@ -11,6 +11,7 @@ import Category from "./components/Category/Category";
 import CategoryList from "./components/Category/CategoryList";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import Search from "./components/Search/Search";
+import Scanner from "./components/Scanner/Scanner";
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -20,6 +21,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [popularSearch, setPopularSearch] = useState([]);
+  const [scannerOpen, setScannerOpen] = useState(false);
 
   const [state, setState] = useState({
     firstName: null,
@@ -64,6 +66,12 @@ function App() {
   };
   const handleSearchClose = (e) => {
     setSearchOpen(false);
+  };
+  const handleScannerOpen = (e) => {
+    setScannerOpen(true);
+  };
+  const handleScannerClose = (e) => {
+    setScannerOpen(false);
   };
 
   const handleLoginOpen = (e) => {
@@ -306,6 +314,11 @@ function App() {
         close={handleSearchClose}
         searchResults={searchResults}
         onClick={handleClickFromSearchResult}
+      />
+      <Scanner
+        handleScannerOpen={handleScannerOpen}
+        handleScannerClose={handleScannerClose}
+        open={scannerOpen}
       />
       <h1>TAP DAT BEER APP</h1>
     </div>
