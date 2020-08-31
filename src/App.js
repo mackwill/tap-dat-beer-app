@@ -257,9 +257,48 @@ function App() {
       .catch((err) => console.log("Error: ", err));
   };
 
+  // Check if user has already wishlisted that beer
+  const hasUserWishlistedBeer = (id) => {
+    const filteredList = state.currentWishList.filter((beer) => {
+      console.log("id: ", id);
+      console.log("beer.id", beer.id);
+      return id === beer.id;
+    });
+    console.log("filtered list", filteredList);
+    return filteredList;
+  };
+
+  // Add an item to your wishlist if it isn't already liked
+  const handleAddToWishlist = (e) => {
+    if (!state.currentUser) {
+      setLoginOpen(true);
+      return;
+    }
+    if (hasUserWishlistedBeer(state.currentBeer.id).length > 0) {
+      console.log("Already wishlisted");
+      return;
+    }
+
+    if (state.currentUser && state.currentBeer) {
+      return axios
+        .post("/wishlists", {
+          beer_id: state.currentBeer.id,
+          user_id: state.currentUser.id,
+        })
+        .then((res) => {
+          const newWishList = [...state.currentWishList, state.currentBeer];
+          setState((prev) => ({
+            ...prev,
+            currentWishList: newWishList,
+          }));
+        })
+        .catch((err) => console.log("err, ", err));
+    }
+  };
+
   const handleMyReviewsOpen = (e) => {
     // setMyReviewsOpen(true);
-    console.log("wishlist");
+    console.log("review");
   };
   // Sort beers by highest rated
   // const sortTopBeers = () => {
@@ -307,6 +346,15 @@ function App() {
         setState((prev) => ({
           ...prev,
           currentUser: res.data.data,
+        }));
+      })
+      .then((res) => {
+        return axios.get("/wishlists");
+      })
+      .then((res) => {
+        setState((prev) => ({
+          ...prev,
+          currentWishList: [...res.data.data],
         }));
       })
       .catch((err) => {
@@ -364,6 +412,7 @@ function App() {
           handleClose={handleBeerDetailClose}
           currentBeer={state.currentBeer}
           reviews={state.currentBeerReviews}
+          handleAddToWishlist={handleAddToWishlist}
         />
       )}
       <Search
