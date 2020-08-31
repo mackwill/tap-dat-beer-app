@@ -22,6 +22,8 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [popularSearch, setPopularSearch] = useState([]);
+  const [myWishlistOpen, setMyWishlistOpen] = useState(false);
+  const [myReviewsOpen, setMyReviewsOpen] = useState(false);
 
   const [state, setState] = useState({
     firstName: null,
@@ -236,44 +238,45 @@ function App() {
     console.log("works");
   };
 
-  // Sort beers by highest rated
-  // const sortTopBeers = () => {
-  //   const topBeers = state.beers.sort((a, b) => {
-  //     return a.rating - b.rating
-  //   })
-  //   return topBeers
-  // }
+  const handleMyWishlistOpen =
+    // Sort beers by highest rated
+    // const sortTopBeers = () => {
+    //   const topBeers = state.beers.sort((a, b) => {
+    //     return a.rating - b.rating
+    //   })
+    //   return topBeers
+    // }
 
-  // Sort beers by most wishlisted
-  // const sortWishlistedBeers = () => {
-  //   const topBeers = state.beers.sort((a, b) => {
-  //     return a.wishlists - b.wishlists
-  //   })
-  //   return topBeers
-  // }
+    // Sort beers by most wishlisted
+    // const sortWishlistedBeers = () => {
+    //   const topBeers = state.beers.sort((a, b) => {
+    //     return a.wishlists - b.wishlists
+    //   })
+    //   return topBeers
+    // }
 
-  // Sort beers by most reviewed
-  // const sortReviewedBeers = () => {
-  //   const topBeers = state.beers.sort((a, b) => {
-  //     return a.reviews - b.reviews
-  //   })
-  //   return topBeers
-  // }
+    // Sort beers by most reviewed
+    // const sortReviewedBeers = () => {
+    //   const topBeers = state.beers.sort((a, b) => {
+    //     return a.reviews - b.reviews
+    //   })
+    //   return topBeers
+    // }
 
-  // Get all the beers once the home page is loaded
-  useEffect(() => {
-    Promise.resolve(axios.get("/api/beers"))
-      .then((res) => {
-        console.log("beers api :", res.data.data);
-        setState((prev) => ({
-          ...prev,
-          beers: [...res.data.data],
-        }));
-      })
-      .catch((err) => {
-        console.log("Error getting beers: ", err);
-      });
-  }, []);
+    // Get all the beers once the home page is loaded
+    useEffect(() => {
+      Promise.resolve(axios.get("/api/beers"))
+        .then((res) => {
+          console.log("beers api :", res.data.data);
+          setState((prev) => ({
+            ...prev,
+            beers: [...res.data.data],
+          }));
+        })
+        .catch((err) => {
+          console.log("Error getting beers: ", err);
+        });
+    }, []);
 
   useEffect(() => {
     Promise.resolve(axios.get("/api/user"))
