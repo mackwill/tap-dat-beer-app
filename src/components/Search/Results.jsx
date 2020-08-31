@@ -1,56 +1,34 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import GridList from "@material-ui/core/GridList";
-import GridListTile from "@material-ui/core/GridListTile";
-import GridListTileBar from "@material-ui/core/GridListTileBar";
+import Avatar from "@material-ui/core/Avatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItem from "@material-ui/core/ListItem";
+import Divider from "@material-ui/core/Divider";
 import ListSubheader from "@material-ui/core/ListSubheader";
-import IconButton from "@material-ui/core/IconButton";
-import InfoIcon from "@material-ui/icons/Info";
+import List from "@material-ui/core/List";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    // overflow: "hidden",
-    backgroundColor: theme.palette.background.paper,
-  },
-  gridList: {
-    width: "auto",
-    height: "auto",
-  },
-  icon: {
-    color: "rgba(255, 255, 255, 0.54)",
-  },
-}));
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 
 export default function TitlebarGridList(props) {
-  const classes = useStyles();
+  const searchresultsList = props.searchResults.map((elm) => {
+    return (
+      <>
+        <ListItem button onClick={() => props.onClick(elm.id)}>
+          <ListItemAvatar>
+            <Avatar src={elm.beer_image} />
+          </ListItemAvatar>
+          <ListItemText primary={elm.name} secondary={elm.brewery} />
+        </ListItem>
+        <Divider />
+      </>
+    );
+  });
 
   return (
-    <div className={classes.root}>
-      <GridList cellHeight={180} className={classes.gridList}>
-        <GridListTile key="Subheader" cols={2} style={{ height: "auto" }}>
-          <ListSubheader component="div">Search Results</ListSubheader>
-        </GridListTile>
-        {props.data.map((tile) => (
-          <GridListTile key={tile.img}>
-            <img src={tile.beer_image} alt={tile.name} />
-            <GridListTileBar
-              title={tile.title}
-              subtitle={<span>by: {tile.brewery}</span>}
-              actionIcon={
-                <IconButton
-                  aria-label={`info about ${tile.name}`}
-                  className={classes.icon}
-                >
-                  <InfoIcon />
-                </IconButton>
-              }
-            />
-          </GridListTile>
-        ))}
-      </GridList>
-    </div>
+    <>
+      <List>
+        <ListSubheader component="div">{props.title}</ListSubheader>
+        {searchresultsList}
+      </List>
+    </>
   );
 }

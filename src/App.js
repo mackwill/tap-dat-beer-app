@@ -188,6 +188,20 @@ function App() {
     });
   };
 
+  const handleClickFromSearchResult = (id) => {
+    handleBeerDetailClick(id);
+
+    const body = {
+      beer_id: id,
+      query: searchQuery,
+      user_id: state.currentUser && state.currentUser.id,
+    };
+    return axios
+      .post("/search/analytics", body)
+      .then((data) => console.log("added search analytics:", data))
+      .catch((e) => console.log("Search analytics failed", e));
+  };
+
   const handleBeerDetailClick = (id) => {
     setBeerDetailOpen(true);
 
@@ -332,6 +346,7 @@ function App() {
         open={searchOpen}
         close={handleSearchClose}
         searchResults={searchResults}
+        onClick={handleClickFromSearchResult}
       />
       <Account
         {...state.currentUser}
