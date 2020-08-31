@@ -11,6 +11,7 @@ import Category from "./components/Category/Category";
 import CategoryList from "./components/Category/CategoryList";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import Search from "./components/Search/Search";
+import Account from "./components/Account/Account";
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -217,7 +218,7 @@ function App() {
 
   const handleAccountOpen = (e) => {
     // Uncomment when modal is here
-    // setAccuontOpen(true)
+    setAccuontOpen(true);
     console.log("works");
   };
 
@@ -331,6 +332,11 @@ function App() {
         open={searchOpen}
         close={handleSearchClose}
         searchResults={searchResults}
+      />
+      <Account
+        {...state.currentUser}
+        open={accuontOpen}
+        handleClose={() => setAccuontOpen(false)}
       />
       <h1>TAP DAT BEER APP</h1>
     </div>
