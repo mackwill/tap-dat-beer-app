@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Fragment } from "react";
 import logo from "./logo.svg";
 import Navbar from "./components/Navbar/Navbar";
 import Login from "./components/Login/Login";
@@ -228,6 +228,30 @@ function App() {
     }, 300);
   };
 
+  // Sort beers by highest rated
+  // const sortTopBeers = () => {
+  //   const topBeers = state.beers.sort((a, b) => {
+  //     return a.rating - b.rating
+  //   })
+  //   return topBeers
+  // }
+
+  // Sort beers by most wishlisted
+  // const sortWishlistedBeers = () => {
+  //   const topBeers = state.beers.sort((a, b) => {
+  //     return a.wishlists - b.wishlists
+  //   })
+  //   return topBeers
+  // }
+
+  // Sort beers by most reviewed
+  // const sortReviewedBeers = () => {
+  //   const topBeers = state.beers.sort((a, b) => {
+  //     return a.reviews - b.reviews
+  //   })
+  //   return topBeers
+  // }
+
   // Get all the beers once the home page is loaded
   useEffect(() => {
     Promise.resolve(axios.get("/api/beers"))
@@ -279,6 +303,14 @@ function App() {
         onSubmit={handleRegisterSubmit}
       />
       <Banner />
+      {/* {state.beers.length > 0 && (
+        <Fragment>
+          <Category category={"Top Beers"} beers={sortTopBeers()} />
+          <Category category={"Most Wanted"} beers={sortWishlistedBeers()} />
+          <Category category={"Most Reviewed"} beers={sortReviewedBeers()} />
+        </Fragment>
+      )} */}
+
       {state.beers.length > 0 &&
         filterBeerCategories().map((type) => {
           return (
