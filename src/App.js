@@ -16,6 +16,7 @@ function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [beerDetailOpen, setBeerDetailOpen] = useState(false);
+  const [accuontOpen, setAccuontOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -214,6 +215,12 @@ function App() {
     }, 300);
   };
 
+  const handleAccountOpen = (e) => {
+    // Uncomment when modal is here
+    // setAccuontOpen(true)
+    console.log("works");
+  };
+
   // Sort beers by highest rated
   // const sortTopBeers = () => {
   //   const topBeers = state.beers.sort((a, b) => {
@@ -275,6 +282,7 @@ function App() {
         handleLoginOpen={handleLoginOpen}
         currentUser={state.currentUser}
         handleLogout={handleLogout}
+        handleAccountOpen={handleAccountOpen}
       />
       <Login
         open={loginOpen}

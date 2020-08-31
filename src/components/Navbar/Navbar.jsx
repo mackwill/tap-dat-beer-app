@@ -19,6 +19,7 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import Box from "@material-ui/core/Box";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 const theme = createMuiTheme({
   palette: {
@@ -186,6 +187,17 @@ export default function PrimarySearchAppBar(props) {
         </MenuItem>
       </Box>
       <Box display={userShow}>
+        <MenuItem onClick={props.handleAccountOpen}>
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+          <p>Account</p>
+        </MenuItem>
         <MenuItem onClick={props.handleLogout}>
           <IconButton
             aria-label="logout user"
@@ -256,6 +268,16 @@ export default function PrimarySearchAppBar(props) {
                 </IconButton>
               </Box>
               <Box display={userShow}>
+                <IconButton
+                  edge="end"
+                  aria-label="account of current  user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={props.handleAccountOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
                 <IconButton
                   edge="end"
                   aria-label="logout user"
