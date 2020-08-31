@@ -12,6 +12,7 @@ import CategoryList from "./components/Category/CategoryList";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import Search from "./components/Search/Search";
 import Account from "./components/Account/Account";
+import Wishlist from "./components/Wishlist/Wishlist";
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -35,6 +36,7 @@ function App() {
     beers: [],
     currentBeer: {},
     currentBeerReviews: [],
+    currentWishList: [],
   });
 
   const filterBeerCategories = () => {
@@ -186,6 +188,7 @@ function App() {
       setState((prev) => ({
         ...prev,
         currentUser: null,
+        currentWishList: [],
       }));
     });
   };
@@ -238,9 +241,20 @@ function App() {
     console.log("works");
   };
 
+  // Get list of beers wishlisted by the currently logged in user
   const handleMyWishlistOpen = (e) => {
-    // setMyWishlistOpen(true);
+    setMyWishlistOpen(true);
     console.log("wishlist");
+
+    return axios
+      .get("/wishlists")
+      .then((res) => {
+        setState((prev) => ({
+          ...prev,
+          currentWishList: [...res.data.data],
+        }));
+      })
+      .catch((err) => console.log("Error: ", err));
   };
 
   const handleMyReviewsOpen = (e) => {
@@ -366,6 +380,14 @@ function App() {
         open={accuontOpen}
         handleClose={() => setAccuontOpen(false)}
       />
+
+      <Wishlist
+        open={myWishlistOpen}
+        close={() => setMyWishlistOpen(false)}
+        beers={state.currentWishList}
+        onClick={handleBeerDetailClick}
+      />
+
       <h1>TAP DAT BEER APP</h1>
     </div>
   );
