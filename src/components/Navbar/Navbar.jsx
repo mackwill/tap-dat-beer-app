@@ -19,6 +19,9 @@ import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import Box from "@material-ui/core/Box";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import SettingsIcon from "@material-ui/icons/Settings";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import SpeakerNotesIcon from "@material-ui/icons/SpeakerNotes";
 
 const theme = createMuiTheme({
   palette: {
@@ -186,6 +189,39 @@ export default function PrimarySearchAppBar(props) {
         </MenuItem>
       </Box>
       <Box display={userShow}>
+        <MenuItem onClick={props.handleAccountOpen}>
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+          <p>My Account</p>
+        </MenuItem>
+        <MenuItem onClick={props.handleMyWishlistOpen}>
+          <IconButton
+            aria-label="user wishlist"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <FavoriteIcon />
+          </IconButton>
+          <p>My Wishlist</p>
+        </MenuItem>
+        <MenuItem onClick={props.handleMyReviewsOpen}>
+          <IconButton
+            aria-label="user reviews"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <SpeakerNotesIcon />
+          </IconButton>
+          <p>My Reviews</p>
+        </MenuItem>
         <MenuItem onClick={props.handleLogout}>
           <IconButton
             aria-label="logout user"
@@ -193,7 +229,7 @@ export default function PrimarySearchAppBar(props) {
             aria-haspopup="true"
             color="inherit"
           >
-            <LockOpenIcon />
+            <ExitToAppIcon />
           </IconButton>
           <p>Logout</p>
         </MenuItem>
@@ -247,6 +283,35 @@ export default function PrimarySearchAppBar(props) {
                 </IconButton>
               </Box>
               <Box display={userShow}>
+                <IconButton
+                  edge="end"
+                  aria-label="account of current  user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={props.handleAccountOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+                <IconButton
+                  aria-label="user wishlist"
+                  aria-controls="primary-search-account-menu"
+                  aria-haspopup="true"
+                  color="inherit"
+                  onClick={props.handleMyWishlistOpen}
+                >
+                  <FavoriteIcon />
+                </IconButton>
+                <IconButton
+                  aria-label="user reviews"
+                  aria-controls="primary-search-account-menu"
+                  aria-haspopup="true"
+                  color="inherit"
+                  onClick={props.handleMyReviewsOpen}
+                >
+                  <SpeakerNotesIcon />
+                </IconButton>
+
                 <IconButton
                   edge="end"
                   aria-label="logout user"

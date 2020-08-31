@@ -149,7 +149,7 @@ export default function ProductDetail(props) {
                 <IconButton>
                   <FavoriteIcon
                     color="secondary"
-                    onClick={() => console.log("here")}
+                    onClick={props.handleAddToWishlist}
                   />
                 </IconButton>
               </Box>
