@@ -21,6 +21,7 @@ import Review from "../Review/Review";
 import ShareIcon from "@material-ui/icons/Share";
 import BlankReview from "../Review/BlankReview";
 import FavoriteIcon from "@material-ui/icons/Favorite";
+import UnderBeer from "./UnderBeer";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -58,8 +59,7 @@ export default function ProductDetail(props) {
 
   const imgError = (e) => {
     e.target.onerror = null;
-    e.target.src =
-      "data:image/png;base64,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";
+    e.target.src = "images/beer_placeholder.png";
   };
 
   return (
@@ -155,11 +155,7 @@ export default function ProductDetail(props) {
               </Box>
             </ListItem>
             <ListItem>
-              <Typography variant="h4" component="h4">
-                Reviews:
-              </Typography>
-            </ListItem>
-            <Grid container spacing={3}>
+              {/* <Grid container spacing={3}>
               {props.reviews.length > 0 ? (
                 props.reviews.map((review) => {
                   return <Review {...review} />;
@@ -167,7 +163,14 @@ export default function ProductDetail(props) {
               ) : (
                 <BlankReview />
               )}
-            </Grid>
+            </Grid> */}
+              <UnderBeer
+                beers={props.beers}
+                currentBeer={props.currentBeer}
+                reviews={props.reviews}
+                currentUser={props.currentUser}
+              />
+            </ListItem>
           </List>
         </Dialog>
       </MuiThemeProvider>

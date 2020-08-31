@@ -332,6 +332,7 @@ function App() {
           open={beerDetailOpen}
           handleClose={handleBeerDetailClose}
           currentBeer={state.currentBeer}
+          beers={state.beers}
           reviews={state.currentBeerReviews}
           openForm={handleReviewOpen}
           currentUser={state.currentUser}
