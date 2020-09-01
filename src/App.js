@@ -14,6 +14,8 @@ import Search from "./components/Search/Search";
 import Review from "./components/ReviewForm/Review";
 import Account from "./components/Account/Account";
 import Wishlist from "./components/Wishlist/Wishlist";
+import Button from "@material-ui/core/Button";
+import Snackbar from "./components/Small-Components/Snackbar";
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -42,7 +44,21 @@ function App() {
     currentWishList: [],
     recommendedBeers: [],
   });
+  const [openSB, setOpenSB] = useState(false);
+  const [textSB, setTextSB] = useState(false);
 
+  const handleClickSB = (text) => {
+    setOpenSB(true);
+    setTextSB(text);
+  };
+
+  const handleCloseSB = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSB(false);
+  };
   const filterBeerCategories = () => {
     const categories = [];
 
@@ -116,7 +132,6 @@ function App() {
           ...prev,
           currentUser: data.data.user,
         }));
-
         handleLoginClose();
       })
       .catch((err) => {
@@ -197,6 +212,7 @@ function App() {
         currentUser: null,
         currentWishList: [],
       }));
+      handleClickSB(`You are now logged out`);
     });
   };
 
@@ -309,6 +325,9 @@ function App() {
             ...prev,
             currentWishList: [...newWishList],
           }));
+          handleClickSB(
+            `${state.currentBeer.name} was removed from your wishlist`
+          );
         });
     }
 
@@ -324,6 +343,7 @@ function App() {
             ...prev,
             currentWishList: newWishList,
           }));
+          handleClickSB(`${state.currentBeer.name} was saved to wishlist`);
         })
         .catch((err) => console.log("err, ", err));
     }
@@ -450,7 +470,9 @@ function App() {
         handleClose={handleRegisterClose}
         onSubmit={handleRegisterSubmit}
       />
+
       <Banner />
+
       {state.currentUser && (
         <Category
           category={"Recommended"}
@@ -496,6 +518,7 @@ function App() {
           currentUser={state.currentUser}
           handleAddToWishlist={handleAddToWishlist}
           userNote={userNote}
+          setOpenSB={handleClickSB}
         />
       )}
       <Search
@@ -521,6 +544,8 @@ function App() {
         beers={state.currentWishList}
         onClick={handleBeerDetailClick}
       />
+      <Button onClick={() => handleClickSB()}>Open simple snackbar</Button>
+      <Snackbar handleClose={handleCloseSB} open={openSB} textSB={textSB} />
     </div>
   );
 }

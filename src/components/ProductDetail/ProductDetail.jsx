@@ -165,6 +165,7 @@ export default function ProductDetail(props) {
               )}
             </Grid> */}
               <UnderBeer
+                setOpenSB={props.setOpenSB}
                 beers={props.beers}
                 currentBeer={props.currentBeer}
                 reviews={props.reviews}

@@ -7,6 +7,7 @@ import Notes from "./Notes";
 import Axios from "axios";
 
 import SimilarBeer from "./SimilarBeer";
+import SimilarBeer_v2 from "./SimilarBeer_v2";
 import UserReviews from "./UserReviews";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,7 +32,10 @@ export default function SimpleTabs(props) {
   const saveNote = () => {
     const notes = { text: personalNotes, beer_id: props.currentBeer.id };
     return Axios.post("/notes", notes)
-      .then((data) => console.log("Got the data back"))
+      .then((data) => {
+        props.setOpenSB("Your note was saved");
+        console.log("Got the data back");
+      })
       .catch((e) => null);
   };
 
@@ -47,7 +51,7 @@ export default function SimpleTabs(props) {
       </AppBar>
       {value === 0 && <UserReviews reviews={props.reviews} />}
       {value === 1 && (
-        <SimilarBeer beers={props.beers} currentBeer={props.currentBeer} />
+        <SimilarBeer_v2 beers={props.beers} currentBeer={props.currentBeer} />
       )}
       {value === 2 && (
         <Notes
