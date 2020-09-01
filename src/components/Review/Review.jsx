@@ -66,14 +66,16 @@ export default function Review(props) {
               mb={0.5}
               justifyContent="space-between"
             >
-              <Box component="div" display="flex" alignItems="center">
-                <Avatar className={classes.mainBlue}>
-                  {props.first_name[0]}
-                </Avatar>
-                <Typography variant="h5" component="h5">
-                  {props.first_name}
-                </Typography>
-              </Box>
+              {props.first_name && (
+                <Box component="div" display="flex" alignItems="center">
+                  <Avatar className={classes.mainBlue}>
+                    {props.first_name[0]}
+                  </Avatar>
+                  <Typography variant="h5" component="h5">
+                    {props.first_name}
+                  </Typography>
+                </Box>
+              )}
 
               <Box textAlign="right">
                 <Rating
@@ -124,9 +126,6 @@ export default function Review(props) {
               {props.review}
             </Typography>
           </CardContent>
-          <CardActions>
-            <Button size="small">Learn More</Button>
-          </CardActions>
         </Card>
       </Box>
     </Grid>
