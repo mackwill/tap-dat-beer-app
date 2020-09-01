@@ -79,6 +79,12 @@ function App() {
     setReviewOpen(true);
   };
 
+  const handleReviewClose = (e) => {
+    setReviewOpen(false);
+  };
+
+
+
   const handleLoginOpen = (e) => {
     console.log("Open Login modal");
     setLoginOpen(true);
@@ -508,7 +514,12 @@ function App() {
         onClick={handleClickFromSearchResult}
       />
       <h1>TAP DAT BEER APP</h1>
-      <Review currentBeer={state.currentBeer} open={reviewOpen} />
+      <Review 
+      currentBeer={state.currentBeer} 
+      open={reviewOpen}
+      close={handleReviewClose}
+      
+      />
       <Account
         {...state.currentUser}
         open={accuontOpen}
