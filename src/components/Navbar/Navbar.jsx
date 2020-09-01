@@ -200,28 +200,6 @@ export default function PrimarySearchAppBar(props) {
           </IconButton>
           <p>My Account</p>
         </MenuItem>
-        <MenuItem onClick={props.handleMyWishlistOpen}>
-          <IconButton
-            aria-label="user wishlist"
-            aria-controls="primary-search-account-menu"
-            aria-haspopup="true"
-            color="inherit"
-          >
-            <FavoriteIcon />
-          </IconButton>
-          <p>My Wishlist</p>
-        </MenuItem>
-        <MenuItem onClick={props.handleMyReviewsOpen}>
-          <IconButton
-            aria-label="user reviews"
-            aria-controls="primary-search-account-menu"
-            aria-haspopup="true"
-            color="inherit"
-          >
-            <SpeakerNotesIcon />
-          </IconButton>
-          <p>My Reviews</p>
-        </MenuItem>
         <MenuItem onClick={props.handleLogout}>
           <IconButton
             aria-label="logout user"
@@ -293,25 +271,6 @@ export default function PrimarySearchAppBar(props) {
                 >
                   <AccountCircle />
                 </IconButton>
-                <IconButton
-                  aria-label="user wishlist"
-                  aria-controls="primary-search-account-menu"
-                  aria-haspopup="true"
-                  color="inherit"
-                  onClick={props.handleMyWishlistOpen}
-                >
-                  <FavoriteIcon />
-                </IconButton>
-                <IconButton
-                  aria-label="user reviews"
-                  aria-controls="primary-search-account-menu"
-                  aria-haspopup="true"
-                  color="inherit"
-                  onClick={props.handleMyReviewsOpen}
-                >
-                  <SpeakerNotesIcon />
-                </IconButton>
-
                 <IconButton
                   edge="end"
                   aria-label="logout user"
