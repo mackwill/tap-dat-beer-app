@@ -14,6 +14,7 @@ import Search from "./components/Search/Search";
 import Review from "./components/ReviewForm/Review";
 import Account from "./components/Account/Account";
 import Wishlist from "./components/Wishlist/Wishlist";
+import MyAccount from "./components/Account/MyAccount";
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -484,11 +485,11 @@ function App() {
       />
       <h1>TAP DAT BEER APP</h1>
       <Review currentBeer={state.currentBeer} open={reviewOpen} />
-      <Account
+      {/* <Account
         {...state.currentUser}
         open={accuontOpen}
         handleClose={() => setAccuontOpen(false)}
-      />
+      /> */}
 
       <Wishlist
         open={myWishlistOpen}
@@ -496,6 +497,15 @@ function App() {
         beers={state.currentWishList}
         onClick={handleBeerDetailClick}
       />
+      {state.currentUser && (
+        <MyAccount
+          {...state.currentUser}
+          open={accuontOpen}
+          handleClose={() => setAccuontOpen(false)}
+          handleAccountChange={handleRegisterChange}
+          beers={state.currentWishList}
+        />
+      )}
     </div>
   );
 }
