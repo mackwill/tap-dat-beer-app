@@ -559,13 +559,7 @@ function App() {
       open={shareOpen}
       close={handleShareOptionClose}
       />
-      {/* <Account /> */}
-      <Review currentBeer={state.currentBeer} open={reviewOpen} />
-      {/* <Account
-        {...state.currentUser}
-        open={accuontOpen}
-        handleClose={() => setAccuontOpen(false)}
-      /> */}
+      
 
       <Wishlist
         open={myWishlistOpen}
