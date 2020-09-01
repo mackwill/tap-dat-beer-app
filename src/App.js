@@ -262,7 +262,12 @@ function App() {
   const handleAccountOpen = (e) => {
     // Uncomment when modal is here
     setAccuontOpen(true);
-    console.log("works");
+    return axios.get("/reviews/user").then((res) => {
+      setState((prev) => ({
+        ...prev,
+        currentBeerReviews: [...res.data.data],
+      }));
+    });
   };
 
   // Get list of beers wishlisted by the currently logged in user
@@ -504,6 +509,7 @@ function App() {
           handleClose={() => setAccuontOpen(false)}
           handleAccountChange={handleRegisterChange}
           beers={state.currentWishList}
+          reviews={state.currentBeerReviews}
         />
       )}
     </div>

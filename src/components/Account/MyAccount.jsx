@@ -160,6 +160,7 @@ export default function ProductDetail(props) {
               <AccountMenuBar
                 onClick={props.handleBeerDetailClick}
                 beers={props.beers}
+                reviews={props.reviews}
               />
             </ListItem>
           </List>

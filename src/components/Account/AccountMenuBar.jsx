@@ -4,6 +4,8 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Results from "../Search/Results";
+import Review from "../Review/Review";
+import { List, ListItem, Grid } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,14 +30,26 @@ export default function AccountMenuBar(props) {
           <Tab label="My Reviews" />
         </Tabs>
       </AppBar>
+      <List>
+        {value === 0 && (
+          <ListItem>
+            <Results
+              onClick={props.onClick}
+              searchResults={props.beers}
+              title="Wishlisted Beers"
+            />
+          </ListItem>
+        )}
 
-      {value === 0 && (
-        <Results
-          onClick={props.onClick}
-          searchResults={props.beers}
-          title="Wishlisted Beers"
-        />
-      )}
+        {value === 1 && props.reviews && (
+          <Grid container spacing={3}>
+            {props.reviews.map((review) => {
+              return <Review {...review} myReview={true} myReviews={true} />;
+            })}
+          </Grid>
+        )}
+      </List>
+
       {/* {value === 0 && <UserReviews reviews={props.reviews} />}
       {value === 1 && (
         <SimilarBeer beers={props.beers} currentBeer={props.currentBeer} />
