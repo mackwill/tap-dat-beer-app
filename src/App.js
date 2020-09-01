@@ -14,6 +14,7 @@ import Search from "./components/Search/Search";
 import Review from "./components/ReviewForm/Review";
 import Account from "./components/Account/Account";
 import Wishlist from "./components/Wishlist/Wishlist";
+import ShareOption from "./components/ShareOption/ShareOption";
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -25,6 +26,7 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [popularSearch, setPopularSearch] = useState([]);
   const [reviewOpen, setReviewOpen] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
   const [myWishlistOpen, setMyWishlistOpen] = useState(false);
   const [myReviewsOpen, setMyReviewsOpen] = useState(false);
   const [userNote, setUserNote] = useState(false);
@@ -75,6 +77,15 @@ function App() {
   const handleSearchClose = (e) => {
     setSearchOpen(false);
   };
+
+  const handleShareOptionOpen = (e) => {
+    setShareOpen(true);
+  };
+
+  const handleShareOptionClose = (e) => {
+    setShareOpen(false);
+  };
+
   const handleReviewOpen = (e) => {
     setReviewOpen(true);
   };
@@ -501,8 +512,8 @@ function App() {
           openForm={handleReviewOpen}
           currentUser={state.currentUser}
           handleAddToWishlist={handleAddToWishlist}
+          handleShareOptionOpen={handleShareOptionOpen}
           userNote={userNote}
-         // handleShareOption={handleShareOption}
         />
       )}
       <Search
@@ -520,15 +531,14 @@ function App() {
       open={reviewOpen}
       close={handleReviewClose}
       />
+      <ShareOption 
+      open={shareOpen}
+      close={handleShareOptionClose}
+      />
       <Account
         {...state.currentUser}
         open={accuontOpen}
         handleClose={() => setAccuontOpen(false)}
-      />
-      <Review 
-      currentBeer={state.currentBeer} 
-      open={reviewOpen}
-      close={handleReviewClose}
       />
 
       <Wishlist
