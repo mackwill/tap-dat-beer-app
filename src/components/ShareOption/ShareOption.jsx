@@ -1,6 +1,4 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -10,50 +8,28 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import {
   EmailShareButton,
   FacebookShareButton,
-  InstapaperShareButton,
-  LineShareButton,
-  LinkedinShareButton,
-  LivejournalShareButton,
-  MailruShareButton,
-  OKShareButton,
-  PinterestShareButton,
-  PocketShareButton,
-  RedditShareButton,
-  TelegramShareButton,
-  TumblrShareButton,
-  TwitterShareButton,
-  ViberShareButton,
-  VKShareButton,
-  WhatsappShareButton,
-  WorkplaceShareButton
+  TwitterShareButton
 } from "react-share";
 
 import {
   EmailIcon,
   FacebookIcon,
-  FacebookMessengerIcon,
-  InstapaperIcon,
-  LineIcon,
-  LinkedinIcon,
-  LivejournalIcon,
-  MailruIcon,
-  OKIcon,
-  PinterestIcon,
-  PocketIcon,
-  RedditIcon,
-  TelegramIcon,
-  TumblrIcon,
-  TwitterIcon,
-  ViberIcon,
-  VKIcon,
-  WeiboIcon,
-  WhatsappIcon,
-  WorkplaceIcon
+  TwitterIcon
 } from "react-share";
 
-
-
-// import CustomAlert from "../CustomAlert";
+import { makeStyles } from "@material-ui/styles";
+const userStyles = makeStyles((theme) => ({
+  root: {
+    width: 300,
+    height: 100,
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+}));
 
 export default function Login(props) {
   // const handleOpen = () => {
@@ -64,6 +40,8 @@ export default function Login(props) {
   //   setOpen(false);
   // };
 
+  const classes = userStyles();
+
   return (
     <div>
       <Dialog
@@ -72,25 +50,18 @@ export default function Login(props) {
         onClose={props.close}
         >
           <DialogTitle id="form-dialog-title">
-            Share your reviews with friends!
+            Share this beer with your friends!
           </DialogTitle>
-          <DialogContent>
+          <DialogContent className={classes.root}>
 
+            <FacebookShareButton quote="Check out the great reviews of beers at TapDatBeerApp" url={'http://www.facebook.com'} ><FacebookIcon size={60} round={true} /> </FacebookShareButton>
 
-            <FacebookShareButton url={'http://www.facebook.com'} ><FacebookIcon size={48} round={true} /> </FacebookShareButton>
-            
-            
+            <EmailShareButton subject="Check out TapDat Beer App"
+              body="Check out the great reviews of beers at TapDatBeerApp" > <EmailIcon size={60} round={true} /> </EmailShareButton>
 
-<PinterestIcon size={48} round={true} />
-            <PinterestShareButton url={"www.facebook.com"}
-            />
-
-<TwitterIcon size={48} round={true} />
-            <TwitterShareButton url={"www.facebook.com"}
-            />
+            <TwitterShareButton title="Check out the great reviews of beers at TapDatBeerApp" via="sent from @TapDatBeerApp" url={"http://www.twitter.com"} > <TwitterIcon size={60} round={true} /> </TwitterShareButton>
             
           </DialogContent>
-          
       </Dialog>
     </div>
   );
