@@ -9,17 +9,21 @@ import { makeStyles } from "@material-ui/styles";
 import Question from "./Question";
 import axios from "axios";
 
-const useStyles = makeStyles((theme) => ({
+const qStyles = makeStyles((theme) => ({
   root: {
+
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    padding: "10px",
+    padding: "50px",
+    //overflow-y: "hidden"
   },
 }));
 
 export default function Review(props) {
+  const qs = qStyles();
+
   const [questionA, setQuestionA] = useState(null);
   const [questionB, setQuestionB] = useState(null);
   const [questionC, setQuestionC] = useState(null);
@@ -37,7 +41,17 @@ export default function Review(props) {
     setQuestionF(e.target.value);
   };
 
-  
+  const handleClose = () => {
+    setQuestionA(null) 
+    setQuestionB(null)
+    setQuestionC(null)
+    setQuestionD(null)
+    setQuestionE(null)
+    setQuestionF(null)
+    setNewReview(null)
+    setCurrentQuestion(1)
+    props.close()
+  }
 
 
 
@@ -62,6 +76,7 @@ export default function Review(props) {
     <div>
       <Dialog
         open={props.open}
+        onClose={handleClose}
         aria-labelledby="form-dialog-title"
         
 
@@ -69,7 +84,7 @@ export default function Review(props) {
       <IconButton
         edge="end"
         color="inherit"
-        onClick={props.close}
+        onClick={handleClose}
         aria-label="close"
         size="small"
         > Close
@@ -77,6 +92,7 @@ export default function Review(props) {
 
         {currentQuestion === 1 && (
           <Question
+          className={qs.root}
             question="You've had your first sip, what level of Sweetness do you taste?"
             setQuestion={setQuestionA}
             nextQuestion={nextQuestion}

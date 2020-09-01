@@ -26,8 +26,6 @@ const userStyles = makeStyles((theme) => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
-    paddingLeft: 10,
-    paddingRight: 10,
   },
 }));
 
