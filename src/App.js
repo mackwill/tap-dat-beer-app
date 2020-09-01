@@ -17,6 +17,7 @@ import Wishlist from "./components/Wishlist/Wishlist";
 import Button from "@material-ui/core/Button";
 import Snackbar from "./components/Small-Components/Snackbar";
 import MyAccount from "./components/Account/MyAccount";
+import Scanner from "./components/Scanner/Scanner";
 //import Review from './components/Review/Review'
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
   const [myWishlistOpen, setMyWishlistOpen] = useState(false);
   const [myReviewsOpen, setMyReviewsOpen] = useState(false);
   const [userNote, setUserNote] = useState(false);
+  const [scannerOpen, setScannerOpen] = useState(false);
 
   const [state, setState] = useState({
     firstName: null,
@@ -400,6 +402,15 @@ function App() {
     return beers.reverse();
   };
 
+  // Open scanner
+  const handleScannerOpen = (e) => {
+    setScannerOpen(true);
+  };
+
+  const handleScannerClose = (e) => {
+    setScannerOpen(false);
+  };
+
   // Get all the beers once the home page is loaded
   useEffect(() => {
     Promise.resolve(axios.get("/api/beers"))
@@ -457,6 +468,7 @@ function App() {
         handleAccountOpen={handleAccountOpen}
         handleMyWishlistOpen={handleMyWishlistOpen}
         handleMyReviewsOpen={handleMyReviewsOpen}
+        handleScannerOpen={handleScannerOpen}
       />
       <Login
         open={loginOpen}
@@ -569,6 +581,11 @@ function App() {
           reviews={state.currentBeerReviews}
         />
       )}
+      <Scanner
+        open={scannerOpen}
+        handleClose={handleScannerClose}
+        openBeer={handleBeerDetailClick}
+      />
     </div>
   );
 }
