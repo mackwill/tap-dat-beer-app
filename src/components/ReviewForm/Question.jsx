@@ -21,9 +21,10 @@ const userStyles = makeStyles((theme) => ({
 export default function Question(props) {
   const classes = userStyles();
 
-  const setQuestion = (id) => {
-    props.setQuestion(id);
-    props.nextQuestion(id);
+
+  const setQuestionAndNext = (value) => {
+    props.setQuestion(value)
+    props.nextQuestion();
   };
 
   return (
@@ -31,12 +32,12 @@ export default function Question(props) {
       <DialogTitle id="form-dialog-title">{props.question}</DialogTitle>
       {props.finalQuestion && (
         <>
-          <TextareaAutosize aria-label="empty textarea" placeholder="Empty" />
+          <TextareaAutosize onChange={(e) => props.setQuestion(e.target.value)} aria-label="empty textarea" placeholder="review-area" />
           <Button
             size="large"
             variant="outlined"
             color="primary"
-            onClick={() => setQuestion(1)}
+            onClick={() => props.nextQuestion()}
           >
             Submit
           </Button>
@@ -48,7 +49,7 @@ export default function Question(props) {
             size="large"
             variant="outlined"
             color="primary"
-            onClick={() => setQuestion(1)}
+            onClick={() => setQuestionAndNext(1)}
           >
             1
           </Button>
@@ -56,7 +57,7 @@ export default function Question(props) {
             size="large"
             variant="outlined"
             color="primary"
-            onClick={() => setQuestion(2)}
+            onClick={() => setQuestionAndNext(2)}
           >
             2
           </Button>
@@ -64,7 +65,7 @@ export default function Question(props) {
             size="large"
             variant="outlined"
             color="primary"
-            onClick={() => setQuestion(3)}
+            onClick={() => setQuestionAndNext(3)}
           >
             3
           </Button>
@@ -72,7 +73,7 @@ export default function Question(props) {
             size="large"
             variant="outlined"
             color="primary"
-            onClick={() => setQuestion(4)}
+            onClick={() => setQuestionAndNext(4)}
           >
             4
           </Button>
@@ -80,7 +81,7 @@ export default function Question(props) {
             size="large"
             variant="outlined"
             color="primary"
-            onClick={() => setQuestion(5)}
+            onClick={() => setQuestionAndNext(5)}
           >
             5
           </Button>
