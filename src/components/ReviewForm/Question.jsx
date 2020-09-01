@@ -25,18 +25,25 @@ export default function Question(props) {
     props.setQuestion(id);
     props.nextQuestion(id);
   };
+  const submitReview = () => {
+    props.nextAndSubmit();
+  };
 
   return (
     <div>
       <DialogTitle id="form-dialog-title">{props.question}</DialogTitle>
       {props.finalQuestion && (
         <>
-          <TextareaAutosize aria-label="empty textarea" placeholder="Empty" />
+          <TextareaAutosize
+            aria-label="empty textarea"
+            onChange={props.handleQuestionF}
+            placeholder="Empty"
+          />
           <Button
             size="large"
             variant="outlined"
             color="primary"
-            onClick={() => setQuestion(1)}
+            onClick={() => submitReview()}
           >
             Submit
           </Button>

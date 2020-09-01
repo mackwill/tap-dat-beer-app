@@ -169,6 +169,7 @@ export default function ProductDetail(props) {
                 currentBeer={props.currentBeer}
                 reviews={props.reviews}
                 currentUser={props.currentUser}
+                userNote={props.userNote}
               />
             </ListItem>
           </List>

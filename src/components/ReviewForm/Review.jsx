@@ -30,6 +30,10 @@ export default function Review(props) {
     setCurrentQuestion((prev) => prev + 1);
   };
 
+  const handleQuestionF = (e) => {
+    setQuestionF(e.target.value);
+  };
+
   const nextAndSubmit = (id) => {
     const reviewObject = {
       sweet: questionA,
@@ -41,8 +45,9 @@ export default function Review(props) {
       review: questionF,
     };
     return axios.post("/reviews", reviewObject).then((data) => {
-      setNewReview(data.id);
-      setCurrentQuestion((prev) => prev + 1);
+      console.log("Sent a review to db");
+      // setNewReview(data.id);
+      // setCurrentQuestion((prev) => prev + 1);
     });
   };
 
@@ -92,8 +97,8 @@ export default function Review(props) {
           <Question
             question="Great, we have saved your review.  Are there any additional details you would like to share with others interested in trying this beer?"
             finalQuestion={true}
-            setQuestion={setQuestionF}
-            nextQuestion={nextAndSubmit}
+            handleQuestionF={handleQuestionF}
+            nextAndSubmit={nextAndSubmit}
           />
         )}
       </Dialog>

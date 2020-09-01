@@ -27,6 +27,7 @@ function App() {
   const [reviewOpen, setReviewOpen] = useState(false);
   const [myWishlistOpen, setMyWishlistOpen] = useState(false);
   const [myReviewsOpen, setMyReviewsOpen] = useState(false);
+  const [userNote, setUserNote] = useState(false);
 
   const [state, setState] = useState({
     firstName: null,
@@ -226,6 +227,15 @@ function App() {
           currentBeerReviews: data.data.reviews,
         }));
       })
+      .then(() => {
+        return axios.get(`/notes/${id}`).then((note) => {
+          if (!note.data.data) {
+            setUserNote(null);
+          } else {
+            setUserNote(note.data.data.text);
+          }
+        });
+      })
       .catch((err) => console.log("Err: ", err));
   };
 
@@ -387,7 +397,7 @@ function App() {
         return axios.get("/api/beers/recommendations");
       })
       .then((res) => {
-        console.log("res: ", res);
+        console.log("res recommendation: ", res);
         // setState((prev) => ({
         //   ...prev,
         //   recommendedBeers: [...res.data.data],
@@ -485,6 +495,7 @@ function App() {
           openForm={handleReviewOpen}
           currentUser={state.currentUser}
           handleAddToWishlist={handleAddToWishlist}
+          userNote={userNote}
         />
       )}
       <Search
