@@ -2,6 +2,8 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { TextareaAutosize } from "@material-ui/core";
+import { TextField } from '@material-ui/core';
+import { positions } from '@material-ui/system';
 
 import { makeStyles } from "@material-ui/styles";
 const userStyles = makeStyles((theme) => ({
@@ -9,17 +11,30 @@ const userStyles = makeStyles((theme) => ({
     width: 300,
     height: 200,
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    margin: 20,
+    margin: 40,
     paddingLeft: 20,
     paddingRight: 30,
   },
 }));
 
+const buttonStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    alignContent: "center",
+    margin: 20,
+    paddingLeft: 20,
+    paddingRight: 30,
+    paddingBottom: 20
+  },
+}));
+
 export default function Question(props) {
   const classes = userStyles();
+  const button = buttonStyles();
 
   const setQuestion = (id) => {
     props.setQuestion(id);
@@ -34,13 +49,17 @@ export default function Question(props) {
       <DialogTitle id="form-dialog-title">{props.question}</DialogTitle>
       {props.finalQuestion && (
         <>
-          <TextareaAutosize
+          <TextField
+          className={button.root} 
+          id="outlined-basic" label="" variant="outlined"
             aria-label="empty textarea"
             onChange={props.handleQuestionF}
-            placeholder="Empty"
+            placeholder="Type here"
           />
           <Button
-            size="large"
+          className={button.root} 
+            position="center"
+            size="medium"
             variant="outlined"
             color="primary"
             onClick={() => submitReview()}
@@ -88,7 +107,7 @@ export default function Question(props) {
             variant="outlined"
             color="primary"
             onClick={() => setQuestion(5)}
-          >
+            >
             5
           </Button>
         </div>

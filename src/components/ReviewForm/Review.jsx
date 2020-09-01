@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 
 import Dialog from "@material-ui/core/Dialog";
+import Button from "@material-ui/core/Button";
+import CloseIcon from "@material-ui/icons/Close";
+import IconButton from "@material-ui/core/IconButton";
 
 import { makeStyles } from "@material-ui/styles";
 import Question from "./Question";
@@ -34,6 +37,10 @@ export default function Review(props) {
     setQuestionF(e.target.value);
   };
 
+  
+
+
+
   const nextAndSubmit = (id) => {
     const reviewObject = {
       sweet: questionA,
@@ -46,18 +53,28 @@ export default function Review(props) {
     };
     return axios.post("/reviews", reviewObject).then((data) => {
       console.log("Sent a review to db");
-      // setNewReview(data.id);
-      // setCurrentQuestion((prev) => prev + 1);
+      props.close()
     });
+    
   };
 
   return (
     <div>
       <Dialog
         open={props.open}
-        onClose={props.handleClose}
         aria-labelledby="form-dialog-title"
+        
+
       >
+      <IconButton
+        edge="end"
+        color="inherit"
+        onClick={props.close}
+        aria-label="close"
+        size="small"
+        > Close
+      </IconButton>
+
         {currentQuestion === 1 && (
           <Question
             question="You've had your first sip, what level of Sweetness do you taste?"
@@ -65,6 +82,7 @@ export default function Review(props) {
             nextQuestion={nextQuestion}
           />
         )}
+        
         {currentQuestion === 2 && (
           <Question
             question="You've had another sip, tell me if you taste any bitterness?"
@@ -99,6 +117,7 @@ export default function Review(props) {
             finalQuestion={true}
             handleQuestionF={handleQuestionF}
             nextAndSubmit={nextAndSubmit}
+
           />
         )}
       </Dialog>
