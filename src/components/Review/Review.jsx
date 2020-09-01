@@ -1,11 +1,11 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { Box, Grid } from "@material-ui/core";
+import { Box, Grid, CardMedia } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import Rating from "@material-ui/lab/Rating";
 import Avatar from "@material-ui/core/Avatar";
@@ -29,6 +29,7 @@ const theme = createMuiTheme({
 
 const useStyles = makeStyles({
   root: {
+    display: "flex",
     minWidth: 275,
   },
   bullet: {
@@ -47,16 +48,28 @@ const useStyles = makeStyles({
     backgroundColor: theme.palette.secondary.main,
     marginRight: "0.5rem",
   },
+  content: {
+    flex: "1 0 auto",
+  },
+  cover: {
+    width: 151,
+  },
 });
 
 export default function Review(props) {
   const classes = useStyles();
-  console.log("review: ", props);
 
   return (
     <Grid item xs={11} md={6} lg={5} style={{ margin: "auto" }}>
       <Box width={0.95} m={"auto"}>
         <Card className={classes.root} variant="outlined">
+          {props.myReview && (
+            <CardMedia
+              className={classes.cover}
+              image="http://www.thebeerstore.ca/sites/default/files/styles/brand_hero/public/sbs/brand/0915H.jpg?itok=Z22bQsb3"
+            />
+          )}
+
           <CardContent>
             <Box
               component="div"
@@ -66,14 +79,18 @@ export default function Review(props) {
               mb={0.5}
               justifyContent="space-between"
             >
-              <Box component="div" display="flex" alignItems="center">
-                <Avatar className={classes.mainBlue}>
-                  {props.first_name[0]}
-                </Avatar>
-                <Typography variant="h5" component="h5">
-                  {props.first_name}
-                </Typography>
-              </Box>
+              {!props.myReview && (
+                <Fragment>
+                  <Box component="div" display="flex" alignItems="center">
+                    <Avatar className={classes.mainBlue}>
+                      {props.first_name[0]}
+                    </Avatar>
+                    <Typography variant="h5" component="h5">
+                      {props.first_name}
+                    </Typography>
+                  </Box>
+                </Fragment>
+              )}
 
               <Box textAlign="right">
                 <Rating
@@ -124,9 +141,6 @@ export default function Review(props) {
               {props.review}
             </Typography>
           </CardContent>
-          <CardActions>
-            <Button size="small">Learn More</Button>
-          </CardActions>
         </Card>
       </Box>
     </Grid>

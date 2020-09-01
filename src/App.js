@@ -14,6 +14,8 @@ import Search from "./components/Search/Search";
 import Review from "./components/ReviewForm/Review";
 import Account from "./components/Account/Account";
 import Wishlist from "./components/Wishlist/Wishlist";
+import MyWishlist from "./components/MyReviews/MyReviews";
+import MyReviews from "./components/MyReviews/MyReviews";
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -320,8 +322,23 @@ function App() {
   };
 
   const handleMyReviewsOpen = (e) => {
-    // setMyReviewsOpen(true);
-    console.log("review");
+    setMyReviewsOpen(true);
+    return axios.get("/reviews/user").then((res) => {
+      setState((prev) => ({
+        ...prev,
+        currentBeerReviews: [...res.data.data],
+      }));
+    });
+  };
+
+  const handleMyReviewsClose = (e) => {
+    setMyReviewsOpen(false);
+    setTimeout(() => {
+      setState((prev) => ({
+        ...prev,
+        currentBeerReviews: [],
+      }));
+    }, 500);
   };
   // Sort beers by highest rated
   const sortTopBeers = () => {
@@ -509,6 +526,11 @@ function App() {
         close={() => setMyWishlistOpen(false)}
         beers={state.currentWishList}
         onClick={handleBeerDetailClick}
+      />
+      <MyReviews
+        open={myReviewsOpen}
+        close={() => setMyReviewsOpen(false)}
+        reviews={state.currentBeerReviews}
       />
     </div>
   );
