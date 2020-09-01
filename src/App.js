@@ -17,6 +17,7 @@ import Wishlist from "./components/Wishlist/Wishlist";
 import Button from "@material-ui/core/Button";
 import Snackbar from "./components/Small-Components/Snackbar";
 import MyAccount from "./components/Account/MyAccount";
+//import Review from './components/Review/Review'
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -100,8 +101,6 @@ function App() {
   const handleReviewClose = (e) => {
     setReviewOpen(false);
   };
-
-
 
   const handleLoginOpen = (e) => {
     console.log("Open Login modal");
@@ -539,13 +538,12 @@ function App() {
         onClick={handleClickFromSearchResult}
       />
       <h1>TAP DAT BEER APP</h1>
-      <Review 
-      currentBeer={state.currentBeer} 
-      open={reviewOpen}
-      close={handleReviewClose}
-      
+      <Review
+        currentBeer={state.currentBeer}
+        open={reviewOpen}
+        close={handleReviewClose}
       />
-      <Account
+      {/* <Account /> */}
       <Review currentBeer={state.currentBeer} open={reviewOpen} />
       {/* <Account
         {...state.currentUser}
