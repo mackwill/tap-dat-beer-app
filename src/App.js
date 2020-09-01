@@ -496,6 +496,7 @@ function App() {
           currentUser={state.currentUser}
           handleAddToWishlist={handleAddToWishlist}
           userNote={userNote}
+          handleShareOption={handleShareOption}
         />
       )}
       <Search
