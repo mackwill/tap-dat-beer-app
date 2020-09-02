@@ -69,7 +69,7 @@ export default function ProductDetail(props) {
     e.target.onerror = null;
     e.target.src = "images/beer_placeholder.png";
   };
-
+  console.log('My Account Props: ', props)
   return (
     <div>
       <MuiThemeProvider theme={rootTheme}>
@@ -161,6 +161,7 @@ export default function ProductDetail(props) {
                 onClick={props.handleBeerDetailClick}
                 beers={props.beers}
                 reviews={props.reviews}
+                handleDeleteMyReview={props.handleDeleteMyReview}
               />
             </ListItem>
           </List>

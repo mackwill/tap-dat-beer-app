@@ -63,8 +63,6 @@ export default function MyReviews(props) {
   //   setOpen(false);
   // };
 
-  console.log('review List', props);
-
   return (
     <div>
       <MuiThemeProvider theme={theme}>
@@ -87,9 +85,10 @@ export default function MyReviews(props) {
             </Toolbar>
           </AppBar>
           <List>
-            <Grid container spacing={3}>
-              { props.reviews.map((review) => {
-                  return <Review {...review} myReview handleDeleteList={props.handleDeleteApp} />;
+          <Grid container spacing={3}>
+              {props.reviews &&
+                props.reviews.map((review) => {
+                  return <Review {...review} myReview={true} />;
                 })}
             </Grid>
           </List>

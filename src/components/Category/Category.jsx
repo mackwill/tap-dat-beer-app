@@ -1,15 +1,11 @@
 import React from "react";
-import BeerCard from "./BeerCard";
 import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
-import IconButton from "@material-ui/core/IconButton";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
 
-import StarBorderIcon from "@material-ui/icons/StarBorder";
 
 import "./Category.css";
 import { GridList, Typography } from "@material-ui/core";
@@ -118,7 +114,7 @@ export default function Category(props) {
                 href="JavaScript:void(0);"
                 onClick={() => props.onClick(beer.id)}
               >
-                <img id={beer.id} src={beer.beer_image} onError={imgError} />
+                <img id={beer.id} src={beer.beer_image} onError={imgError} alt={beer.name}/>
 
                 <Box id={beer.id}>
                   <GridListTileBar

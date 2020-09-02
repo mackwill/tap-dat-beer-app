@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment } from "react";
-import logo from "./logo.svg";
 import Navbar from "./components/Navbar/Navbar";
 import Login from "./components/Login/Login";
 import axios from "axios";
@@ -8,7 +7,6 @@ import "./App.css";
 import Register from "./components/Register/Register";
 import Banner from "./components/Banner/Banner";
 import Category from "./components/Category/Category";
-import CategoryList from "./components/Category/CategoryList";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import Search from "./components/Search/Search";
 import Review from "./components/ReviewForm/Review";
@@ -134,31 +132,26 @@ function App() {
   };
 
   // Delete a review from your list of My Reviews
-  const handleDeleteMyReview = (e) => {
-    console.log('made it tohandledelete my review')
+  const handleDeleteMyReview = (review_id) => {
     if (!state.currentUser) {
       setLoginOpen(true);
       return;
     }
 
-    if (hasUserReviewedBeer(state.currentBeerReviews.id).length > 0) {
+    
       return axios
-        .delete("/api/reviews/${review_id}")
+        .delete(`/api/reviews/${review_id}`)
         .then((res) => {
-          const newBeerReview = removeDeletedBeerReview(state.currentBeerReviews.id);
+          const newBeerReview = removeDeletedBeerReview(review_id);
           setState((prev) => ({
             ...prev,
-            currentBeerReviews: [...newBeerReview],
+            currentBeerReviews: newBeerReview,
           }));
           handleClickSB(
-            `${state.currentBeerReviews} was removed from your Review list`
+            `Your review was removed from your Review list`
           );
         });
-    }
-
   }
-
-
 
   const handleLoginOpen = (e) => {
     console.log("Open Login modal");
@@ -505,6 +498,7 @@ function App() {
       }));
     });
   }, []);
+
   useEffect(() => {
     Promise.all([
       Promise.resolve(axios.get("/api/wishlists")),
@@ -533,6 +527,7 @@ function App() {
         console.log("Error getting beers: ", err);
       });
   }, [state.currentUser]);
+
   console.log("State.recommeneded", state.recommendedBeers);
   return (
     <div className="App">
@@ -654,7 +649,6 @@ function App() {
         open={myReviewsOpen}
         close={() => setMyReviewsOpen(false)}
         reviews={state.currentBeerReviews}
-        handleDeleteApp={handleDeleteMyReview}
       />
       <Button onClick={() => handleClickSB()}>Open simple snackbar</Button>
       <Snackbar handleClose={handleCloseSB} open={openSB} textSB={textSB} />
@@ -666,6 +660,8 @@ function App() {
           handleAccountChange={handleRegisterChange}
           beers={state.currentWishList}
           reviews={state.currentBeerReviews}
+          handleDeleteMyReview={handleDeleteMyReview}
+
         />
       )}
       <Scanner

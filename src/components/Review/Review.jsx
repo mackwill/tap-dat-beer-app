@@ -62,7 +62,12 @@ const useStyles = makeStyles({
 
 export default function Review(props) {
   const classes = useStyles();
-  console.log('review props', props);
+  console.log('Review props: ', props)
+
+  const reviewSelect = event => {
+    props.handleDeleteMyReview(props.id)
+  }
+
   return (
     <Grid item xs={11} md={6} lg={5} style={{ margin: "auto" }}>
       <Box width={0.95} m={"auto"}>
@@ -155,8 +160,8 @@ export default function Review(props) {
             <IconButton>
               <EditIcon  />
             </IconButton>
-            <IconButton onClick={props.handleDeleteList} >
-              <DeleteIcon />
+            <IconButton  >
+              <DeleteIcon onClick={reviewSelect} />
             </IconButton>
           </CardActions>
         </Card>
