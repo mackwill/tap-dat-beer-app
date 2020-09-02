@@ -24,19 +24,28 @@ export default function SimpleTabs(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const [personalNotes, setPersonalNotes] = useState(props.userNote || "");
+  const [personalNotes, setPersonalNotes] = useState("");
 
   const handlePersonalNotes = (e) => {
     setPersonalNotes(e.target.value);
   };
   const saveNote = () => {
     const notes = { text: personalNotes, beer_id: props.currentBeer.id };
-    return Axios.post("/notes", notes)
+    return Axios.post("/api/notes", notes)
       .then((data) => {
         props.setOpenSB("Your note was saved");
-        console.log("Got the data back");
       })
       .catch((e) => null);
+  };
+  const getNote = () => {
+    const id = props.currentBeer.id;
+    return Axios.get(`/api/notes/${id}`).then((note) => {
+      if (!note.data.data) {
+        setPersonalNotes("");
+      } else {
+        setPersonalNotes(note.data.data.text);
+      }
+    });
   };
 
   return (
@@ -45,13 +54,19 @@ export default function SimpleTabs(props) {
         <Tabs value={value} onChange={handleChange}>
           <Tab label="Reviews" />
           <Tab label="Similar Beers" />
-          {props.currentUser && <Tab label="Personal Notes" />}
+          {props.currentUser && (
+            <Tab label="Personal Notes" onClick={() => getNote()} />
+          )}
           {!props.currentUser && <Tab label="Personal Notes" disabled />}
         </Tabs>
       </AppBar>
       {value === 0 && <UserReviews reviews={props.reviews} />}
       {value === 1 && (
-        <SimilarBeer_v2 beers={props.beers} currentBeer={props.currentBeer} />
+        <SimilarBeer_v2
+          onClick={props.onClick}
+          beers={props.beers}
+          currentBeer={props.currentBeer}
+        />
       )}
       {value === 2 && (
         <Notes

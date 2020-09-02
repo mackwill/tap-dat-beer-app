@@ -22,6 +22,7 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import SettingsIcon from "@material-ui/icons/Settings";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import SpeakerNotesIcon from "@material-ui/icons/SpeakerNotes";
+import CameraAltIcon from "@material-ui/icons/CameraAlt";
 
 const theme = createMuiTheme({
   palette: {
@@ -164,6 +165,17 @@ export default function PrimarySearchAppBar(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
+      <MenuItem onClick={props.handleScannerOpen}>
+        <IconButton
+          aria-label="register new user"
+          aria-controls="primary-search-account-menu"
+          aria-haspopup="true"
+          color="inherit"
+        >
+          <CameraAltIcon />
+        </IconButton>
+        <p>Scanner</p>
+      </MenuItem>
       <Box display={visitorShow}>
         <MenuItem onClick={props.handleRegisterOpen}>
           <IconButton
