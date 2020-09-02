@@ -153,10 +153,10 @@ export default function Review(props) {
           </CardContent>
           <CardActions>
             <IconButton>
-              <EditIcon className={classes.iconBlue} />
+              <EditIcon onClick={props.handleDeleteMyReview} />
             </IconButton>
             <IconButton>
-              <DeleteIcon className={classes.iconBlue} />
+              <DeleteIcon onClick={props.handleDeleteMyReview} />
             </IconButton>
           </CardActions>
         </Card>

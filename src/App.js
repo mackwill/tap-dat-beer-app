@@ -115,6 +115,49 @@ function App() {
     setReviewOpen(false);
   };
 
+  // Removes the deleted beer from the state list of currentBeer Reviews
+  const removeDeletedBeerReview = (id) => {
+    const filteredList = state.currentBeerReviews.filter((beer) => {
+      return id !== beer.id;
+    });
+    return filteredList;
+  };
+
+  // Check if user has already reviewed that beer
+  const hasUserReviewedBeer = (id) => {
+    const filteredList = state.currentBeerReviews.filter((beer) => {
+      return id === beer.id;
+    });
+    return filteredList;
+  };
+
+  // Delete a review from your list of My Reviews
+  const handleDeleteMyReview = (e) => {
+    console.log('made it tohandledelete my review')
+    if (!state.currentUser) {
+      setLoginOpen(true);
+      return;
+    }
+
+    if (hasUserReviewedBeer(state.currentBeerReviews.id).length > 0) {
+      return axios
+        .delete("/api/reviews/${review_id}")
+        .then((res) => {
+          const newBeerReview = removeDeletedBeerReview(state.currentBeerReviews.id);
+          setState((prev) => ({
+            ...prev,
+            currentBeerReviews: [...newBeerReview],
+          }));
+          handleClickSB(
+            `${state.currentBeerReviews} was removed from your Review list`
+          );
+        });
+    }
+
+  }
+
+
+
   const handleLoginOpen = (e) => {
     console.log("Open Login modal");
     setLoginOpen(true);
@@ -588,6 +631,7 @@ function App() {
         open={myReviewsOpen}
         close={() => setMyReviewsOpen(false)}
         reviews={state.currentBeerReviews}
+        handleDeleteMyReview={handleDeleteMyReview}
       />
       <Button onClick={() => handleClickSB()}>Open simple snackbar</Button>
       <Snackbar handleClose={handleCloseSB} open={openSB} textSB={textSB} />
