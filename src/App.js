@@ -434,8 +434,9 @@ function App() {
     setScannerOpen(false);
   };
 
-  const handleCategoryClick = (id) => {
-    console.log("category: ", id);
+  const handleCategoryClick = (category) => {
+    setSearchOpen(true);
+    setSearchQuery(category);
   };
 
   // Get all the beers once the home page is loaded
@@ -454,15 +455,6 @@ function App() {
       .catch((err) => {
         console.log("Error getting beers: ", err);
       });
-    // Promise.resolve(axios.get("/api/beers"))
-    //   .then((res) => {
-    //     console.log("beers api :", res.data.data);
-
-    //     setBeers(res.data.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log("Error getting beers: ", err);
-    //   });
   }, []);
 
   useEffect(() => {
