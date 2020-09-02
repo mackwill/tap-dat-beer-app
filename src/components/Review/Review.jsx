@@ -62,7 +62,7 @@ const useStyles = makeStyles({
 
 export default function Review(props) {
   const classes = useStyles();
-
+  console.log('review props', props);
   return (
     <Grid item xs={11} md={6} lg={5} style={{ margin: "auto" }}>
       <Box width={0.95} m={"auto"}>
@@ -153,10 +153,10 @@ export default function Review(props) {
           </CardContent>
           <CardActions>
             <IconButton>
-              <EditIcon onClick={props.handleDeleteMyReview} />
+              <EditIcon  />
             </IconButton>
-            <IconButton>
-              <DeleteIcon onClick={props.handleDeleteMyReview} />
+            <IconButton onClick={props.handleDeleteList} >
+              <DeleteIcon />
             </IconButton>
           </CardActions>
         </Card>

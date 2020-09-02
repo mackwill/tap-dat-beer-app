@@ -20,6 +20,7 @@ import ShareOption from "./components/ShareOption/ShareOption";
 import Button from "@material-ui/core/Button";
 import Snackbar from "./components/Small-Components/Snackbar";
 import MyAccount from "./components/Account/MyAccount";
+import Scanner from "./components/Scanner/Scanner";
 //import Review from './components/Review/Review'
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
   const [myWishlistOpen, setMyWishlistOpen] = useState(false);
   const [myReviewsOpen, setMyReviewsOpen] = useState(false);
   const [userNote, setUserNote] = useState(false);
+  const [scannerOpen, setScannerOpen] = useState(false);
 
   const [state, setState] = useState({
     firstName: null,
@@ -91,7 +93,7 @@ function App() {
   const handleSearchOpen = (e) => {
     setSearchOpen(true);
     return axios
-      .get("/search/analytics")
+      .get("/api/search/analytics")
       .then((data) => setPopularSearch(data.data.finalData))
       .catch((e) => null);
   };
@@ -115,7 +117,7 @@ function App() {
     setReviewOpen(false);
   };
 
-  // Removes the deleted beer from the state list of currentBeer Reviews
+  // Removes the deleted beer from =the state list of currentBeer Reviews
   const removeDeletedBeerReview = (id) => {
     const filteredList = state.currentBeerReviews.filter((beer) => {
       return id !== beer.id;
@@ -229,7 +231,7 @@ function App() {
 
   useEffect(() => {
     axios
-      .get(`/search?q=${encodeURI(searchQuery)}`)
+      .get(`/api/search?q=${encodeURI(searchQuery)}`)
       .then((data) => {
         setSearchResults(data.data.data);
       })
@@ -288,7 +290,7 @@ function App() {
       user_id: state.currentUser && state.currentUser.id,
     };
     return axios
-      .post("/search/analytics", body)
+      .post("/api/search/analytics", body)
       .then((data) => console.log("added search analytics:", data))
       .catch((e) => console.log("Search analytics failed", e));
   };
@@ -306,7 +308,7 @@ function App() {
 
     if (isBeerInRecentlyViewedList(id).length === 0) {
       console.log("thijierotiejotjeroitjeorijt");
-      await axios.post("/search/analytics", {
+      await axios.post("/api/search/analytics", {
         user_id: userId,
         beer_id: id,
       });
@@ -323,7 +325,7 @@ function App() {
         }));
       })
       .then(() => {
-        return axios.get(`/notes/${id}`).then((note) => {
+        return axios.get(`/api/notes/${id}`).then((note) => {
           if (!note.data.data) {
             setUserNote(null);
           } else {
@@ -349,7 +351,7 @@ function App() {
   const handleAccountOpen = (e) => {
     // Uncomment when modal is here
     setAccuontOpen(true);
-    return axios.get("/reviews/user").then((res) => {
+    return axios.get("/api/reviews/user").then((res) => {
       setState((prev) => ({
         ...prev,
         currentBeerReviews: [...res.data.data],
@@ -362,7 +364,7 @@ function App() {
     setMyWishlistOpen(true);
 
     return axios
-      .get("/wishlists")
+      .get("/api/wishlists")
       .then((res) => {
         setState((prev) => ({
           ...prev,
@@ -399,7 +401,7 @@ function App() {
     // and remove it from the wishlist if they have
     if (hasUserWishlistedBeer(state.currentBeer.id).length > 0) {
       return axios
-        .post("/wishlists/delete", {
+        .post("/api/wishlists/delete", {
           beer_id: state.currentBeer.id,
           user_id: state.currentUser.id,
         })
@@ -417,7 +419,7 @@ function App() {
 
     if (state.currentUser && state.currentBeer) {
       return axios
-        .post("/wishlists", {
+        .post("/api/wishlists", {
           beer_id: state.currentBeer.id,
           user_id: state.currentUser.id,
         })
@@ -471,6 +473,15 @@ function App() {
     return beers.reverse();
   };
 
+  // Open scanner
+  const handleScannerOpen = (e) => {
+    setScannerOpen(true);
+  };
+
+  const handleScannerClose = (e) => {
+    setScannerOpen(false);
+  };
+
   // Get all the beers once the home page is loaded
   useEffect(() => {
     Promise.resolve(axios.get("/api/beers"))
@@ -487,19 +498,25 @@ function App() {
   }, []);
 
   useEffect(() => {
+    Promise.resolve(axios.get("/api/user")).then((data) => {
+      setState((prev) => ({
+        ...prev,
+        currentUser: data.data.data,
+      }));
+    });
+  }, []);
+  useEffect(() => {
     Promise.all([
-      Promise.resolve(axios.get("/api/user")),
-      Promise.resolve(axios.get("/wishlists")),
+      Promise.resolve(axios.get("/api/wishlists")),
       Promise.resolve(axios.get("/api/beers/recommendations")),
-      Promise.resolve(axios.get("/other/recently")),
+      Promise.resolve(axios.get("/api/beers/recently")),
     ])
       .then((all) => {
         setState((prev) => ({
           ...prev,
-          currentUser: all[0].data.data,
-          currentWishList: [...all[1].data.data],
-          recommendedBeers: [...all[2].data.data],
-          recentlyViewed: [...all[3].data.data],
+          currentWishList: [...all[0].data.data],
+          recommendedBeers: [...all[1].data.data],
+          recentlyViewed: [...all[2].data.data],
         }));
       })
       .then((res) => {
@@ -515,8 +532,8 @@ function App() {
       .catch((err) => {
         console.log("Error getting beers: ", err);
       });
-  }, []);
-
+  }, [state.currentUser]);
+  console.log("State.recommeneded", state.recommendedBeers);
   return (
     <div className="App">
       <Navbar
@@ -528,6 +545,7 @@ function App() {
         handleAccountOpen={handleAccountOpen}
         handleMyWishlistOpen={handleMyWishlistOpen}
         handleMyReviewsOpen={handleMyReviewsOpen}
+        handleScannerOpen={handleScannerOpen}
       />
       <Login
         open={loginOpen}
@@ -546,16 +564,20 @@ function App() {
 
       {state.currentUser && (
         <Fragment>
-          <Category
-            category={"Recommended"}
-            beers={state.recommendedBeers}
-            onClick={handleBeerDetailClick}
-          />
-          <Category
-            category={"Recently Viewed"}
-            beers={state.recentlyViewed}
-            onClick={handleBeerDetailClick}
-          />
+          {state.recommendedBeers.length != 0 && (
+            <Category
+              category={"Recommended"}
+              beers={state.recommendedBeers}
+              onClick={handleBeerDetailClick}
+            />
+          )}
+          {state.recentlyViewed.length != 0 && (
+            <Category
+              category={"Recently Viewed"}
+              beers={state.recentlyViewed}
+              onClick={handleBeerDetailClick}
+            />
+          )}
         </Fragment>
       )}
       {state.beers.length > 0 && (
@@ -598,6 +620,7 @@ function App() {
           handleShareOptionOpen={handleShareOptionOpen}
           userNote={userNote}
           setOpenSB={handleClickSB}
+          onClick={handleBeerDetailClick}
         />
       )}
       <Search
@@ -631,7 +654,7 @@ function App() {
         open={myReviewsOpen}
         close={() => setMyReviewsOpen(false)}
         reviews={state.currentBeerReviews}
-        handleDeleteMyReview={handleDeleteMyReview}
+        handleDeleteApp={handleDeleteMyReview}
       />
       <Button onClick={() => handleClickSB()}>Open simple snackbar</Button>
       <Snackbar handleClose={handleCloseSB} open={openSB} textSB={textSB} />
@@ -645,6 +668,12 @@ function App() {
           reviews={state.currentBeerReviews}
         />
       )}
+      <Scanner
+        open={scannerOpen}
+        handleClose={handleScannerClose}
+        openBeer={handleBeerDetailClick}
+        beers={state.beers}
+      />
     </div>
   );
 }
