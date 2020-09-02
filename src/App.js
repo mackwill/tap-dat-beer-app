@@ -18,6 +18,7 @@ import ShareOption from "./components/ShareOption/ShareOption";
 import Button from "@material-ui/core/Button";
 import Snackbar from "./components/Small-Components/Snackbar";
 import MyAccount from "./components/Account/MyAccount";
+import CustomAlert from "./components/Alert/CustomAlert";
 //import Review from './components/Review/Review'
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
   const [myWishlistOpen, setMyWishlistOpen] = useState(false);
   const [myReviewsOpen, setMyReviewsOpen] = useState(false);
   const [userNote, setUserNote] = useState(false);
+  const [errMessage, setErrMessage] = useState(null);
 
   const [state, setState] = useState({
     firstName: null,
@@ -133,12 +135,17 @@ function App() {
       email: null,
       password: null,
     }));
+    setErrMessage(null);
   };
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     console.log("Here");
 
+    if (!state.email || !state.password) {
+      setErrMessage("Please fill out both fields to login");
+      return;
+    }
     return axios
       .post("/api/login", {
         email: state.email,
@@ -153,7 +160,7 @@ function App() {
         handleLoginClose();
       })
       .catch((err) => {
-        console.log("Login Error: ", err);
+        setErrMessage("Invalid email or password");
       });
   };
 
@@ -182,6 +189,7 @@ function App() {
       email: null,
       password: null,
     }));
+    setErrMessage(null);
   };
 
   useEffect(() => {
@@ -195,18 +203,27 @@ function App() {
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
+
+    if (
+      !state.firstName ||
+      !state.lastName ||
+      !state.email ||
+      !state.password ||
+      !state.passwordConfirmation
+    ) {
+      setErrMessage("Please fill out all fields");
+      return;
+    } else if (state.password !== state.passwordConfirmation) {
+      setErrMessage("Passwords do not match");
+      return;
+    }
+
     const newUser = {
       firstName: state.firstName,
       lastName: state.lastName,
       email: state.email,
       password: state.password,
     };
-
-    if (state.password !== state.passwordConfirmation) {
-      console.log("Passwords do not match");
-      return;
-    }
-
     return axios
       .post("/api/register", newUser)
       .then((data) => {
@@ -218,7 +235,7 @@ function App() {
         handleRegisterClose();
       })
       .catch((err) => {
-        console.log("Register Error: ", err);
+        setErrMessage("That email already exists");
       });
   };
 
@@ -506,12 +523,14 @@ function App() {
         onChange={handleLoginChange}
         handleClose={handleLoginClose}
         onSubmit={handleLoginSubmit}
+        errMessage={errMessage}
       />
       <Register
         open={registerOpen}
         onChange={handleRegisterChange}
         handleClose={handleRegisterClose}
         onSubmit={handleRegisterSubmit}
+        errMessage={errMessage}
       />
 
       <Banner />
@@ -597,7 +616,7 @@ function App() {
       />
       <Button onClick={() => handleClickSB()}>Open simple snackbar</Button>
       <Snackbar handleClose={handleCloseSB} open={openSB} textSB={textSB} />
-      {state.firstName && (
+      {state.firstName && state.currentUser && (
         <MyAccount
           firstNameBeforeUpdate={state.currentUser.first_name}
           lastNameBeforeUpdate={state.currentUser.last_name}
