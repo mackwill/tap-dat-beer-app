@@ -1,4 +1,5 @@
 import React from "react";
+import BeerCategoryCard from "./BeerCategoryCard";
 import Box from "@material-ui/core/Box";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles } from "@material-ui/core/styles";
@@ -36,17 +37,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Category(props) {
-  let first10Beers = [];
-
-  if (props.beers.length > 10) {
-    for (let i = 0; i < 10; i++) {
-      first10Beers.push(props.beers[i]);
-    }
-  } else {
-    first10Beers = [...props.beers];
-  }
-
+export default function CategoryList(props) {
   let columns = 2.5;
 
   const theme = useTheme();
@@ -75,14 +66,11 @@ export default function Category(props) {
   return (
     <div>
       <Box component="div" width={0.9} className={classes.root} m={"auto"}>
-        {/* <h3 className="category_title">Popular >></h3> */}
         <Box width={1} component="h3" mb={"1rem"} mt={"1rem"} textAlign="left">
           <Typography variant="h5" component="h3" mb={2}>
-            {props.category}
+            {props.title}
           </Typography>
         </Box>
-
-        {/* <Grid container spacing={3} justify="space-around"> */}
         <Box width={1}>
           <GridList
             className={classes.gridList}
@@ -90,24 +78,11 @@ export default function Category(props) {
             cellHeight={"200"}
             width={1}
           >
-            {props.beers.map((beer) => (
-              <GridListTile
-                id={beer.id}
-                key={beer.id}
-                component="a"
-                href="JavaScript:void(0);"
-                onClick={() => props.onClick(beer.id)}
-              >
-                <img id={beer.id} src={beer.beer_image} onError={imgError} />
-
-                <Box id={beer.id}>
-                  <GridListTileBar
-                    key={`${beer.id}-beer`}
-                    title={beer.name}
-                    classes={{ root: classes.titleBar, title: classes.title }}
-                  />
-                </Box>
-              </GridListTile>
+            {props.categories.map((category) => (
+              <BeerCategoryCard
+                title={category.type}
+                onClick={props.handleCategoryClick}
+              />
             ))}
           </GridList>
         </Box>

@@ -38,16 +38,17 @@ export default function ProductDetail(props) {
   return (
     <>
       <ListSubheader component="div">Reviews from other users</ListSubheader>
-
-      <Grid container spacing={3}>
-        {props.reviews.length > 0 ? (
-          props.reviews.map((review) => {
-            return <Review {...review} />;
-          })
-        ) : (
-          <BlankReview />
-        )}
-      </Grid>
+      {props.reviews && (
+        <Grid container spacing={3}>
+          {props.reviews.length > 0 ? (
+            props.reviews.map((review) => {
+              return <Review {...review} />;
+            })
+          ) : (
+            <BlankReview />
+          )}
+        </Grid>
+      )}
     </>
   );
 }
