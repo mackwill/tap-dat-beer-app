@@ -18,11 +18,8 @@ import ShareOption from "./components/ShareOption/ShareOption";
 import Button from "@material-ui/core/Button";
 import Snackbar from "./components/Small-Components/Snackbar";
 import MyAccount from "./components/Account/MyAccount";
-<<<<<<< HEAD
 import CustomAlert from "./components/Alert/CustomAlert";
-=======
 import Scanner from "./components/Scanner/Scanner";
->>>>>>> master
 //import Review from './components/Review/Review'
 
 function App() {
@@ -39,11 +36,8 @@ function App() {
   const [myWishlistOpen, setMyWishlistOpen] = useState(false);
   const [myReviewsOpen, setMyReviewsOpen] = useState(false);
   const [userNote, setUserNote] = useState(false);
-<<<<<<< HEAD
   const [errMessage, setErrMessage] = useState(null);
-=======
   const [scannerOpen, setScannerOpen] = useState(false);
->>>>>>> master
 
   const [state, setState] = useState({
     firstName: null,
@@ -328,12 +322,7 @@ function App() {
       email: prevEmail,
     }));
     setAccuontOpen(true);
-<<<<<<< HEAD
-
-    return axios.get("/reviews/user").then((res) => {
-=======
     return axios.get("/api/reviews/user").then((res) => {
->>>>>>> master
       setState((prev) => ({
         ...prev,
         currentBeerReviews: [...res.data.data],
