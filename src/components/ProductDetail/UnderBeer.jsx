@@ -51,7 +51,11 @@ export default function SimpleTabs(props) {
       </AppBar>
       {value === 0 && <UserReviews reviews={props.reviews} />}
       {value === 1 && (
-        <SimilarBeer_v2 beers={props.beers} currentBeer={props.currentBeer} />
+        <SimilarBeer_v2
+          onClick={props.onClick}
+          beers={props.beers}
+          currentBeer={props.currentBeer}
+        />
       )}
       {value === 2 && (
         <Notes

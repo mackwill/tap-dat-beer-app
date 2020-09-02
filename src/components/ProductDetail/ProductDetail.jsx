@@ -171,6 +171,7 @@ export default function ProductDetail(props) {
                 reviews={props.reviews}
                 currentUser={props.currentUser}
                 userNote={props.userNote}
+                onClick={props.onClick}
               />
             </ListItem>
           </List>
