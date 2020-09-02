@@ -258,26 +258,14 @@ function App() {
       });
     }
 
-    return axios
-      .get(`/api/beers/${id}`)
-      .then((data) => {
-        console.log("single beer data: ", data.reviews);
-        setState((prev) => ({
-          ...prev,
-          currentBeer: data.data.beer,
-          currentBeerReviews: data.data.reviews,
-        }));
-      })
-      .then(() => {
-        return axios.get(`/api/notes/${id}`).then((note) => {
-          if (!note.data.data) {
-            setUserNote(null);
-          } else {
-            setUserNote(note.data.data.text);
-          }
-        });
-      })
-      .catch((err) => console.log("Err: ", err));
+    return axios.get(`/api/beers/${id}`).then((data) => {
+      console.log("single beer data: ", data.reviews);
+      setState((prev) => ({
+        ...prev,
+        currentBeer: data.data.beer,
+        currentBeerReviews: data.data.reviews,
+      }));
+    });
   };
 
   const handleBeerDetailClose = (e) => {
@@ -549,6 +537,7 @@ function App() {
           userNote={userNote}
           setOpenSB={handleClickSB}
           onClick={handleBeerDetailClick}
+          setUserNote={setUserNote}
         />
       )}
       <Search
