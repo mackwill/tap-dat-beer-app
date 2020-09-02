@@ -5,10 +5,12 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { Box, Grid, CardMedia } from "@material-ui/core";
+import { Box, Grid, IconButton, CardMedia } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import Rating from "@material-ui/lab/Rating";
 import Avatar from "@material-ui/core/Avatar";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const theme = createMuiTheme({
   palette: {
@@ -53,8 +55,10 @@ const useStyles = makeStyles({
   },
   cover: {
     width: 151,
-  },
-});
+  iconBlue: {
+    color: theme.palette.secondary.main,
+  }
+}});
 
 export default function Review(props) {
   const classes = useStyles();
@@ -79,17 +83,23 @@ export default function Review(props) {
               mb={0.5}
               justifyContent="space-between"
             >
-              {!props.myReview && (
-                <Fragment>
-                  <Box component="div" display="flex" alignItems="center">
-                    <Avatar className={classes.mainBlue}>
-                      {props.first_name[0]}
-                    </Avatar>
-                    <Typography variant="h5" component="h5">
-                      {props.first_name}
-                    </Typography>
-                  </Box>
-                </Fragment>
+              {!props.myReviews && (
+                <Box component="div" display="flex" alignItems="center">
+                  <Avatar className={classes.mainBlue}>
+                    {props.first_name[0]}
+                  </Avatar>
+                  <Typography variant="h5" component="h5">
+                    {props.first_name}
+                  </Typography>
+                </Box>
+              )}
+
+              {props.beer_name && (
+                <Box component="div" display="flex" alignItems="center">
+                  <Typography variant="p" component="p">
+                    {props.beer_name}
+                  </Typography>
+                </Box>
               )}
 
               <Box textAlign="right">
@@ -141,6 +151,14 @@ export default function Review(props) {
               {props.review}
             </Typography>
           </CardContent>
+          <CardActions>
+            <IconButton>
+              <EditIcon className={classes.iconBlue} />
+            </IconButton>
+            <IconButton>
+              <DeleteIcon className={classes.iconBlue} />
+            </IconButton>
+          </CardActions>
         </Card>
       </Box>
     </Grid>

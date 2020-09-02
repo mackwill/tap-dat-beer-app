@@ -7,9 +7,12 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import List from "@material-ui/core/List";
 import LocalDrinkIcon from "@material-ui/icons/LocalDrink";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import { getSimilarBeers } from "../../Helpers/SimilarBeer";
 
 export default function TitlebarGridList(props) {
-  const searchresultsList = props.searchResults.map((elm) => {
+  const similarBeer = getSimilarBeers(props.currentBeer, props.beers);
+
+  const similarBeers = similarBeer.map((elm) => {
     return (
       <>
         <ListItem button onClick={() => props.onClick(elm.id)}>
@@ -29,7 +32,7 @@ export default function TitlebarGridList(props) {
     <>
       <List>
         <ListSubheader component="div">{props.title}</ListSubheader>
-        {searchresultsList}
+        {similarBeers}
       </List>
     </>
   );

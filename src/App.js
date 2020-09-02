@@ -16,6 +16,11 @@ import Account from "./components/Account/Account";
 import Wishlist from "./components/Wishlist/Wishlist";
 import MyWishlist from "./components/MyReviews/MyReviews";
 import MyReviews from "./components/MyReviews/MyReviews";
+import ShareOption from "./components/ShareOption/ShareOption";
+import Button from "@material-ui/core/Button";
+import Snackbar from "./components/Small-Components/Snackbar";
+import MyAccount from "./components/Account/MyAccount";
+//import Review from './components/Review/Review'
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -27,8 +32,10 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [popularSearch, setPopularSearch] = useState([]);
   const [reviewOpen, setReviewOpen] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
   const [myWishlistOpen, setMyWishlistOpen] = useState(false);
   const [myReviewsOpen, setMyReviewsOpen] = useState(false);
+  const [userNote, setUserNote] = useState(false);
 
   const [state, setState] = useState({
     firstName: null,
@@ -42,8 +49,23 @@ function App() {
     currentBeerReviews: [],
     currentWishList: [],
     recommendedBeers: [],
+    recentlyViewed: [],
   });
+  const [openSB, setOpenSB] = useState(false);
+  const [textSB, setTextSB] = useState(false);
 
+  const handleClickSB = (text) => {
+    setOpenSB(true);
+    setTextSB(text);
+  };
+
+  const handleCloseSB = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSB(false);
+  };
   const filterBeerCategories = () => {
     const categories = [];
 
@@ -76,8 +98,21 @@ function App() {
   const handleSearchClose = (e) => {
     setSearchOpen(false);
   };
+
+  const handleShareOptionOpen = (e) => {
+    setShareOpen(true);
+  };
+
+  const handleShareOptionClose = (e) => {
+    setShareOpen(false);
+  };
+
   const handleReviewOpen = (e) => {
     setReviewOpen(true);
+  };
+
+  const handleReviewClose = (e) => {
+    setReviewOpen(false);
   };
 
   const handleLoginOpen = (e) => {
@@ -117,7 +152,6 @@ function App() {
           ...prev,
           currentUser: data.data.user,
         }));
-
         handleLoginClose();
       })
       .catch((err) => {
@@ -198,6 +232,7 @@ function App() {
         currentUser: null,
         currentWishList: [],
       }));
+      handleClickSB(`You are now logged out`);
     });
   };
 
@@ -215,8 +250,24 @@ function App() {
       .catch((e) => console.log("Search analytics failed", e));
   };
 
-  const handleBeerDetailClick = (id) => {
+  const isBeerInRecentlyViewedList = (id) => {
+    const filteredList = state.recentlyViewed.filter((beer) => beer.id === id);
+    return filteredList;
+  };
+  const handleBeerDetailClick = async (id) => {
     setBeerDetailOpen(true);
+    let userId = null;
+    if (state.currentUser) {
+      userId = state.currentUser.id;
+    }
+
+    if (isBeerInRecentlyViewedList(id).length === 0) {
+      console.log("thijierotiejotjeroitjeorijt");
+      await axios.post("/search/analytics", {
+        user_id: userId,
+        beer_id: id,
+      });
+    }
 
     return axios
       .get(`/api/beers/${id}`)
@@ -227,6 +278,15 @@ function App() {
           currentBeer: data.data.beer,
           currentBeerReviews: data.data.reviews,
         }));
+      })
+      .then(() => {
+        return axios.get(`/notes/${id}`).then((note) => {
+          if (!note.data.data) {
+            setUserNote(null);
+          } else {
+            setUserNote(note.data.data.text);
+          }
+        });
       })
       .catch((err) => console.log("Err: ", err));
   };
@@ -246,7 +306,12 @@ function App() {
   const handleAccountOpen = (e) => {
     // Uncomment when modal is here
     setAccuontOpen(true);
-    console.log("works");
+    return axios.get("/reviews/user").then((res) => {
+      setState((prev) => ({
+        ...prev,
+        currentBeerReviews: [...res.data.data],
+      }));
+    });
   };
 
   // Get list of beers wishlisted by the currently logged in user
@@ -301,6 +366,9 @@ function App() {
             ...prev,
             currentWishList: [...newWishList],
           }));
+          handleClickSB(
+            `${state.currentBeer.name} was removed from your wishlist`
+          );
         });
     }
 
@@ -316,6 +384,7 @@ function App() {
             ...prev,
             currentWishList: newWishList,
           }));
+          handleClickSB(`${state.currentBeer.name} was saved to wishlist`);
         })
         .catch((err) => console.log("err, ", err));
     }
@@ -350,14 +419,6 @@ function App() {
     return beers.reverse();
   };
 
-  // Sort beers by most wishlisted
-  // const sortWishlistedBeers = () => {
-  //   const topBeers = state.beers.sort((a, b) => {
-  //     return a.wishlists - b.wishlists
-  //   })
-  //   return topBeers
-  // }
-
   // Sort beers by most reviewed
   const sortReviewedBeers = () => {
     const beers = [...state.beers];
@@ -383,28 +444,26 @@ function App() {
   }, []);
 
   useEffect(() => {
-    Promise.resolve(axios.get("/api/user"))
-      .then((res) => {
-        console.log("user api :", res);
+    Promise.all([
+      Promise.resolve(axios.get("/api/user")),
+      Promise.resolve(axios.get("/wishlists")),
+      Promise.resolve(axios.get("/api/beers/recommendations")),
+      Promise.resolve(axios.get("/other/recently")),
+    ])
+      .then((all) => {
         setState((prev) => ({
           ...prev,
-          currentUser: res.data.data,
-        }));
-      })
-      .then((res) => {
-        return axios.get("/wishlists");
-      })
-      .then((res) => {
-        setState((prev) => ({
-          ...prev,
-          currentWishList: [...res.data.data],
+          currentUser: all[0].data.data,
+          currentWishList: [...all[1].data.data],
+          recommendedBeers: [...all[2].data.data],
+          recentlyViewed: [...all[3].data.data],
         }));
       })
       .then((res) => {
         return axios.get("/api/beers/recommendations");
       })
       .then((res) => {
-        console.log("res: ", res);
+        console.log("res recommendation: ", res);
         // setState((prev) => ({
         //   ...prev,
         //   recommendedBeers: [...res.data.data],
@@ -414,24 +473,6 @@ function App() {
         console.log("Error getting beers: ", err);
       });
   }, []);
-
-  // useEffect(() => {
-  //   console.log("heres");
-  //   if (state.currentUser) {
-  //     return axios
-  //       .get("/api/beers/recommendations")
-  //       .then((res) => {
-  //         console.log("res: ", res);
-  //         // setState((prev) => ({
-  //         //   ...prev,
-  //         //   recommendedBeers: [...res.data.data],
-  //         // }));
-  //       })
-  //       .catch((err) => {
-  //         console.log("Recoommendations err: ", err);
-  //       });
-  //   }
-  // }, []);
 
   return (
     <div className="App">
@@ -457,13 +498,22 @@ function App() {
         handleClose={handleRegisterClose}
         onSubmit={handleRegisterSubmit}
       />
+
       <Banner />
+
       {state.currentUser && (
-        <Category
-          category={"Recommended"}
-          beers={state.recommendedBeers}
-          onClick={handleBeerDetailClick}
-        />
+        <Fragment>
+          <Category
+            category={"Recommended"}
+            beers={state.recommendedBeers}
+            onClick={handleBeerDetailClick}
+          />
+          <Category
+            category={"Recently Viewed"}
+            beers={state.recentlyViewed}
+            onClick={handleBeerDetailClick}
+          />
+        </Fragment>
       )}
       {state.beers.length > 0 && (
         <Fragment>
@@ -502,6 +552,9 @@ function App() {
           openForm={handleReviewOpen}
           currentUser={state.currentUser}
           handleAddToWishlist={handleAddToWishlist}
+          handleShareOptionOpen={handleShareOptionOpen}
+          userNote={userNote}
+          setOpenSB={handleClickSB}
         />
       )}
       <Search
@@ -514,12 +567,16 @@ function App() {
         onClick={handleClickFromSearchResult}
       />
       <h1>TAP DAT BEER APP</h1>
-      <Review currentBeer={state.currentBeer} open={reviewOpen} />
-      <Account
-        {...state.currentUser}
-        open={accuontOpen}
-        handleClose={() => setAccuontOpen(false)}
+      <Review 
+      currentBeer={state.currentBeer} 
+      open={reviewOpen}
+      close={handleReviewClose}
       />
+      <ShareOption 
+      open={shareOpen}
+      close={handleShareOptionClose}
+      />
+      
 
       <Wishlist
         open={myWishlistOpen}
@@ -532,6 +589,18 @@ function App() {
         close={() => setMyReviewsOpen(false)}
         reviews={state.currentBeerReviews}
       />
+      <Button onClick={() => handleClickSB()}>Open simple snackbar</Button>
+      <Snackbar handleClose={handleCloseSB} open={openSB} textSB={textSB} />
+      {state.currentUser && (
+        <MyAccount
+          {...state.currentUser}
+          open={accuontOpen}
+          handleClose={() => setAccuontOpen(false)}
+          handleAccountChange={handleRegisterChange}
+          beers={state.currentWishList}
+          reviews={state.currentBeerReviews}
+        />
+      )}
     </div>
   );
 }

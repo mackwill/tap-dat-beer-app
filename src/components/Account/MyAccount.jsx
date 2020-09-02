@@ -16,24 +16,16 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
-import { Box, Grid } from "@material-ui/core";
+import { Box, Grid, Avatar } from "@material-ui/core";
 import Review from "../Review/Review";
 import ShareIcon from "@material-ui/icons/Share";
 import BlankReview from "../Review/BlankReview";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import UnderBeer from "./UnderBeer";
+// import UnderBeer from "./UnderBeer";
+import UserDetails from "./UserDetails";
+import AccountMenuBar from "./AccountMenuBar";
 
-const useStyles = makeStyles((theme) => ({
-  appBar: {
-    position: "relative",
-  },
-  title: {
-    marginLeft: theme.spacing(2),
-    flex: 1,
-  },
-}));
-
-const theme = createMuiTheme({
+const rootTheme = createMuiTheme({
   palette: {
     primary: {
       light: "#7e5dc0",
@@ -50,6 +42,22 @@ const theme = createMuiTheme({
   },
 });
 
+const useStyles = makeStyles((theme) => ({
+  appBar: {
+    position: "relative",
+  },
+  title: {
+    marginLeft: theme.spacing(2),
+    flex: 1,
+  },
+  mainBlue: {
+    color: rootTheme.palette.secondary.contrastText,
+    backgroundColor: rootTheme.palette.secondary.main,
+    width: "5rem",
+    height: "5rem",
+  },
+}));
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -64,7 +72,7 @@ export default function ProductDetail(props) {
 
   return (
     <div>
-      <MuiThemeProvider theme={theme}>
+      <MuiThemeProvider theme={rootTheme}>
         <Dialog
           fullScreen
           open={props.open}
@@ -88,20 +96,33 @@ export default function ProductDetail(props) {
           </AppBar>
           <List>
             <ListItem style={{ display: "flex", justifyContent: "center" }}>
-              <img src={props.currentBeer.beer_image} onError={imgError} />
+              <Avatar className={classes.mainBlue}>
+                {props.first_name[0]}
+                {props.last_name[0]}
+              </Avatar>
             </ListItem>
             <ListItem>
               <Box width={1} textAlign="center">
-                <Typography variant="h6">{props.currentBeer.name}</Typography>
+                <Typography variant="h6">
+                  {props.first_name} {props.last_name}
+                </Typography>
               </Box>
             </ListItem>
             <ListItem>
+              <UserDetails
+                first_name={props.first_name}
+                last_name={props.last_name}
+                email={props.email}
+                onChange={props.handleAccountChange}
+              />
+            </ListItem>
+            {/* <ListItem>
               <Box width={1} textAlign="center">
                 <Typography variant="p">{props.currentBeer.brewery}</Typography>
               </Box>
-            </ListItem>
+            </ListItem> */}
             <ListItem style={{ width: "60%", margin: "auto" }}>
-              <Grid container spacing={1} textAlign="center">
+              {/* <Grid container spacing={1} textAlign="center">
                 <Grid container item xs={6} spacing={1}>
                   <Box m={"auto"}>
                     <Typography variant="p">
@@ -126,51 +147,20 @@ export default function ProductDetail(props) {
                     <Typography variant="p">Rating: --</Typography>
                   </Box>
                 </Grid>
-              </Grid>
+              </Grid> */}
             </ListItem>
             <Divider />
             <ListItem>
-              <Box width={1} textAlign="right">
-                {props.currentUser && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={props.openForm}
-                  >
-                    Review
-                  </Button>
-                )}
-                <IconButton>
-                  <ShareIcon
-                    color="secondary"
-                    onClick={props.handleShareOptionOpen}
-                  />
-                </IconButton>
-                <IconButton>
-                  <FavoriteIcon
-                    color="secondary"
-                    onClick={props.handleAddToWishlist}
-                  />
-                </IconButton>
-              </Box>
-            </ListItem>
-            <ListItem>
-              {/* <Grid container spacing={3}>
-              {props.reviews.length > 0 ? (
-                props.reviews.map((review) => {
-                  return <Review {...review} />;
-                })
-              ) : (
-                <BlankReview />
-              )}
-            </Grid> */}
-              <UnderBeer
-                setOpenSB={props.setOpenSB}
+              {/* <UnderBeer
                 beers={props.beers}
                 currentBeer={props.currentBeer}
                 reviews={props.reviews}
                 currentUser={props.currentUser}
-                userNote={props.userNote}
+              /> */}
+              <AccountMenuBar
+                onClick={props.handleBeerDetailClick}
+                beers={props.beers}
+                reviews={props.reviews}
               />
             </ListItem>
           </List>
