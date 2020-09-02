@@ -585,6 +585,7 @@ function App() {
         open={scannerOpen}
         handleClose={handleScannerClose}
         openBeer={handleBeerDetailClick}
+        beers={state.beers}
       />
     </div>
   );

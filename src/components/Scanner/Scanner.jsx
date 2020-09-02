@@ -7,8 +7,8 @@ export default function Scanner(props) {
   const containerRef = React.useRef(null);
   const webcamRef = React.useRef(null);
   const [classifier, setClassifier] = useState(null);
-  const beerLabel = { "Fat Tire": 0, "Palm Bay": 0, Hoegaarden: 0, Bubbly: 0 };
-  ///i see you working vincent
+  const beersId = {};
+  props.beers.forEach((elm) => (beersId[elm.id] = 0));
 
   useEffect(() => {
     if (props.open) {
@@ -30,20 +30,15 @@ export default function Scanner(props) {
   };
 
   const resultsReady = (error, results) => {
+    console.log("results Top:", results[0].label);
     if (error) {
       console.log("error", error);
     }
     if (results[0].confidence >= 0.9) {
-      beerLabel[results[0].label]++;
+      beersId[results[0].label]++;
     }
-    if (
-      beerLabel["Fat Tire"] > 100 ||
-      beerLabel["Palm Bay"] > 100 ||
-      beerLabel["Hoegaarden"] > 100
-    ) {
-      console.log("result:", results[0].label);
-      const id = 5;
-      props.openBeer(id);
+    if (Object.values(beersId).some((elm) => elm > 30)) {
+      props.openBeer(Number(results[0].label) + 3);
       props.handleClose();
 
       return;
