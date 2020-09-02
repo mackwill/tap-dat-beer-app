@@ -165,6 +165,8 @@ function App() {
 
   const handleRegisterChange = (e) => {
     e.persist();
+    console.log("e.target.value", e.target.value);
+    console.log("e.target.name", e.target.name);
     setState((prev) => ({
       ...prev,
       [e.target.name]: e.target.value.trim(),
@@ -303,7 +305,17 @@ function App() {
 
   const handleAccountOpen = (e) => {
     // Uncomment when modal is here
+    const prevFirstName = state.currentUser.first_name;
+    const prevLastName = state.currentUser.last_name;
+    const prevEmail = state.currentUser.email;
+    setState((prev) => ({
+      ...prev,
+      firstName: prevFirstName,
+      lastName: prevLastName,
+      email: prevEmail,
+    }));
     setAccuontOpen(true);
+
     return axios.get("/reviews/user").then((res) => {
       setState((prev) => ({
         ...prev,
@@ -312,6 +324,26 @@ function App() {
     });
   };
 
+  // Handle account detail change form submit
+  const handleAccountChangeSubmit = (e) => {
+    e.preventDefault();
+    const newAccountDetails = {
+      first_name: state.firstName,
+      last_name: state.lastName,
+      email: state.email,
+      password: state.currentUser.password,
+    };
+
+    return axios
+      .put("/api/user", newAccountDetails)
+      .then((res) => {
+        setState((prev) => ({
+          ...prev,
+          currentUser: res.data.data,
+        }));
+      })
+      .catch((err) => console.log("Error Updating Account: ", err));
+  };
   // Get list of beers wishlisted by the currently logged in user
   const handleMyWishlistOpen = (e) => {
     setMyWishlistOpen(true);
@@ -550,16 +582,12 @@ function App() {
         onClick={handleClickFromSearchResult}
       />
       <h1>TAP DAT BEER APP</h1>
-      <Review 
-      currentBeer={state.currentBeer} 
-      open={reviewOpen}
-      close={handleReviewClose}
+      <Review
+        currentBeer={state.currentBeer}
+        open={reviewOpen}
+        close={handleReviewClose}
       />
-      <ShareOption 
-      open={shareOpen}
-      close={handleShareOptionClose}
-      />
-      
+      <ShareOption open={shareOpen} close={handleShareOptionClose} />
 
       <Wishlist
         open={myWishlistOpen}
@@ -569,14 +597,19 @@ function App() {
       />
       <Button onClick={() => handleClickSB()}>Open simple snackbar</Button>
       <Snackbar handleClose={handleCloseSB} open={openSB} textSB={textSB} />
-      {state.currentUser && (
+      {state.firstName && (
         <MyAccount
-          {...state.currentUser}
+          firstNameBeforeUpdate={state.currentUser.first_name}
+          lastNameBeforeUpdate={state.currentUser.last_name}
+          first_name={state.firstName}
+          last_name={state.lastName}
+          email={state.email}
           open={accuontOpen}
           handleClose={() => setAccuontOpen(false)}
           handleAccountChange={handleRegisterChange}
           beers={state.currentWishList}
           reviews={state.currentBeerReviews}
+          onSubmit={handleAccountChangeSubmit}
         />
       )}
     </div>

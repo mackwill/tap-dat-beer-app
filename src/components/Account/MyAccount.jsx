@@ -65,11 +65,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function ProductDetail(props) {
   const classes = useStyles();
 
-  const imgError = (e) => {
-    e.target.onerror = null;
-    e.target.src = "images/beer_placeholder.png";
-  };
-
   return (
     <div>
       <MuiThemeProvider theme={rootTheme}>
@@ -90,21 +85,21 @@ export default function ProductDetail(props) {
                 <CloseIcon />
               </IconButton>
               <Typography variant="h6" className={classes.title}>
-                Beer Detail
+                Account Details
               </Typography>
             </Toolbar>
           </AppBar>
           <List>
             <ListItem style={{ display: "flex", justifyContent: "center" }}>
               <Avatar className={classes.mainBlue}>
-                {props.first_name[0]}
-                {props.last_name[0]}
+                {props.firstNameBeforeUpdate[0]}
+                {props.lastNameBeforeUpdate[0]}
               </Avatar>
             </ListItem>
             <ListItem>
               <Box width={1} textAlign="center">
                 <Typography variant="h6">
-                  {props.first_name} {props.last_name}
+                  {props.firstNameBeforeUpdate} {props.lastNameBeforeUpdate}
                 </Typography>
               </Box>
             </ListItem>
@@ -114,49 +109,12 @@ export default function ProductDetail(props) {
                 last_name={props.last_name}
                 email={props.email}
                 onChange={props.handleAccountChange}
+                onSubmit={props.onSubmit}
               />
             </ListItem>
-            {/* <ListItem>
-              <Box width={1} textAlign="center">
-                <Typography variant="p">{props.currentBeer.brewery}</Typography>
-              </Box>
-            </ListItem> */}
-            <ListItem style={{ width: "60%", margin: "auto" }}>
-              {/* <Grid container spacing={1} textAlign="center">
-                <Grid container item xs={6} spacing={1}>
-                  <Box m={"auto"}>
-                    <Typography variant="p">
-                      ABV: {props.currentBeer.abv}
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid container item xs={6} spacing={1}>
-                  <Box m={"auto"}>
-                    <Typography variant="p">IBU: --</Typography>
-                  </Box>
-                </Grid>
-                <Grid container item xs={6} spacing={1}>
-                  <Box m={"auto"}>
-                    <Typography variant="p">
-                      Type: {props.currentBeer.type}
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid container item xs={6} spacing={1}>
-                  <Box m={"auto"}>
-                    <Typography variant="p">Rating: --</Typography>
-                  </Box>
-                </Grid>
-              </Grid> */}
-            </ListItem>
+
             <Divider />
             <ListItem>
-              {/* <UnderBeer
-                beers={props.beers}
-                currentBeer={props.currentBeer}
-                reviews={props.reviews}
-                currentUser={props.currentUser}
-              /> */}
               <AccountMenuBar
                 onClick={props.handleBeerDetailClick}
                 beers={props.beers}
