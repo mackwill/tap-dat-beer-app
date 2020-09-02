@@ -20,7 +20,7 @@ import Snackbar from "./components/Small-Components/Snackbar";
 import MyAccount from "./components/Account/MyAccount";
 import CustomAlert from "./components/Alert/CustomAlert";
 import Scanner from "./components/Scanner/Scanner";
-//import Review from './components/Review/Review'
+import BeerCategoryRow from "./components/BeerCategory/BeerCategoryRow";
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -561,7 +561,7 @@ function App() {
       {state.beers.length > 0 && (
         <Fragment>
           <Category
-            category={"Top Beers"}
+            category={"Top Rated Beers"}
             beers={sortTopBeers()}
             onClick={handleBeerDetailClick}
           />
@@ -573,7 +573,7 @@ function App() {
           />
         </Fragment>
       )}
-
+      <BeerCategoryRow />
       {state.beers.length > 0 &&
         filterBeerCategories().map((type) => {
           return (

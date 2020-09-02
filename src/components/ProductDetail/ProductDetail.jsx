@@ -22,6 +22,7 @@ import ShareIcon from "@material-ui/icons/Share";
 import BlankReview from "../Review/BlankReview";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import UnderBeer from "./UnderBeer";
+import Rating from "@material-ui/lab/Rating";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -122,9 +123,22 @@ export default function ProductDetail(props) {
                   </Box>
                 </Grid>
                 <Grid container item xs={6} spacing={1}>
-                  <Box m={"auto"}>
-                    <Typography variant="p">Rating: --</Typography>
+                  <Box textAlign="right">
+                    <Typography variant="p">
+                      Rating:
+                      <Rating
+                        name="read-only"
+                        value={props.currentBeer.avg_rank / 2}
+                        precision={0.25}
+                        readOnly
+                      />
+                    </Typography>
                   </Box>
+                  {/* <Box m={"auto"}>
+                    <Typography variant="p">
+                      Rating: {props.currentBeer.avg_rank}
+                    </Typography>
+                  </Box> */}
                 </Grid>
               </Grid>
             </ListItem>
