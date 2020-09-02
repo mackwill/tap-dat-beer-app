@@ -1,36 +1,44 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { TextareaAutosize } from "@material-ui/core";
+import { TextareaAutosize, Box, withWidth } from "@material-ui/core";
 import { TextField } from '@material-ui/core';
 import { positions } from '@material-ui/system';
+import { sizing } from '@material-ui/system';
 
 import { makeStyles } from "@material-ui/styles";
 const userStyles = makeStyles((theme) => ({
   root: {
-    width: 300,
-    height: 200,
+    //width: 300,
+    height: 70,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "center",
-    margin: 40,
-    paddingLeft: 20,
-    paddingRight: 30,
+    justifyContent: "space-evenly",
+   // margin: 40,
+    //paddingLeft: 20,
+    //paddingRight: 30,
   },
 }));
 
 const buttonStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    justifyContent: "center",
+    flexDirection: "column",
+    justifyContent: "space-evenly",
     alignContent: "center",
+    left: "40%",
     margin: 20,
     paddingLeft: 20,
     paddingRight: 30,
     paddingBottom: 20
   },
 }));
+
+const inputProps = {
+  step: 300,
+};
+
 
 export default function Question(props) {
   const classes = userStyles();
@@ -50,7 +58,7 @@ export default function Question(props) {
       {props.finalQuestion && (
         <>
           <TextField
-          className={button.root} 
+          inputProps={{size: 80}}
           id="outlined-basic" label="" variant="outlined"
             aria-label="empty textarea"
             onChange={props.handleQuestionF}
@@ -58,9 +66,7 @@ export default function Question(props) {
           />
           <Button
           className={button.root} 
-            position="center"
-            size="medium"
-            variant="outlined"
+            size="large"
             color="primary"
             onClick={() => submitReview()}
           >
@@ -69,8 +75,9 @@ export default function Question(props) {
         </>
       )}
       {!props.finalQuestion && (
-        <div className={classes.root}>
+        <div className={classes.root} >
           <Button
+          className={classes.root}
             size="large"
             variant="outlined"
             color="primary"
@@ -79,6 +86,7 @@ export default function Question(props) {
             1
           </Button>
           <Button
+          className={classes.root}
             size="large"
             variant="outlined"
             color="primary"
@@ -87,6 +95,7 @@ export default function Question(props) {
             2
           </Button>
           <Button
+          className={classes.root}
             size="large"
             variant="outlined"
             color="primary"
@@ -95,6 +104,7 @@ export default function Question(props) {
             3
           </Button>
           <Button
+          className={classes.root}
             size="large"
             variant="outlined"
             color="primary"
@@ -103,6 +113,7 @@ export default function Question(props) {
             4
           </Button>
           <Button
+          className={classes.root}
             size="large"
             variant="outlined"
             color="primary"

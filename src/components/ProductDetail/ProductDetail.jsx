@@ -143,7 +143,7 @@ export default function ProductDetail(props) {
                 <IconButton>
                   <ShareIcon
                     color="secondary"
-                    onClick={() => console.log("here")}
+                    onClick={props.handleShareOptionOpen}
                   />
                 </IconButton>
                 <IconButton>

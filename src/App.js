@@ -14,6 +14,7 @@ import Search from "./components/Search/Search";
 import Review from "./components/ReviewForm/Review";
 import Account from "./components/Account/Account";
 import Wishlist from "./components/Wishlist/Wishlist";
+import ShareOption from "./components/ShareOption/ShareOption";
 import Button from "@material-ui/core/Button";
 import Snackbar from "./components/Small-Components/Snackbar";
 import MyAccount from "./components/Account/MyAccount";
@@ -30,6 +31,7 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [popularSearch, setPopularSearch] = useState([]);
   const [reviewOpen, setReviewOpen] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
   const [myWishlistOpen, setMyWishlistOpen] = useState(false);
   const [myReviewsOpen, setMyReviewsOpen] = useState(false);
   const [userNote, setUserNote] = useState(false);
@@ -96,6 +98,15 @@ function App() {
   const handleSearchClose = (e) => {
     setSearchOpen(false);
   };
+
+  const handleShareOptionOpen = (e) => {
+    setShareOpen(true);
+  };
+
+  const handleShareOptionClose = (e) => {
+    setShareOpen(false);
+  };
+
   const handleReviewOpen = (e) => {
     setReviewOpen(true);
   };
@@ -534,6 +545,7 @@ function App() {
           openForm={handleReviewOpen}
           currentUser={state.currentUser}
           handleAddToWishlist={handleAddToWishlist}
+          handleShareOptionOpen={handleShareOptionOpen}
           userNote={userNote}
           setOpenSB={handleClickSB}
           onClick={handleBeerDetailClick}
@@ -550,18 +562,16 @@ function App() {
         onClick={handleClickFromSearchResult}
       />
       <h1>TAP DAT BEER APP</h1>
-      <Review
-        currentBeer={state.currentBeer}
-        open={reviewOpen}
-        close={handleReviewClose}
+      <Review 
+      currentBeer={state.currentBeer} 
+      open={reviewOpen}
+      close={handleReviewClose}
       />
-      {/* <Account /> */}
-      <Review currentBeer={state.currentBeer} open={reviewOpen} />
-      {/* <Account
-        {...state.currentUser}
-        open={accuontOpen}
-        handleClose={() => setAccuontOpen(false)}
-      /> */}
+      <ShareOption 
+      open={shareOpen}
+      close={handleShareOptionClose}
+      />
+      
 
       <Wishlist
         open={myWishlistOpen}
