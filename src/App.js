@@ -18,7 +18,9 @@ import ShareOption from "./components/ShareOption/ShareOption";
 import Button from "@material-ui/core/Button";
 import Snackbar from "./components/Small-Components/Snackbar";
 import MyAccount from "./components/Account/MyAccount";
+import CustomAlert from "./components/Alert/CustomAlert";
 import Scanner from "./components/Scanner/Scanner";
+import EditReview from "./components/MyReviews/EditReview";
 //import Review from './components/Review/Review'
 
 function App() {
@@ -35,7 +37,10 @@ function App() {
   const [myWishlistOpen, setMyWishlistOpen] = useState(false);
   const [myReviewsOpen, setMyReviewsOpen] = useState(false);
   const [userNote, setUserNote] = useState(false);
+  const [errMessage, setErrMessage] = useState(null);
   const [scannerOpen, setScannerOpen] = useState(false);
+  const [editMyReviewsOpen, setEditMyReviewsOpen] = useState(false);
+  const [singleReview, setSingleReview] = useState({});
 
   const [state, setState] = useState({
     firstName: null,
@@ -107,6 +112,22 @@ function App() {
     setShareOpen(false);
   };
 
+  const handleEditReviewOpen =  async (id) => {
+    console.log(id);
+    const selectedEditReviewId = state.currentBeerReviews.filter((beer) => {
+      return id === beer.id;
+    });
+    console.log('this is selectedEdit', selectedEditReviewId);
+    await setSingleReview(selectedEditReviewId[0])
+    console.log('single review after await', singleReview, selectedEditReviewId); 
+    setEditMyReviewsOpen(true);
+
+  };
+
+  const handleEditReviewClose = (e) => {
+    setEditMyReviewsOpen(false);
+  };
+
   const handleReviewOpen = (e) => {
     setReviewOpen(true);
   };
@@ -114,6 +135,26 @@ function App() {
   const handleReviewClose = (e) => {
     setReviewOpen(false);
   };
+
+// Delete a review from your list of My Reviews
+// const handleEditMyReview = (review_id) => {
+//   if (!state.currentUser) {
+//     setLoginOpen(true);
+//     return;
+//   }
+  
+//     return axios
+//       .get(`/api/reviews/${review_id}`)
+//       .then((res) => {
+//         setState((prev) => ({
+//           ...prev,
+//           currentBeerReviews: newBeerReview,
+//         }));
+        
+//       });
+// }
+
+
 
   // Removes the deleted beer from =the state list of currentBeer Reviews
   const removeDeletedBeerReview = (id) => {
@@ -173,12 +214,17 @@ function App() {
       email: null,
       password: null,
     }));
+    setErrMessage(null);
   };
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     console.log("Here");
 
+    if (!state.email || !state.password) {
+      setErrMessage("Please fill out both fields to login");
+      return;
+    }
     return axios
       .post("/api/login", {
         email: state.email,
@@ -193,7 +239,7 @@ function App() {
         handleLoginClose();
       })
       .catch((err) => {
-        console.log("Login Error: ", err);
+        setErrMessage("Invalid email or password");
       });
   };
 
@@ -205,6 +251,8 @@ function App() {
 
   const handleRegisterChange = (e) => {
     e.persist();
+    console.log("e.target.value", e.target.value);
+    console.log("e.target.name", e.target.name);
     setState((prev) => ({
       ...prev,
       [e.target.name]: e.target.value.trim(),
@@ -220,6 +268,7 @@ function App() {
       email: null,
       password: null,
     }));
+    setErrMessage(null);
   };
 
   useEffect(() => {
@@ -233,18 +282,27 @@ function App() {
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
+
+    if (
+      !state.firstName ||
+      !state.lastName ||
+      !state.email ||
+      !state.password ||
+      !state.passwordConfirmation
+    ) {
+      setErrMessage("Please fill out all fields");
+      return;
+    } else if (state.password !== state.passwordConfirmation) {
+      setErrMessage("Passwords do not match");
+      return;
+    }
+
     const newUser = {
       firstName: state.firstName,
       lastName: state.lastName,
       email: state.email,
       password: state.password,
     };
-
-    if (state.password !== state.passwordConfirmation) {
-      console.log("Passwords do not match");
-      return;
-    }
-
     return axios
       .post("/api/register", newUser)
       .then((data) => {
@@ -256,7 +314,7 @@ function App() {
         handleRegisterClose();
       })
       .catch((err) => {
-        console.log("Register Error: ", err);
+        setErrMessage("That email already exists");
       });
   };
 
@@ -307,26 +365,14 @@ function App() {
       });
     }
 
-    return axios
-      .get(`/api/beers/${id}`)
-      .then((data) => {
-        console.log("single beer data: ", data.reviews);
-        setState((prev) => ({
-          ...prev,
-          currentBeer: data.data.beer,
-          currentBeerReviews: data.data.reviews,
-        }));
-      })
-      .then(() => {
-        return axios.get(`/api/notes/${id}`).then((note) => {
-          if (!note.data.data) {
-            setUserNote(null);
-          } else {
-            setUserNote(note.data.data.text);
-          }
-        });
-      })
-      .catch((err) => console.log("Err: ", err));
+    return axios.get(`/api/beers/${id}`).then((data) => {
+      console.log("single beer data: ", data.reviews);
+      setState((prev) => ({
+        ...prev,
+        currentBeer: data.data.beer,
+        currentBeerReviews: data.data.reviews,
+      }));
+    });
   };
 
   const handleBeerDetailClose = (e) => {
@@ -343,6 +389,15 @@ function App() {
 
   const handleAccountOpen = (e) => {
     // Uncomment when modal is here
+    const prevFirstName = state.currentUser.first_name;
+    const prevLastName = state.currentUser.last_name;
+    const prevEmail = state.currentUser.email;
+    setState((prev) => ({
+      ...prev,
+      firstName: prevFirstName,
+      lastName: prevLastName,
+      email: prevEmail,
+    }));
     setAccuontOpen(true);
     return axios.get("/api/reviews/user").then((res) => {
       setState((prev) => ({
@@ -352,6 +407,26 @@ function App() {
     });
   };
 
+  // Handle account detail change form submit
+  const handleAccountChangeSubmit = (e) => {
+    e.preventDefault();
+    const newAccountDetails = {
+      first_name: state.firstName,
+      last_name: state.lastName,
+      email: state.email,
+      password: state.currentUser.password,
+    };
+
+    return axios
+      .put("/api/user", newAccountDetails)
+      .then((res) => {
+        setState((prev) => ({
+          ...prev,
+          currentUser: res.data.data,
+        }));
+      })
+      .catch((err) => console.log("Error Updating Account: ", err));
+  };
   // Get list of beers wishlisted by the currently logged in user
   const handleMyWishlistOpen = (e) => {
     setMyWishlistOpen(true);
@@ -547,12 +622,14 @@ function App() {
         onChange={handleLoginChange}
         handleClose={handleLoginClose}
         onSubmit={handleLoginSubmit}
+        errMessage={errMessage}
       />
       <Register
         open={registerOpen}
         onChange={handleRegisterChange}
         handleClose={handleRegisterClose}
         onSubmit={handleRegisterSubmit}
+        errMessage={errMessage}
       />
 
       <Banner />
@@ -616,6 +693,7 @@ function App() {
           userNote={userNote}
           setOpenSB={handleClickSB}
           onClick={handleBeerDetailClick}
+          setUserNote={setUserNote}
         />
       )}
       <Search
@@ -628,16 +706,12 @@ function App() {
         onClick={handleClickFromSearchResult}
       />
       <h1>TAP DAT BEER APP</h1>
-      <Review 
-      currentBeer={state.currentBeer} 
-      open={reviewOpen}
-      close={handleReviewClose}
+      <Review
+        currentBeer={state.currentBeer}
+        open={reviewOpen}
+        close={handleReviewClose}
       />
-      <ShareOption 
-      open={shareOpen}
-      close={handleShareOptionClose}
-      />
-      
+      <ShareOption open={shareOpen} close={handleShareOptionClose} />
 
       <Wishlist
         open={myWishlistOpen}
@@ -650,18 +724,33 @@ function App() {
         close={() => setMyReviewsOpen(false)}
         reviews={state.currentBeerReviews}
       />
+      <EditReview
+        open={editMyReviewsOpen}
+        close={handleEditReviewClose}
+        review={singleReview}
+      />
+
+
+
+
       <Button onClick={() => handleClickSB()}>Open simple snackbar</Button>
       <Snackbar handleClose={handleCloseSB} open={openSB} textSB={textSB} />
-      {state.currentUser && (
+      {state.firstName && state.currentUser && (
         <MyAccount
-          {...state.currentUser}
+          firstNameBeforeUpdate={state.currentUser.first_name}
+          lastNameBeforeUpdate={state.currentUser.last_name}
+          first_name={state.firstName}
+          last_name={state.lastName}
+          email={state.email}
           open={accuontOpen}
           handleClose={() => setAccuontOpen(false)}
           handleAccountChange={handleRegisterChange}
           beers={state.currentWishList}
           reviews={state.currentBeerReviews}
           handleDeleteMyReview={handleDeleteMyReview}
-
+          //handleEditMyReview={handleEditMyReview}
+          handleEditReviewOpen={handleEditReviewOpen}
+          onSubmit={handleAccountChangeSubmit}
         />
       )}
       <Scanner

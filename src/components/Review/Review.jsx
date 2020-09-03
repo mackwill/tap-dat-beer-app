@@ -68,6 +68,10 @@ export default function Review(props) {
     props.handleDeleteMyReview(props.id)
   }
 
+  // const editReviewSelect = event => {
+  //   props.handleEditReviewOpen(props.id)
+  // }
+
   return (
     <Grid item xs={11} md={6} lg={5} style={{ margin: "auto" }}>
       <Box width={0.95} m={"auto"}>
@@ -158,7 +162,7 @@ export default function Review(props) {
           </CardContent>
           <CardActions>
             <IconButton>
-              <EditIcon  />
+              <EditIcon  onClick={() => props.handleEditReviewOpen(props.id)} />
             </IconButton>
             <IconButton  >
               <DeleteIcon onClick={reviewSelect} />

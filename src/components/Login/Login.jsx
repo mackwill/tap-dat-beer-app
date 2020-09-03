@@ -6,7 +6,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
-// import CustomAlert from "../CustomAlert";
+import CustomAlert from "../Alert/CustomAlert";
 
 export default function Login(props) {
   // const handleOpen = () => {
@@ -49,7 +49,7 @@ export default function Login(props) {
               onChange={props.onChange}
             />
           </DialogContent>
-          {/* <CustomAlert errMessage={props.errMessage} /> */}
+          <CustomAlert errMessage={props.errMessage} severity={"warning"} />
           <DialogActions>
             <Button onClick={props.handleClose} color="primary">
               Cancel

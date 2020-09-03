@@ -172,6 +172,7 @@ export default function ProductDetail(props) {
                 currentUser={props.currentUser}
                 userNote={props.userNote}
                 onClick={props.onClick}
+                setUserNote={props.setUserNote}
               />
             </ListItem>
           </List>

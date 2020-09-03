@@ -44,7 +44,7 @@ export default function AccountMenuBar(props) {
         {value === 1 && props.reviews && (
           <Grid container spacing={3}>
             {props.reviews.map((review) => {
-              return <Review {...review} myReview={true} myReviews={true} handleDeleteMyReview={props.handleDeleteMyReview} />;
+              return <Review {...review} myReview={true} myReviews={true} handleDeleteMyReview={props.handleDeleteMyReview} handleEditReviewOpen={props.handleEditReviewOpen} />;
             })}
           </Grid>
         )}
