@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-
 import Dialog from "@material-ui/core/Dialog";
-import Button from "@material-ui/core/Button";
-import CloseIcon from "@material-ui/icons/Close";
 import IconButton from "@material-ui/core/IconButton";
 
 import { makeStyles } from "@material-ui/styles";
@@ -11,7 +8,6 @@ import axios from "axios";
 
 const qStyles = makeStyles((theme) => ({
   root: {
-
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
@@ -42,18 +38,16 @@ export default function Review(props) {
   };
 
   const handleClose = () => {
-    setQuestionA(null) 
-    setQuestionB(null)
-    setQuestionC(null)
-    setQuestionD(null)
-    setQuestionE(null)
-    setQuestionF(null)
-    setNewReview(null)
-    setCurrentQuestion(1)
-    props.close()
-  }
-
-
+    setQuestionA(null);
+    setQuestionB(null);
+    setQuestionC(null);
+    setQuestionD(null);
+    setQuestionE(null);
+    setQuestionF(null);
+    setNewReview(null);
+    setCurrentQuestion(1);
+    props.close();
+  };
 
   const nextAndSubmit = (id) => {
     const reviewObject = {
@@ -65,11 +59,10 @@ export default function Review(props) {
       beer_id: props.currentBeer.id,
       review: questionF,
     };
-    return axios.post("/reviews", reviewObject).then((data) => {
+    return axios.post("/api/reviews", reviewObject).then((data) => {
       console.log("Sent a review to db");
-      props.close()
+      props.close();
     });
-    
   };
 
   return (
@@ -78,27 +71,27 @@ export default function Review(props) {
         open={props.open}
         onClose={handleClose}
         aria-labelledby="form-dialog-title"
-        
-
       >
-      <IconButton
-        edge="end"
-        color="inherit"
-        onClick={handleClose}
-        aria-label="close"
-        size="small"
-        > Close
-      </IconButton>
+        <IconButton
+          edge="end"
+          color="inherit"
+          onClick={handleClose}
+          aria-label="close"
+          size="small"
+        >
+          {" "}
+          Close
+        </IconButton>
 
         {currentQuestion === 1 && (
           <Question
-          className={qs.root}
+            className={qs.root}
             question="You've had your first sip, what level of Sweetness do you taste?"
             setQuestion={setQuestionA}
             nextQuestion={nextQuestion}
           />
         )}
-        
+
         {currentQuestion === 2 && (
           <Question
             question="You've had another sip, tell me if you taste any bitterness?"
@@ -133,7 +126,6 @@ export default function Review(props) {
             finalQuestion={true}
             handleQuestionF={handleQuestionF}
             nextAndSubmit={nextAndSubmit}
-
           />
         )}
       </Dialog>

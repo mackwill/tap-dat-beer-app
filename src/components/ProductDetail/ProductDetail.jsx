@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   makeStyles,
   MuiThemeProvider,
@@ -22,6 +22,8 @@ import ShareIcon from "@material-ui/icons/Share";
 import BlankReview from "../Review/BlankReview";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import UnderBeer from "./UnderBeer";
+import { useEffect } from "react";
+import Axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {

@@ -374,17 +374,15 @@ function App() {
     // Check to see if the user has already wishlisted a beer
     // and remove it from the wishlist if they have
     if (hasUserWishlistedBeer(currentBeer.id).length > 0) {
-      return axios
-        .post("/api/wishlists/delete", {
-          beer_id: currentBeer.id,
-          user_id: currentUser.id,
-        })
-        .then((res) => {
-          const newWishList = removeDeletedBeer(currentBeer.id);
+      const wish = currentWishlist.filter(
+        (elm) => elm.id === currentBeer.id
+      )[0];
+      return axios.delete(`/api/wishlists/${wish.w_id}`).then((res) => {
+        const newWishList = removeDeletedBeer(currentBeer.id);
 
-          setCurrentWishlist(newWishList);
-          handleClickSB(`${currentBeer.name} was removed from your wishlist`);
-        });
+        setCurrentWishlist(newWishList);
+        handleClickSB(`${currentBeer.name} was removed from your wishlist`);
+      });
     }
 
     if (currentUser && currentBeer) {
