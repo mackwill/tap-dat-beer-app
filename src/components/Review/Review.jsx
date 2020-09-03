@@ -70,7 +70,7 @@ export default function Review(props) {
               mb={0.5}
               justifyContent="space-between"
             >
-              {!props.myReviews && (
+              {!props.myReviews && props.first_name && (
                 <Box component="div" display="flex" alignItems="center">
                   <Avatar className={classes.mainBlue}>
                     {props.first_name[0]}
