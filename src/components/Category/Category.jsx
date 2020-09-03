@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
   },
   titleBar: {
+    marginTop: "0.5rem",
     background:
       "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
   },
@@ -97,8 +98,19 @@ export default function Category(props) {
                 component="a"
                 href="JavaScript:void(0);"
                 onClick={() => props.onClick(beer.id)}
+                style={{
+                  border: "2px solid black",
+                  borderRadius: "10px",
+                  marginLeft: "0.2rem",
+                  marginRight: "0.2rem",
+                }}
               >
-                <img id={beer.id} src={beer.beer_image} onError={imgError} />
+                <img
+                  style={{ borderRadius: "10px" }}
+                  id={beer.id}
+                  src={beer.beer_image}
+                  onError={imgError}
+                />
 
                 <Box id={beer.id}>
                   <GridListTileBar
