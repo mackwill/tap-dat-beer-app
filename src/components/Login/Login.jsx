@@ -1,22 +1,17 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogContentText from "@material-ui/core/DialogContentText";
-import DialogTitle from "@material-ui/core/DialogTitle";
+import {
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@material-ui/core";
+
 import CustomAlert from "../Alert/CustomAlert";
 
 export default function Login(props) {
-  // const handleOpen = () => {
-  //   setOpen(true);
-  // };
-
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
-
   return (
     <div>
       <Dialog
@@ -30,6 +25,7 @@ export default function Login(props) {
           </DialogTitle>
           <DialogContent>
             <TextField
+              required
               autoFocus
               margin="dense"
               id="name"
@@ -39,7 +35,9 @@ export default function Login(props) {
               fullWidth
               onChange={props.onChange}
             />
+
             <TextField
+              required
               margin="dense"
               id="name"
               label="Password"

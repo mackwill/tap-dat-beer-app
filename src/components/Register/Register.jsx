@@ -9,6 +9,15 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import CustomAlert from "../Alert/CustomAlert";
 
 export default function Register(props) {
+  let errorMsg = "";
+  const submitForm = () => {
+    if (props.state.password !== props.state.passwordConfirmation) {
+      errorMsg = "Password do not match";
+      return;
+    } else {
+      props.onSubmit();
+    }
+  };
   return (
     <div>
       <Dialog
@@ -16,7 +25,7 @@ export default function Register(props) {
         onClose={props.handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <form onSubmit={props.onSubmit}>
+        <form onSubmit={submitForm}>
           <DialogTitle id="form-dialog-title">Sign Up!</DialogTitle>
           <DialogContent>
             <TextField
@@ -27,6 +36,7 @@ export default function Register(props) {
               type="text"
               name="firstName"
               fullWidth
+              value={props.state.firstName}
               onChange={props.onChange}
             />
             <TextField
@@ -36,6 +46,7 @@ export default function Register(props) {
               type="text"
               name="lastName"
               fullWidth
+              value={props.state.lastName}
               onChange={props.onChange}
             />
             <TextField
@@ -45,6 +56,7 @@ export default function Register(props) {
               type="email"
               name="email"
               fullWidth
+              value={props.state.email}
               onChange={props.onChange}
             />
             <TextField
@@ -55,6 +67,7 @@ export default function Register(props) {
               name="password"
               fullWidth
               onChange={props.onChange}
+              value={props.state.password}
             />
             <TextField
               margin="dense"
@@ -64,10 +77,11 @@ export default function Register(props) {
               name="passwordConfirmation"
               fullWidth
               onChange={props.onChange}
+              value={props.state.passwordConfirmation}
+              helperText={errorMsg}
             />
           </DialogContent>
           <CustomAlert errMessage={props.errMessage} severity="warning" />
-
           <DialogActions>
             <Button onClick={props.handleClose} color="primary">
               Cancel

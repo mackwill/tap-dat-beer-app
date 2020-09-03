@@ -2,20 +2,19 @@ import { useEffect, useReducer } from "react";
 import axios from "axios";
 
 // Case variables
-const SET_TOP_10_RATED_BEERS = "SET_TOP_10_RATED_BEERS";
-const SET_TOP_10_REVIEWED_BEERS = "SET_TOP_10_REVIEWED_BEERS";
-const SET_RECENTLY_SEEN = "SET_RECENTLY_SEEN";
-const SET_RECOMMENDED = "SET_RECOMMENDED";
-const SET_BEER_DATA = "SET_BEER_DATA";
 const SET_VISITOR_BEER_DATA = "SET_VISITOR_BEER_DATA";
 const SET_CURRENT_USER = "SET_CURRENT_USER";
 const SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE";
+const SET_USER_BEER_DATA = "SET_USER_BEER_DATA";
 const reducer = (state, action) => {
   switch (action.type) {
     case SET_CURRENT_USER: {
       return { ...state, currentUser: action.value };
     }
     case SET_VISITOR_BEER_DATA: {
+      return { ...state, ...action.value };
+    }
+    case SET_USER_BEER_DATA: {
       return { ...state, ...action.value };
     }
     case SET_ERROR_MESSAGE: {
@@ -28,6 +27,7 @@ const reducer = (state, action) => {
   }
 };
 
+
 export default function useApplicationData() {
   const [state, dispatch] = useReducer(reducer, {
     top10RatedBeers: [],
@@ -35,6 +35,9 @@ export default function useApplicationData() {
     recommendedBeers: [],
     recentlyViewed: [],
     beerCategories: [],
+    currentBeer: null,
+    currentBeerReviews: [],
+    currentWishlist: [],
     currentUser: null,
     errMessage: null,
   });
@@ -95,33 +98,83 @@ export default function useApplicationData() {
       });
   };
 
-  // useEffect(() => {
-  //   Promise.all([
-  //     Promise.resolve(axios.get("/api/wishlists")),
-  //     Promise.resolve(axios.get("/api/beers/recommendations")),
-  //     Promise.resolve(axios.get("/api/beers/recently")),
-  //   ])
-  //     .then((all) => {
-  //       setCurrentWishlist(all[0].data.data);
-  //       setRecommendedBeers(all[1].data.data);
-  //       setRecentlyViewed(all[2].data.data);
-  //     })
-  //     .then((res) => {
-  //       return axios.get("/api/beers/recommendations");
-  //     })
-  //     .then((res) => {
-  //       console.log("res recommendation: ", res);
-  //       // setState((prev) => ({
-  //       //   ...prev,
-  //       //   recommendedBeers: [...res.data.data],
-  //       // }));
-  //     })
-  //     .catch((err) => {
-  //       console.log("Error getting beers: ", err);
-  //     });
-  // }, [currentUser]);
+  useEffect(() => {
+    Promise.all([
+      Promise.resolve(axios.get("/api/beers/recommendations")),
+      Promise.resolve(axios.get("/api/beers/recently")),
+      Promise.resolve(axios.get("/api/wishlists")),
+    ])
+      .then((all) => {
+        console.log("all data: ", all);
+        dispatch({
+          type: SET_USER_BEER_DATA,
+          value: {
+            recommendedBeers: all[0].data.data,
+            recentlyViewed: all[1].data.data,
+            currentWishlist: all[2].data.data,
+          },
+        });
+      })
+      .catch((err) => {
+        console.log("Error getting beers: ", err);
+      });
+  }, [state.currentUser]);
 
-  // put all of our state handling shit in here
+  const removeDeletedBeer = (id) => {
+    const filteredList = state.currentWishlist.filter((beer) => {
+      return id !== beer.id;
+    });
+    return filteredList;
+  };
 
-  return { ...state, submitLoginData };
+  const deleteBeerFromWishlist = (wishlist_id, currentBeer) => {
+    return axios.delete(`/api/wishlists/${wishlist_id}`).then((res) => {
+      const newWishList = removeDeletedBeer(currentBeer.id);
+      dispatch({
+        type: "SET_USER_BEER_DATA",
+        value: newWishList,
+      });
+    });
+  };
+
+  const addBeerToWishlist = (beer_id, currentBeer) => {
+    return axios
+      .post("/api/wishlists", beer_id)
+      .then((res) => {
+        const newWishList = [...state.currentWishlist, currentBeer];
+        dispatch({
+          type: SET_USER_BEER_DATA,
+          value: newWishList,
+        });
+      })
+      .catch((err) => console.log("err, ", err));
+  };
+
+  const setClickedBeerToCurrent = async (id) => {
+    const selectedBeer = await axios.get(`/api/beers/${id}`);
+    const reviewsOfSelectedBeer = await axios.get(`/api/reviews/beers/${id}`);
+    dispatch({
+      type: SET_VISITOR_BEER_DATA,
+      value: {
+        currentBeer: selectedBeer,
+        currentBeerReviews: reviewsOfSelectedBeer,
+      },
+    });
+  };
+
+  const getReviewsForSingleUser = () => {
+    const reviews = await axios.get("/api/reviews/user")
+    dispatch({
+      type: SET_USER_BEER_DATA,
+      value: res.data.data
+    })
+  }
+
+  return {
+    ...state,
+    submitLoginData,
+    addBeerToWishlist,
+    deleteBeerFromWishlist,
+    setClickedBeerToCurrent,
+  };
 }
