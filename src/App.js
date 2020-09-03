@@ -496,8 +496,6 @@ function App() {
         currentUser={currentUser}
         handleLogout={handleLogout}
         handleAccountOpen={handleAccountOpen}
-        handleMyWishlistOpen={handleMyWishlistOpen}
-        handleMyReviewsOpen={handleMyReviewsOpen}
         handleScannerOpen={handleScannerOpen}
       />
       <Login
