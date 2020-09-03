@@ -258,8 +258,6 @@ function App() {
       userId = currentUser.id;
     }
 
-    console.log("id here:", id);
-
     if (isBeerInRecentlyViewedList(id).length === 0) {
       console.log("thijierotiejotjeroitjeorijt");
       await axios.post("/api/search/analytics", {
@@ -267,14 +265,10 @@ function App() {
         beer_id: id,
       });
     }
-
-    return axios
-      .get(`/api/beers/${id}`)
-      .then((res) => {
-        setCurrentBeer(res.data.beer);
-        return res.data.reviews;
-      })
-      .then((reviews) => setCurrentBeerReviews(reviews));
+    const selectedBeer = await axios.get(`/api/beers/${id}`);
+    const reviewsOfSelectedBeer = await axios.get(`/api/reviews/beers/${id}`);
+    setCurrentBeer(selectedBeer.data.beer);
+    setCurrentBeerReviews(reviewsOfSelectedBeer.data);
   };
 
   const handleBeerDetailClose = (e) => {

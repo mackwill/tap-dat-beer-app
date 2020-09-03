@@ -99,8 +99,14 @@ export default function FullScreenDialog(props) {
         } else {
           setPageNumber(null);
         }
-        setSearchResults((prev) => [...prev, data.data.results]);
+        const newResults = [...searchResults, ...data.data.results];
+        setSearchResults(newResults);
       });
+  };
+
+  const close = () => {
+    props.close();
+    setSearchResults([]);
   };
 
   return (
@@ -117,7 +123,7 @@ export default function FullScreenDialog(props) {
               <IconButton
                 edge="start"
                 color="inherit"
-                onClick={props.close}
+                onClick={close}
                 aria-label="close"
               >
                 <CloseIcon />
