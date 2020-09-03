@@ -30,7 +30,6 @@ export default function Scanner(props) {
   };
 
   const resultsReady = (error, results) => {
-    console.log("results Top:", results[0].label);
     if (error) {
       console.log("error", error);
     }
