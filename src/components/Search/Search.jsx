@@ -56,7 +56,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function FullScreenDialog(props) {
   const [searchResults, setSearchResults] = useState([]);
   const [popularSearch, setPopularSearch] = useState([]);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(0);
   const classes = useStyles();
 
   const onChangeSearch = (e) => {
@@ -71,6 +71,7 @@ export default function FullScreenDialog(props) {
   }, []);
 
   useEffect(() => {
+    setPageNumber(1);
     axios
       .get(
         `/api/search?q=${encodeURI(
