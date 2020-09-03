@@ -30,7 +30,6 @@ export default function Scanner(props) {
   };
 
   const resultsReady = (error, results) => {
-    console.log("results Top:", results[0].label);
     if (error) {
       console.log("error", error);
     }
@@ -38,7 +37,7 @@ export default function Scanner(props) {
       beersId[results[0].label]++;
     }
     if (Object.values(beersId).some((elm) => elm > 30)) {
-      props.openBeer(Number(results[0].label) + 3);
+      props.openBeer(Number(results[0].label));
       props.handleClose();
 
       return;
