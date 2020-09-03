@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment } from "react";
-import logo from "./logo.svg";
 import Navbar from "./components/Navbar/Navbar";
 import Login from "./components/Login/Login";
 import axios from "axios";
@@ -248,6 +247,10 @@ function App() {
     });
   };
 
+  const handleReviewSubmit = () => {
+    handleClickSB(`You just made a review`);
+  };
+
   const handleClickFromSearchResult = (id) => {
     handleBeerDetailClick(id);
 
@@ -283,7 +286,6 @@ function App() {
         beer_id: id,
       });
     }
-
     return axios
       .get(`/api/beers/${id}`)
       .then((res) => {
@@ -591,6 +593,7 @@ function App() {
         currentBeer={currentBeer}
         open={reviewOpen}
         close={handleReviewClose}
+        handleReviewSubmit={handleReviewSubmit}
       />
       <ShareOption open={shareOpen} close={handleShareOptionClose} />
 
