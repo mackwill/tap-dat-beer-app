@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   makeStyles,
   MuiThemeProvider,
@@ -6,7 +6,6 @@ import {
 } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
@@ -17,9 +16,7 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import { Box, Grid } from "@material-ui/core";
-import Review from "../Review/Review";
 import ShareIcon from "@material-ui/icons/Share";
-import BlankReview from "../Review/BlankReview";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import UnderBeer from "./UnderBeer";
 

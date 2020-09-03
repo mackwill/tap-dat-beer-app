@@ -1,24 +1,9 @@
 import React from "react";
-import Button from "@material-ui/core/Button";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
 export default function SimpleSnackbar(props) {
-  // const [openSB, setOpenSB] = React.useState(false);
-
-  // const handleClick = () => {
-  //   setOpenSB(true);
-  // };
-
-  // const handleCloseSB = (event, reason) => {
-  //   if (reason === "clickaway") {
-  //     return;
-  //   }
-
-  //   setOpenSB(false);
-  // };
-  console.log("made it to component");
   return (
     <div>
       <Snackbar
@@ -27,7 +12,7 @@ export default function SimpleSnackbar(props) {
           horizontal: "left",
         }}
         open={props.open}
-        autoHideDuration={6000}
+        autoHideDuration={4000}
         onClose={props.handleClose}
         message={props.textSB}
         action={

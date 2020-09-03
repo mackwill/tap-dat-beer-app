@@ -4,24 +4,16 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
-import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import MenuIcon from "@material-ui/icons/Menu";
 import SearchIcon from "@material-ui/icons/Search";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
-import NotificationsIcon from "@material-ui/icons/Notifications";
-import MoreIcon from "@material-ui/icons/MoreVert";
 import { createMuiTheme } from "@material-ui/core/styles";
 import PersonAddIcon from "@material-ui/icons/PersonAdd";
 import LockOpenIcon from "@material-ui/icons/LockOpen";
 import Box from "@material-ui/core/Box";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import SettingsIcon from "@material-ui/icons/Settings";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import SpeakerNotesIcon from "@material-ui/icons/SpeakerNotes";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 
 const theme = createMuiTheme({
@@ -49,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(2),
   },
   title: {
-    display: "none",
+    display: "block",
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
@@ -77,6 +69,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    color: "#fff",
+    paddingLeft: "0.4rem",
+    paddingRight: "0.4rem",
   },
   inputRoot: {
     color: "inherit",
@@ -99,16 +94,20 @@ const useStyles = makeStyles((theme) => ({
   },
   sectionMobile: {
     display: "flex",
+    alignContent: "center",
     [theme.breakpoints.up("md")]: {
       display: "none",
     },
+  },
+  menuItemText: {
+    margin: 0,
   },
 }));
 
 export default function PrimarySearchAppBar(props) {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -129,6 +128,35 @@ export default function PrimarySearchAppBar(props) {
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
+
+  const handleMenuItemClick = (action) => {
+    switch (action) {
+      case "login":
+        props.handleLoginOpen();
+        break;
+      case "register":
+        props.handleRegisterOpen();
+        break;
+      case "account":
+        props.handleAccountOpen();
+        break;
+      case "scanner":
+        props.handleScannerOpen();
+        break;
+      case "logout":
+        props.handleLogout();
+        break;
+      case "search":
+        props.handleSearchOpen();
+        break;
+    }
+
+    setMobileMoreAnchorEl(null);
+    setAnchorEl(null);
+  };
+  // const handleMenuItemClick = () => {
+  //   props.hand
+  // }
 
   let visitorShow = "block";
   let userShow = "none";
@@ -165,19 +193,19 @@ export default function PrimarySearchAppBar(props) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={props.handleScannerOpen}>
+      <MenuItem onClick={() => handleMenuItemClick("scanner")}>
         <IconButton
-          aria-label="register new user"
+          aria-label="scanner"
           aria-controls="primary-search-account-menu"
           aria-haspopup="true"
           color="inherit"
         >
           <CameraAltIcon />
         </IconButton>
-        <p>Scanner</p>
+        <p className={classes.menuItemText}>Scanner</p>
       </MenuItem>
       <Box display={visitorShow}>
-        <MenuItem onClick={props.handleRegisterOpen}>
+        <MenuItem onClick={() => handleMenuItemClick("register")}>
           <IconButton
             aria-label="register new user"
             aria-controls="primary-search-account-menu"
@@ -186,9 +214,9 @@ export default function PrimarySearchAppBar(props) {
           >
             <PersonAddIcon />
           </IconButton>
-          <p>Register</p>
+          <p className={classes.menuItemText}>Register</p>
         </MenuItem>
-        <MenuItem onClick={props.handleLoginOpen}>
+        <MenuItem onClick={() => handleMenuItemClick("login")}>
           <IconButton
             aria-label="login user"
             aria-controls="primary-search-account-menu"
@@ -197,11 +225,11 @@ export default function PrimarySearchAppBar(props) {
           >
             <LockOpenIcon />
           </IconButton>
-          <p>Login</p>
+          <p className={classes.menuItemText}>Login</p>
         </MenuItem>
       </Box>
       <Box display={userShow}>
-        <MenuItem onClick={props.handleAccountOpen}>
+        <MenuItem onClick={() => handleMenuItemClick("account")}>
           <IconButton
             aria-label="account of current user"
             aria-controls="primary-search-account-menu"
@@ -210,9 +238,9 @@ export default function PrimarySearchAppBar(props) {
           >
             <AccountCircle />
           </IconButton>
-          <p>My Account</p>
+          <p className={classes.menuItemText}>My Account</p>
         </MenuItem>
-        <MenuItem onClick={props.handleLogout}>
+        <MenuItem onClick={() => handleMenuItemClick("logout")}>
           <IconButton
             aria-label="logout user"
             aria-controls="primary-search-account-menu"
@@ -221,7 +249,7 @@ export default function PrimarySearchAppBar(props) {
           >
             <ExitToAppIcon />
           </IconButton>
-          <p>Logout</p>
+          <p className={classes.menuItemText}>Logout</p>
         </MenuItem>
       </Box>
     </Menu>
@@ -230,84 +258,96 @@ export default function PrimarySearchAppBar(props) {
   return (
     <div className={classes.grow}>
       <MuiThemeProvider theme={theme}>
-        <AppBar position="static">
+        <AppBar position="fixed">
           <Toolbar>
-            <IconButton
-              edge="start"
-              className={classes.menuButton}
-              color="inherit"
-              aria-label="open drawer"
+            <Box
+              width={1}
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
             >
-              <MenuIcon />
-            </IconButton>
-            <Typography className={classes.title} variant="h6" noWrap>
-              Tap Dat
-            </Typography>
-            <IconButton onClick={props.handleSearchOpen}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
-            </IconButton>
-            <div className={classes.grow} />
-            <div className={classes.sectionDesktop}>
-              <Box display={visitorShow}>
-                <IconButton
-                  edge="end"
-                  aria-label="register new user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={props.handleRegisterOpen}
-                  color="inherit"
-                >
-                  <PersonAddIcon />
+              <Typography className={classes.title} variant="h6">
+                Tap Dat
+              </Typography>
+              <Box display={"flex"}>
+                <IconButton onClick={() => handleMenuItemClick("search")}>
+                  <div className={classes.searchIcon}>
+                    <SearchIcon />
+                  </div>
                 </IconButton>
-                <IconButton
-                  edge="end"
-                  aria-label="login user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={props.handleLoginOpen}
-                  color="inherit"
-                >
-                  <LockOpenIcon />
-                </IconButton>
+                <div className={classes.grow} />
+                <div className={classes.sectionDesktop}>
+                  <IconButton
+                    aria-label="scanner"
+                    aria-controls="primary-search-account-menu"
+                    aria-haspopup="true"
+                    color="inherit"
+                    onClick={() => handleMenuItemClick("scanner")}
+                  >
+                    <CameraAltIcon />
+                  </IconButton>
+
+                  <Box display={visitorShow}>
+                    <IconButton
+                      edge="end"
+                      aria-label="register new user"
+                      aria-controls={menuId}
+                      aria-haspopup="true"
+                      onClick={() => handleMenuItemClick("register")}
+                      color="inherit"
+                    >
+                      <PersonAddIcon />
+                    </IconButton>
+                    <IconButton
+                      edge="end"
+                      aria-label="login user"
+                      aria-controls={menuId}
+                      aria-haspopup="true"
+                      onClick={() => handleMenuItemClick("login")}
+                      color="inherit"
+                    >
+                      <LockOpenIcon />
+                    </IconButton>
+                  </Box>
+                  <Box display={userShow}>
+                    <IconButton
+                      edge="end"
+                      aria-label="account of current  user"
+                      aria-controls={menuId}
+                      aria-haspopup="true"
+                      onClick={() => handleMenuItemClick("account")}
+                      color="inherit"
+                    >
+                      <AccountCircle />
+                    </IconButton>
+                    <IconButton
+                      edge="end"
+                      aria-label="logout user"
+                      aria-controls={menuId}
+                      aria-haspopup="true"
+                      onClick={() => handleMenuItemClick("logout")}
+                      color="inherit"
+                    >
+                      <ExitToAppIcon />
+                    </IconButton>
+                  </Box>
+                </div>
+                <div className={classes.sectionMobile}>
+                  <IconButton
+                    aria-label="show more"
+                    aria-controls={mobileMenuId}
+                    aria-haspopup="true"
+                    onClick={handleMobileMenuOpen}
+                    color="inherit"
+                  >
+                    <MenuIcon />
+                  </IconButton>
+                </div>
               </Box>
-              <Box display={userShow}>
-                <IconButton
-                  edge="end"
-                  aria-label="account of current  user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={props.handleAccountOpen}
-                  color="inherit"
-                >
-                  <AccountCircle />
-                </IconButton>
-                <IconButton
-                  edge="end"
-                  aria-label="logout user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={props.handleLogout}
-                  color="inherit"
-                >
-                  <ExitToAppIcon />
-                </IconButton>
-              </Box>
-            </div>
-            <div className={classes.sectionMobile}>
-              <IconButton
-                aria-label="show more"
-                aria-controls={mobileMenuId}
-                aria-haspopup="true"
-                onClick={handleMobileMenuOpen}
-                color="inherit"
-              >
-                <MoreIcon />
-              </IconButton>
-            </div>
+            </Box>
           </Toolbar>
         </AppBar>
+        <Toolbar />
       </MuiThemeProvider>
       {renderMobileMenu}
       {renderMenu}

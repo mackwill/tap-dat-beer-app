@@ -1,15 +1,11 @@
 import React from "react";
 import Dialog from "@material-ui/core/Dialog";
-
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
-
 import Results from "../Search/Results";
-import SearchBar from "../Search/SearchBar";
 import {
   makeStyles,
   MuiThemeProvider,
@@ -51,12 +47,7 @@ export default function Wishlist(props) {
   return (
     <MuiThemeProvider theme={theme}>
       <div>
-        <Dialog
-          fullScreen
-          open={props.open}
-          // onClose={props.close}
-          TransitionComponent={Transition}
-        >
+        <Dialog fullScreen open={props.open} TransitionComponent={Transition}>
           <AppBar className={classes.appBar}>
             <Toolbar>
               <IconButton

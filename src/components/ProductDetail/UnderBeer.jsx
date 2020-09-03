@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
@@ -6,7 +6,6 @@ import Tab from "@material-ui/core/Tab";
 import Notes from "./Notes";
 import Axios from "axios";
 
-import SimilarBeer from "./SimilarBeer";
 import SimilarBeer_v2 from "./SimilarBeer_v2";
 import UserReviews from "./UserReviews";
 
@@ -20,15 +19,23 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleTabs(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const [similarBeers, setSimilarBeers] = useState([]);
+  const [personalNotes, setPersonalNotes] = useState("");
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  const [personalNotes, setPersonalNotes] = useState("");
 
   const handlePersonalNotes = (e) => {
     setPersonalNotes(e.target.value);
   };
+
+  const getSimilarBeers = () => {
+    return Axios.get(
+      `/api/beers/similar/${props.currentBeer.id}`
+    ).then((data) => setSimilarBeers(data.data.data));
+  };
+
   const saveNote = () => {
     const notes = { text: personalNotes, beer_id: props.currentBeer.id };
     return Axios.post("/api/notes", notes)
@@ -37,6 +44,7 @@ export default function SimpleTabs(props) {
       })
       .catch((e) => null);
   };
+
   const getNote = () => {
     const id = props.currentBeer.id;
     return Axios.get(`/api/notes/${id}`).then((note) => {
@@ -53,7 +61,7 @@ export default function SimpleTabs(props) {
       <AppBar position="static">
         <Tabs value={value} onChange={handleChange}>
           <Tab label="Reviews" />
-          <Tab label="Similar Beers" />
+          <Tab label="Similar Beers" onClick={() => getSimilarBeers()} />
           {props.currentUser && (
             <Tab label="Personal Notes" onClick={() => getNote()} />
           )}
@@ -66,6 +74,7 @@ export default function SimpleTabs(props) {
           onClick={props.onClick}
           beers={props.beers}
           currentBeer={props.currentBeer}
+          similarBeers={similarBeers}
         />
       )}
       {value === 2 && (
