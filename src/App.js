@@ -724,11 +724,11 @@ function App() {
         close={() => setMyReviewsOpen(false)}
         reviews={state.currentBeerReviews}
       />
-      <EditReview
+      {Object.keys(singleReview).length && <EditReview
         open={editMyReviewsOpen}
         close={handleEditReviewClose}
         review={singleReview}
-      />
+      />}
 
 
 

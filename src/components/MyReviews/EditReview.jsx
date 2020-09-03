@@ -10,43 +10,26 @@ import Divider from "@material-ui/core/Divider";
 import axios from "axios";
 // import CustomAlert from "../CustomAlert";
 
-
+const inputProps = {
+  step: 300,
+};
 
 export default function EditReview(props) {
   console.log("props in Edit REview ", props.review);
   
-  const [state, setState] = useState({
-    bitter: null,
-    sour: null,
-    hoppy: null,
-    rank: props.review?.sweet,
-    review: props.review?.review,
-    id: props.review?.id,
-  })
+  const [review, setReview] = useState(props.review)
 
-    function handleChange(e) {
-      setState(() => ({
-        
-        bitter: e.target.value,
-        
-      }));
-    }
-
-  const editAndSubmit = (props) => {
-    const reviewEdit = {
-      sweet: props.review.sweet,
-      sour: props.review.sour,
-      hoppy: props.review.hoppy,
-      bitter: props.review.bitter,
-      rank: props.review.sweet,
-      review: props.review.review,
-      id: props.review.id,
+    const handleChange = (event) => {
+      setReview({ ...review, [event.target.name]: event.target.value });
     };
-    return axios.put("/api/reviews/", reviewEdit).then((data) => {
-      console.log("Sent a review to db", reviewEdit);
+
+
+  const editAndSubmit = (event) => {
+    event.preventDefault()
+    return axios.put("/api/reviews/", review).then((data) => {
+      console.log("Sent a review to db", review);
       props.close()
     });
-    
   };
 
 
@@ -57,7 +40,7 @@ export default function EditReview(props) {
         onClose={props.close}
         aria-labelledby="form-dialog-title"
       >
-        <form onSubmit={props.onSubmit}>
+        <form onSubmit={editAndSubmit}>
           <DialogTitle id="form-dialog-title">
             Update Your Review
           </DialogTitle>
@@ -69,7 +52,7 @@ export default function EditReview(props) {
               label="Current Sweetness:"
               type="number"
               name="sweet"
-              value={props.review?.sweet}
+              value={review.sweet}
               fullWidth
               onChange={handleChange}
             />
@@ -79,7 +62,7 @@ export default function EditReview(props) {
               label="Current Bitterness:"
               type="number"
               name="bitter"
-              value={props.review?.bitter}
+              value={review.bitter}
               fullWidth
               onChange={handleChange}
             />
@@ -89,9 +72,9 @@ export default function EditReview(props) {
               label="Current Hoppiness"
               type="number"
               name="hoppy"
-              value={props.review?.hoppy}
+              value={review.hoppy}
               fullWidth
-              onChange={props.onChange}
+              onChange={handleChange}
             />
             <TextField
               margin="dense"
@@ -99,9 +82,9 @@ export default function EditReview(props) {
               label="Current Sourness"
               type="number"
               name="sour"
-              value={props.review?.sour}
+              value={review.sour}
               fullWidth
-              //onChange={props.onChange}
+              onChange={handleChange}
             />
             <TextField
               margin="dense"
@@ -109,19 +92,21 @@ export default function EditReview(props) {
               label="Current Rank"
               type="number"
               name="rank"
-              value={props.review?.rank}
+              value={review.rank}
               fullWidth
-              //onChange={props.onChange}
+              onChange={handleChange}
             />
             <TextField
-              margin="dense"
-              id="review"
-              label="Review:"
+            inputProps={{size: 80}}
+              //margin="dense"
+              id="outlined-basic"
+              variant="outlined"
+              label=""
               type="text"
               name="review"
-              value={props.review?.review}
-              fullWidth
-              //onChange={props.onChange}
+              value={review.review}
+              //fullWidth
+              onChange={handleChange}
             />
           </DialogContent>
           {/* <CustomAlert errMessage={props.errMessage} /> */}
@@ -138,6 +123,4 @@ export default function EditReview(props) {
       </Dialog>
     </div>
   );
-}
-
-//onClick={() => editAndSubmit()}
+  }
