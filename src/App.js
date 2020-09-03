@@ -237,7 +237,7 @@ function App() {
   };
 
   const handleLogout = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     console.log("Logout clicked");
     return axios.post("/api/logout").then((data) => {
