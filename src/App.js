@@ -248,6 +248,7 @@ function App() {
   };
 
   const handleBeerDetailClick = async (id) => {
+    console.log("id: ", id);
     setBeerDetailOpen(true);
     let userId = null;
     if (currentUser) {
@@ -290,6 +291,7 @@ function App() {
     setTimeout(() => {
       setCurrentBeer(null);
       setCurrentBeerReviews([]);
+      setSimilarBeers([]);
     }, 300);
   };
 
@@ -325,17 +327,6 @@ function App() {
         setCurrentUser(res.data.data);
       })
       .catch((err) => console.log("Error Updating Account: ", err));
-  };
-  // Get list of beers wishlisted by the currently logged in user
-  const handleMyWishlistOpen = (e) => {
-    setMyWishlistOpen(true);
-
-    return axios
-      .get("/api/wishlists")
-      .then((res) => {
-        setCurrentWishlist(res.data.data);
-      })
-      .catch((err) => console.log("Error: ", err));
   };
 
   // Check if user has already wishlisted that beer
