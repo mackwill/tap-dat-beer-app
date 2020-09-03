@@ -27,7 +27,6 @@ const reducer = (state, action) => {
   }
 };
 
-
 export default function useApplicationData() {
   const [state, dispatch] = useReducer(reducer, {
     top10RatedBeers: [],
@@ -151,24 +150,28 @@ export default function useApplicationData() {
   };
 
   const setClickedBeerToCurrent = async (id) => {
-    const selectedBeer = await axios.get(`/api/beers/${id}`);
-    const reviewsOfSelectedBeer = await axios.get(`/api/reviews/beers/${id}`);
-    dispatch({
-      type: SET_VISITOR_BEER_DATA,
-      value: {
-        currentBeer: selectedBeer,
-        currentBeerReviews: reviewsOfSelectedBeer,
-      },
+    Promise.all([
+      Promise.resolve(axios.get(`/api/beers/${id}`)),
+      Promise.resolve(axios.get(`/api/reviews/beers/${id}`)),
+    ]).then((all) => {
+      console.log("all:", all);
+      dispatch({
+        type: SET_VISITOR_BEER_DATA,
+        value: {
+          currentBeer: all[0].data.beer,
+          currentBeerReviews: all[0].data.reviews,
+        },
+      });
     });
   };
 
-  const getReviewsForSingleUser = () => {
-    const reviews = await axios.get("/api/reviews/user")
+  const getReviewsForSingleUser = async () => {
+    const reviews = await axios.get("/api/reviews/user");
     dispatch({
       type: SET_USER_BEER_DATA,
-      value: res.data.data
-    })
-  }
+      value: reviews,
+    });
+  };
 
   return {
     ...state,
@@ -176,5 +179,6 @@ export default function useApplicationData() {
     addBeerToWishlist,
     deleteBeerFromWishlist,
     setClickedBeerToCurrent,
+    getReviewsForSingleUser,
   };
 }

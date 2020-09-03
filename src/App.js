@@ -292,9 +292,9 @@ function App() {
       email: prevEmail,
     }));
     setAccuontOpen(true);
-    return axios.get("/api/reviews/user").then((res) => {
-      setCurrentBeerReviews(res.data.data);
-    });
+    // return axios.get("/api/reviews/user").then((res) => {
+    //   setCurrentBeerReviews(res.data.data);
+    // });
   };
 
   // Handle account detail change form submit
