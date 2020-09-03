@@ -29,8 +29,7 @@ function App() {
   const [accuontOpen, setAccuontOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [popularSearch, setPopularSearch] = useState([]);
+
   const [reviewOpen, setReviewOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const [myWishlistOpen, setMyWishlistOpen] = useState(false);
@@ -86,19 +85,13 @@ function App() {
     const beerListCategory = beers.filter((beer) => beer.type === category);
     return beerListCategory;
   };
-  const onChangeSearch = (e) => {
-    setSearchQuery(e.target.value);
-  };
 
   const handleSearchOpen = (e) => {
     setSearchOpen(true);
-    return axios
-      .get("/api/search/analytics")
-      .then((data) => setPopularSearch(data.data.finalData))
-      .catch((e) => null);
   };
   const handleSearchClose = (e) => {
     setSearchOpen(false);
+    setSearchQuery("");
   };
 
   const handleShareOptionOpen = (e) => {
@@ -191,15 +184,6 @@ function App() {
     }));
     setErrMessage(null);
   };
-
-  useEffect(() => {
-    axios
-      .get(`/api/search?q=${encodeURI(searchQuery)}`)
-      .then((data) => {
-        setSearchResults(data.data.data);
-      })
-      .catch((e) => console.log("Error on search query:", e));
-  }, [searchQuery]);
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
@@ -577,12 +561,10 @@ function App() {
         />
       )}
       <Search
-        popularSearch={popularSearch}
-        onChangeSearch={onChangeSearch}
         searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
         open={searchOpen}
         close={handleSearchClose}
-        searchResults={searchResults}
         onClick={handleClickFromSearchResult}
       />
       <Review

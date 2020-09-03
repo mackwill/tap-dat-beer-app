@@ -30,6 +30,11 @@ export default function TitlebarGridList(props) {
       <List>
         <ListSubheader component="div">{props.title}</ListSubheader>
         {searchresultsList}
+        {props.pageNumber && (
+          <ListItem button onClick={props.loadMore}>
+            <ListItemText primary="Load more" />
+          </ListItem>
+        )}
       </List>
     </>
   );
