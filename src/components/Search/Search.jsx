@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Dialog from "@material-ui/core/Dialog";
-
+import Avatar from "@material-ui/core/Avatar";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItem from "@material-ui/core/ListItem";
+import Divider from "@material-ui/core/Divider";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import List from "@material-ui/core/List";
+import LocalDrinkIcon from "@material-ui/icons/LocalDrink";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -10,6 +17,7 @@ import Slide from "@material-ui/core/Slide";
 
 import Results from "../Search/Results";
 import SearchBar from "../Search/SearchBar";
+import axios from "axios";
 import {
   makeStyles,
   MuiThemeProvider,
@@ -46,7 +54,60 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function FullScreenDialog(props) {
+  const [searchResults, setSearchResults] = useState([]);
+  const [popularSearch, setPopularSearch] = useState([]);
+  const [pageNumber, setPageNumber] = useState(1);
   const classes = useStyles();
+
+  const onChangeSearch = (e) => {
+    props.setSearchQuery(e.target.value);
+  };
+
+  useEffect(() => {
+    return axios
+      .get("/api/search/analytics")
+      .then((data) => setPopularSearch(data.data.finalData))
+      .catch((e) => null);
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get(
+        `/api/search?q=${encodeURI(
+          props.searchQuery
+        )}&page=${pageNumber}&limit=10`
+      )
+      .then((data) => {
+        setSearchResults(data.data.results);
+        setPageNumber(data.data.next.page);
+      })
+      .catch((e) => console.log("Error on search query:", e));
+  }, [props.searchQuery]);
+
+  const loadMore = () => {
+    if (!pageNumber) return;
+    axios
+      .get(
+        `/api/search?q=${encodeURI(
+          props.searchQuery
+        )}&page=${pageNumber}&limit=10`
+      )
+      .then((data) => {
+        console.log("laodmore results:", data);
+        if (data.data.next) {
+          setPageNumber(data.data.next.page);
+        } else {
+          setPageNumber(null);
+        }
+        const newResults = [...searchResults, ...data.data.results];
+        setSearchResults(newResults);
+      });
+  };
+
+  const close = () => {
+    props.close();
+    setSearchResults([]);
+  };
 
   return (
     <MuiThemeProvider theme={theme}>
@@ -62,7 +123,7 @@ export default function FullScreenDialog(props) {
               <IconButton
                 edge="start"
                 color="inherit"
-                onClick={props.close}
+                onClick={close}
                 aria-label="close"
               >
                 <CloseIcon />
@@ -70,26 +131,28 @@ export default function FullScreenDialog(props) {
               <Typography variant="h6" className={classes.title}>
                 <div className={classes.search}>
                   <SearchBar
-                    onChangeSearch={props.onChangeSearch}
+                    onChangeSearch={onChangeSearch}
                     searchQuery={props.searchQuery}
                   />
                 </div>
               </Typography>
             </Toolbar>
           </AppBar>
-          {!props.searchResults && (
+          {searchResults.length === 0 && (
             <Results
               onClick={props.onClick}
-              searchResults={props.popularSearch}
+              searchResults={popularSearch}
               title="Popular Search"
             />
           )}
 
-          {props.searchResults && (
+          {searchResults.length > 0 && (
             <Results
               onClick={props.onClick}
-              searchResults={props.searchResults}
+              searchResults={searchResults}
               title="Search Result"
+              loadMore={loadMore}
+              pageNumber={pageNumber}
             />
           )}
         </Dialog>
