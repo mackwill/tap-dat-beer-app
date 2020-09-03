@@ -132,7 +132,7 @@ export default function PrimarySearchAppBar(props) {
   const handleMenuItemClick = (action) => {
     switch (action) {
       case "login":
-        props.handleLoginOpen();
+        props.handleLoginOpen(true);
         break;
       case "register":
         props.handleRegisterOpen();
