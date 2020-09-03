@@ -39,6 +39,7 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [currentBeer, setCurrentBeer] = useState(null);
   const [beers, setBeers] = useState([]);
+  const [similarBeers, setSimilarBeers] = useState([]);
   const [top10RatedBeers, setTop10RatedBeers] = useState([]);
   const [top10ReviewedBeers, setTop10ReviewedBeers] = useState([]);
   const [beerCategories, setBeerCategories] = useState([]);
@@ -259,13 +260,28 @@ function App() {
         beer_id: id,
       });
     }
-    return axios
-      .get(`/api/beers/${id}`)
-      .then((res) => {
-        setCurrentBeer(res.data.beer);
-        return res.data.reviews;
+
+    Promise.all([
+      Promise.resolve(axios.get(`/api/beers/${id}`)),
+      Promise.resolve(axios.get(`/api/beers/similar/${id}`)),
+    ])
+      .then((all) => {
+        console.log("all: ", all);
+        setCurrentBeer(all[0].data.beer);
+        setSimilarBeers(all[1].data.data);
+        return all[0].data.reviews;
       })
-      .then((reviews) => setCurrentBeerReviews(reviews));
+      .then((reviews) => setCurrentBeerReviews(reviews))
+      .catch((err) =>
+        console.log("Error fetching beer/similar beers/reviews: ", err)
+      );
+    // return axios
+    //   .get(`/api/beers/${id}`)
+    //   .then((res) => {
+    //     setCurrentBeer(res.data.beer);
+    //     return res.data.reviews;
+    //   })
+    //   .then((reviews) => setCurrentBeerReviews(reviews));
   };
 
   const handleBeerDetailClose = (e) => {
@@ -523,7 +539,7 @@ function App() {
           open={beerDetailOpen}
           handleClose={handleBeerDetailClose}
           currentBeer={currentBeer}
-          beers={beers}
+          beers={similarBeers}
           reviews={currentBeerReviews}
           openForm={handleReviewOpen}
           currentUser={currentUser}
