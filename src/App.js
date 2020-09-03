@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment } from "react";
-import logo from "./logo.svg";
 import Navbar from "./components/Navbar/Navbar";
 import Login from "./components/Login/Login";
 import axios from "axios";
@@ -34,7 +33,6 @@ function App() {
   const [reviewOpen, setReviewOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const [myWishlistOpen, setMyWishlistOpen] = useState(false);
-  const [myReviewsOpen, setMyReviewsOpen] = useState(false);
   const [userNote, setUserNote] = useState(false);
   const [errMessage, setErrMessage] = useState(null);
   const [scannerOpen, setScannerOpen] = useState(false);
@@ -71,21 +69,7 @@ function App() {
 
     setOpenSB(false);
   };
-  const filterBeerCategories = () => {
-    const categories = [];
 
-    beers.forEach((beer) => {
-      if (!categories.includes(beer.type)) {
-        categories.push(beer.type);
-      }
-    });
-    return categories;
-  };
-
-  const beersByCategory = (category) => {
-    const beerListCategory = beers.filter((beer) => beer.type === category);
-    return beerListCategory;
-  };
   const onChangeSearch = (e) => {
     setSearchQuery(e.target.value);
   };
@@ -97,6 +81,7 @@ function App() {
       .then((data) => setPopularSearch(data.data.finalData))
       .catch((e) => null);
   };
+
   const handleSearchClose = (e) => {
     setSearchOpen(false);
   };
@@ -117,8 +102,9 @@ function App() {
     setReviewOpen(false);
   };
 
+  // The following login functions handle the
+  // login open, change, close and submit dialog functionality
   const handleLoginOpen = (e) => {
-    console.log("Open Login modal");
     setLoginOpen(true);
   };
 
@@ -142,7 +128,6 @@ function App() {
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-    console.log("Here");
 
     if (!state.email || !state.password) {
       setErrMessage("Please fill out both fields to login");
@@ -164,16 +149,14 @@ function App() {
       });
   };
 
+  // The following login functions handle the
+  // registration open, change, close and submit dialog functionality
   const handleRegisterOpen = (e) => {
-    console.log("Open Register modal");
-    // Uncomment this when the modal is here:
     setRegisterOpen(true);
   };
 
   const handleRegisterChange = (e) => {
     e.persist();
-    console.log("e.target.value", e.target.value);
-    console.log("e.target.name", e.target.name);
     setState((prev) => ({
       ...prev,
       [e.target.name]: e.target.value.trim(),
@@ -191,15 +174,6 @@ function App() {
     }));
     setErrMessage(null);
   };
-
-  useEffect(() => {
-    axios
-      .get(`/api/search?q=${encodeURI(searchQuery)}`)
-      .then((data) => {
-        setSearchResults(data.data.data);
-      })
-      .catch((e) => console.log("Error on search query:", e));
-  }, [searchQuery]);
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
@@ -227,7 +201,6 @@ function App() {
     return axios
       .post("/api/register", newUser)
       .then((res) => {
-        console.log("Register promise data: ", res);
         setCurrentUser(res.data.user);
         handleRegisterClose();
       })
@@ -239,13 +212,16 @@ function App() {
   const handleLogout = (e) => {
     e.preventDefault();
 
-    console.log("Logout clicked");
-    return axios.post("/api/logout").then((data) => {
+    return axios.post("/api/logout").then(() => {
       setCurrentUser(null);
       setCurrentWishlist([]);
 
       handleClickSB(`You are now logged out`);
     });
+  };
+
+  const handleReviewSubmit = () => {
+    handleClickSB(`You just made a review`);
   };
 
   const handleClickFromSearchResult = (id) => {
@@ -256,6 +232,9 @@ function App() {
       query: searchQuery,
       user_id: currentUser && currentUser.id,
     };
+
+    // We dont need a then statement  if we  arent doing anything with it.
+    // Is there something we could be doing with the data that comes back?
     return axios
       .post("/api/search/analytics", body)
       .then((data) => console.log("added search analytics:", data))
@@ -274,16 +253,12 @@ function App() {
       userId = currentUser.id;
     }
 
-    console.log("id here:", id);
-
     if (isBeerInRecentlyViewedList(id).length === 0) {
-      console.log("thijierotiejotjeroitjeorijt");
       await axios.post("/api/search/analytics", {
         user_id: userId,
         beer_id: id,
       });
     }
-
     return axios
       .get(`/api/beers/${id}`)
       .then((res) => {
@@ -303,7 +278,6 @@ function App() {
   };
 
   const handleAccountOpen = (e) => {
-    // Uncomment when modal is here
     const prevFirstName = currentUser.first_name;
     const prevLastName = currentUser.last_name;
     const prevEmail = currentUser.email;
@@ -402,29 +376,6 @@ function App() {
     }
   };
 
-  const handleMyReviewsOpen = (e) => {
-    // setMyReviewsOpen(true);
-    console.log("review");
-  };
-  // Sort beers by highest rated
-  const sortTopBeers = () => {
-    const copyBeers = [...beers];
-
-    copyBeers.sort((a, b) => {
-      return Number(a.avg_rank) - Number(b.avg_rank);
-    });
-    return copyBeers.reverse();
-  };
-
-  // Sort beers by most reviewed
-  const sortReviewedBeers = () => {
-    const copyBeers = [...beers];
-    copyBeers.sort((a, b) => {
-      return a.num_reviews - b.num_reviews;
-    });
-    return copyBeers.reverse();
-  };
-
   // Open scanner
   const handleScannerOpen = (e) => {
     setScannerOpen(true);
@@ -439,6 +390,15 @@ function App() {
     setSearchQuery(category);
   };
 
+  useEffect(() => {
+    axios
+      .get(`/api/search?q=${encodeURI(searchQuery)}`)
+      .then((data) => {
+        setSearchResults(data.data.data);
+      })
+      .catch((e) => console.log("Error on search query:", e));
+  }, [searchQuery]);
+
   // Get all the beers once the home page is loaded
   useEffect(() => {
     Promise.all([
@@ -447,7 +407,6 @@ function App() {
       Promise.resolve(axios.get("/api/beers/categories")),
     ])
       .then((all) => {
-        console.log("all:  ", all);
         setTop10RatedBeers(all[0].data.data);
         setTop10ReviewedBeers(all[1].data.data);
         setBeerCategories(all[2].data.data);
@@ -459,7 +418,6 @@ function App() {
 
   useEffect(() => {
     Promise.resolve(axios.get("/api/user")).then((res) => {
-      console.log("res of current user");
       setCurrentUser(res.data.data);
     });
   }, []);
@@ -478,6 +436,7 @@ function App() {
         return axios.get("/api/beers/recommendations");
       })
       .then((res) => {
+        // We need to do something with this. Why is this here?
         console.log("res recommendation: ", res);
         // setState((prev) => ({
         //   ...prev,
@@ -498,8 +457,6 @@ function App() {
         currentUser={currentUser}
         handleLogout={handleLogout}
         handleAccountOpen={handleAccountOpen}
-        handleMyWishlistOpen={handleMyWishlistOpen}
-        handleMyReviewsOpen={handleMyReviewsOpen}
         handleScannerOpen={handleScannerOpen}
       />
       <Login
@@ -591,6 +548,7 @@ function App() {
         currentBeer={currentBeer}
         open={reviewOpen}
         close={handleReviewClose}
+        handleReviewSubmit={handleReviewSubmit}
       />
       <ShareOption open={shareOpen} close={handleShareOptionClose} />
 
