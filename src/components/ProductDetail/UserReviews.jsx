@@ -8,9 +8,11 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 export default function ProductDetail(props) {
   return (
     <>
-      <ListSubheader component="div">Reviews from other users</ListSubheader>
+      <ListSubheader component="div" style={{ backgroundColor: "#f0f0f0" }}>
+        Reviews from other users
+      </ListSubheader>
       {props.reviews && (
-        <Grid container spacing={3}>
+        <Grid container spacing={3} style={{ backgroundColor: "#f0f0f0" }}>
           {props.reviews.length > 0 ? (
             props.reviews.map((review) => {
               return <Review {...review} />;

@@ -27,8 +27,10 @@ export default function TitlebarGridList(props) {
 
   return (
     <>
-      <List>
-        <ListSubheader component="div">{props.title}</ListSubheader>
+      <List style={{ paddingTop: "0" }}>
+        <ListSubheader component="div" style={{ backgroundColor: "#f0f0f0" }}>
+          {props.title}
+        </ListSubheader>
         {searchresultsList}
         {props.pageNumber && (
           <ListItem button onClick={props.loadMore}>

@@ -19,6 +19,8 @@ import { Box, Grid } from "@material-ui/core";
 import ShareIcon from "@material-ui/icons/Share";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import UnderBeer from "./UnderBeer";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import MenuIcon from "@material-ui/icons/Menu";
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -76,33 +78,41 @@ export default function ProductDetail(props) {
                 onClick={props.handleClose}
                 aria-label="close"
               >
-                <CloseIcon />
+                <ArrowBackIcon />
               </IconButton>
               <Typography variant="h6" className={classes.title}>
                 Beer Detail
               </Typography>
             </Toolbar>
           </AppBar>
-          <List>
-            <ListItem style={{ display: "flex", justifyContent: "center" }}>
-              <img src={props.currentBeer.beer_image} onError={imgError} />
-            </ListItem>
+
+          <List style={{ backgroundColor: "#f0f0f0" }}>
             <ListItem>
-              <Box width={1} textAlign="center">
+              <Box width={1}>
                 <Typography variant="h6">{props.currentBeer.name}</Typography>
+                <Typography style={{ opacity: "0.3" }} variant="p">
+                  {props.currentBeer.brewery}
+                </Typography>
               </Box>
             </ListItem>
-            <ListItem>
-              <Box width={1} textAlign="center">
-                <Typography variant="p">{props.currentBeer.brewery}</Typography>
-              </Box>
+            <ListItem
+              style={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <img
+                style={{ borderRadius: "10px", border: "1px solid #a9a9a9" }}
+                src={props.currentBeer.beer_image}
+                onError={imgError}
+              />
             </ListItem>
             <ListItem style={{ width: "60%", margin: "auto" }}>
               <Grid container spacing={1} textAlign="center">
                 <Grid container item xs={6} spacing={1}>
                   <Box m={"auto"}>
                     <Typography variant="p">
-                      ABV: {props.currentBeer.abv}
+                      ABV: {props.currentBeer.abv}%
                     </Typography>
                   </Box>
                 </Grid>
@@ -120,11 +130,14 @@ export default function ProductDetail(props) {
                 </Grid>
                 <Grid container item xs={6} spacing={1}>
                   <Box m={"auto"}>
-                    <Typography variant="p">Rating: --</Typography>
+                    <Typography variant="p">
+                      Rating: {props.currentBeer.avg_rank}
+                    </Typography>
                   </Box>
                 </Grid>
               </Grid>
             </ListItem>
+
             <Divider />
             <ListItem>
               <Box width={1} textAlign="right">
@@ -151,16 +164,9 @@ export default function ProductDetail(props) {
                 </IconButton>
               </Box>
             </ListItem>
+            <Divider />
+
             <ListItem>
-              {/* <Grid container spacing={3}>
-              {props.reviews.length > 0 ? (
-                props.reviews.map((review) => {
-                  return <Review {...review} />;
-                })
-              ) : (
-                <BlankReview />
-              )}
-            </Grid> */}
               <UnderBeer
                 setOpenSB={props.setOpenSB}
                 beers={props.beers}
