@@ -6,7 +6,6 @@ import {
 } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
-import ListItemText from "@material-ui/core/ListItemText";
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
@@ -17,11 +16,6 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import { Box, Grid, Avatar } from "@material-ui/core";
-import Review from "../Review/Review";
-import ShareIcon from "@material-ui/icons/Share";
-import BlankReview from "../Review/BlankReview";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-// import UnderBeer from "./UnderBeer";
 import UserDetails from "./UserDetails";
 import AccountMenuBar from "./AccountMenuBar";
 
@@ -92,8 +86,6 @@ export default function ProductDetail(props) {
           <List>
             <ListItem style={{ display: "flex", justifyContent: "center" }}>
               <Avatar className={classes.mainBlue}>
-                {/* {props.firstNameBeforeUpdate[0]}
-                {props.lastNameBeforeUpdate[0]} */}
                 {props.firstName[0]}
                 {props.lastName[0]}
               </Avatar>
@@ -101,7 +93,6 @@ export default function ProductDetail(props) {
             <ListItem>
               <Box width={1} textAlign="center">
                 <Typography variant="h6">
-                  {/* {props.firstNameBeforeUpdate} {props.lastNameBeforeUpdate} */}
                   {props.firstName} {props.lastName}
                 </Typography>
               </Box>

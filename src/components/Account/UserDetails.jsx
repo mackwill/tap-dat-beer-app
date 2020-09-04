@@ -5,7 +5,6 @@ import { Box, Button } from "@material-ui/core";
 export default function UserDetails(props) {
   const { first_name, last_name, email, changeAccountDetails } = props;
 
-  // Handle account detail change form submit
   const [firstName, setFirstName] = useState(first_name);
   const [lastName, setLastName] = useState(last_name);
   const [formEmail, setFormEmail] = useState(email);

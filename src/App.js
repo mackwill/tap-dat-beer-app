@@ -12,15 +12,11 @@ import BeerCategoryList from "./components/Category/BeerCategoryList";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import Search from "./components/Search/Search";
 import Review from "./components/ReviewForm/Review";
-import Account from "./components/Account/Account";
-import Wishlist from "./components/Wishlist/Wishlist";
 import ShareOption from "./components/ShareOption/ShareOption";
 import Button from "@material-ui/core/Button";
 import Snackbar from "./components/Small-Components/Snackbar";
 import MyAccount from "./components/Account/MyAccount";
-import CustomAlert from "./components/Alert/CustomAlert";
 import Scanner from "./components/Scanner/Scanner";
-//import Review from './components/Review/Review'
 import useApplicationData from "./hooks/useApplicationData";
 
 function App() {
@@ -309,7 +305,6 @@ function App() {
           open={beerDetailOpen}
           handleClose={handleBeerDetailClose}
           currentBeer={currentBeer}
-          beers={beers}
           reviews={currentBeerReviews}
           openForm={handleReviewOpen}
           currentUser={currentUser}

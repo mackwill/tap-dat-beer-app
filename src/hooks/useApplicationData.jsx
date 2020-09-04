@@ -99,7 +99,6 @@ export default function useApplicationData() {
         password,
       })
       .then((res) => {
-        console.log("res: ", res.data);
         dispatch({
           type: SET_CURRENT_USER,
           value: res.data.user,
@@ -253,7 +252,6 @@ export default function useApplicationData() {
 
   const setRecentlyViewed = async () => {
     const newRecentlyViewed = await axios.get("/api/beers/recently");
-    console.log("recently", newRecentlyViewed);
     dispatch({
       type: SET_RECENTLY_VIEWED,
       value: newRecentlyViewed.data.data,
