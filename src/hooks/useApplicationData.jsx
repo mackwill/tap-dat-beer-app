@@ -8,6 +8,7 @@ const SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE";
 const SET_USER_BEER_DATA = "SET_USER_BEER_DATA";
 const SET_WISHLIST = "SET_WISHLIST";
 const SET_REGISTRATION_OR_USER_DATA = "SET_REGISTRATION_OR_USER_DATA";
+const SET_RECENTLY_VIEWED = "SET_RECENTLY_VIEWED";
 const reducer = (state, action) => {
   switch (action.type) {
     case SET_CURRENT_USER: {
@@ -21,6 +22,9 @@ const reducer = (state, action) => {
     }
     case SET_WISHLIST: {
       return { ...state, currentWishlist: action.value };
+    }
+    case SET_RECENTLY_VIEWED: {
+      return { ...state, recentlyViewed: action.value };
     }
     case SET_ERROR_MESSAGE: {
       return { ...state, errMessage: action.value };
@@ -95,6 +99,7 @@ export default function useApplicationData() {
         password,
       })
       .then((res) => {
+        console.log("res: ", res.data);
         dispatch({
           type: SET_CURRENT_USER,
           value: res.data.user,
@@ -226,8 +231,36 @@ export default function useApplicationData() {
     });
   };
 
+  const changeAccountDetails = async (user) => {
+    const newAccountDetails = {
+      ...state.currentUser,
+      first_name: user.firstName,
+      last_name: user.lastName,
+      email: user.email,
+    };
+
+    try {
+      await axios.put("/api/user", newAccountDetails);
+      const updatedUser = await axios.get("/api/user");
+      dispatch({
+        type: SET_CURRENT_USER,
+        value: updatedUser.data.data,
+      });
+    } catch (error) {
+      console.log("Error updating account: ", error);
+    }
+  };
+
+  const setRecentlyViewed = async () => {
+    const newRecentlyViewed = await axios.get("/api/beers/recently");
+    console.log("recently", newRecentlyViewed);
+    dispatch({
+      type: SET_RECENTLY_VIEWED,
+      value: newRecentlyViewed.data.data,
+    });
+  };
   return {
-    ...state,
+    state,
     submitLoginData,
     addBeerToWishlist,
     deleteBeerFromWishlist,
@@ -236,5 +269,7 @@ export default function useApplicationData() {
     changeUserData,
     setLoggedInUser,
     setErrorMessage,
+    changeAccountDetails,
+    setRecentlyViewed,
   };
 }

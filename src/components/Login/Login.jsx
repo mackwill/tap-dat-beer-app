@@ -13,25 +13,22 @@ import CustomAlert from "../Alert/CustomAlert";
 import useApplicationData from "../../hooks/useApplicationData";
 
 export default function Login(props) {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const {
-    email,
-    password,
+    // email,
+    // password,
     errMessage,
     changeUserData,
     setLoginOpen,
     submitLoginData,
-  } = useApplicationData();
+  } = props;
 
   const handleLoginChange = (e) => {
     e.persist();
     changeUserData(e);
   };
-
-  // const handleLoginClose = (e) => {
-  //   // setLoginOpen(false);
-  //   setOpen(false);
-  //   changeUserData(e, true);
-  // };
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();
@@ -61,7 +58,7 @@ export default function Login(props) {
               type="email"
               name="email"
               fullWidth
-              onChange={handleLoginChange}
+              onChange={(event) => setEmail(event.target.value)}
             />
 
             <TextField
@@ -72,10 +69,9 @@ export default function Login(props) {
               type="password"
               name="password"
               fullWidth
-              onChange={handleLoginChange}
+              onChange={(event) => setPassword(event.target.value)}
             />
           </DialogContent>
-          {/* <CustomAlert errMessage={errMessage} severity={"warning"} /> */}
           <CustomAlert errMessage={errMessage} severity={"warning"} />
 
           <DialogActions>

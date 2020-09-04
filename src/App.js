@@ -33,19 +33,23 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [reviewOpen, setReviewOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
-  const [myWishlistOpen, setMyWishlistOpen] = useState(false);
-  const [myReviewsOpen, setMyReviewsOpen] = useState(false);
   const [userNote, setUserNote] = useState(false);
   const [scannerOpen, setScannerOpen] = useState(false);
   const [beers, setBeers] = useState([]);
 
-  const [state, setState] = useState({
-    firstName: null,
-    lastName: null,
-    email: null,
-    password: null,
-    passwordConfirmation: null,
-  });
+  const {
+    state,
+    submitLoginData,
+    addBeerToWishlist,
+    deleteBeerFromWishlist,
+    setClickedBeerToCurrent,
+    getReviewsAndWishlistForSingleUser,
+    changeUserData,
+    setLoggedInUser,
+    setErrorMessage,
+    changeAccountDetails,
+    setRecentlyViewed,
+  } = useApplicationData();
 
   const {
     top10RatedBeers,
@@ -58,20 +62,12 @@ function App() {
     currentBeerReviews,
     currentUser,
     errMessage,
-    submitLoginData,
-    addBeerToWishlist,
-    deleteBeerFromWishlist,
-    setClickedBeerToCurrent,
-    getReviewsAndWishlistForSingleUser,
-    changeUserData,
     firstName,
     lastName,
     email,
     password,
     passwordConfirmation,
-    setLoggedInUser,
-    setErrorMessage,
-  } = useApplicationData();
+  } = state;
 
   const [openSB, setOpenSB] = useState(false);
   const [textSB, setTextSB] = useState(false);
@@ -116,30 +112,13 @@ function App() {
 
   // -------------------- To Here --------------------
 
-  // const handleLoginChange = (e) => {
-  //   e.persist();
-  //   changeUserData(e);
-  // };
-
   const handleLoginClose = (e) => {
     setLoginOpen(false);
     changeUserData(e, true);
   };
 
-  // const handleLoginSubmit = (e) => {
-  //   e.preventDefault();
-  //   Promise.resolve(submitLoginData(state.email, state.password))
-  //     .then(() => handleLoginClose())
-  //     .catch((err) => console.log("Nothing: ", err));
-  // };
-
   const handleRegisterOpen = (e) => {
     setRegisterOpen(true);
-  };
-
-  const handleRegisterChange = (e) => {
-    e.persist();
-    changeUserData(e);
   };
 
   const handleRegisterClose = (e) => {
@@ -147,44 +126,9 @@ function App() {
     changeUserData(e, true);
   };
 
-  const handleRegisterSubmit = (e) => {
-    e.preventDefault();
-
-    if (
-      !state.firstName ||
-      !state.lastName ||
-      !state.email ||
-      !state.password ||
-      !state.passwordConfirmation
-    ) {
-      // setErrMessage("Please fill out all fields");
-      return;
-    } else if (state.password !== state.passwordConfirmation) {
-      // setErrMessage("Passwords do not match");
-      return;
-    }
-
-    const newUser = {
-      firstName,
-      lastName,
-      email,
-      password,
-    };
-    return axios
-      .post("/api/register", newUser)
-      .then((res) => {
-        setLoggedInUser(res.data.user);
-        handleRegisterClose();
-      })
-      .catch((err) => {
-        setErrorMessage("That email already exists");
-      });
-  };
-
   const handleLogout = (e) => {
     // e.preventDefault();
 
-    console.log("Logout clicked");
     return axios.post("/api/logout").then((data) => {
       setLoggedInUser(null);
 
@@ -224,49 +168,18 @@ function App() {
         beer_id: id,
       });
     }
+    setRecentlyViewed();
     setClickedBeerToCurrent(id);
   };
 
   const handleBeerDetailClose = (e) => {
     setBeerDetailOpen(false);
-
-    // setTimeout(() => {
-    //   setCurrentBeer(null);
-    //   setCurrentBeerReviews([]);
-    // }, 300);
   };
 
-  const handleAccountOpen = (e) => {
-    // Uncomment when modal is here
-    const prevFirstName = currentUser.first_name;
-    const prevLastName = currentUser.last_name;
-    const prevEmail = currentUser.email;
-    setState((prev) => ({
-      ...prev,
-      firstName: prevFirstName,
-      lastName: prevLastName,
-      email: prevEmail,
-    }));
+  const handleAccountOpen = async (e) => {
+    await getReviewsAndWishlistForSingleUser();
+
     setAccuontOpen(true);
-    getReviewsAndWishlistForSingleUser();
-  };
-
-  // Handle account detail change form submit
-  const handleAccountChangeSubmit = (e) => {
-    e.preventDefault();
-    const newAccountDetails = {
-      first_name: state.firstName,
-      last_name: state.lastName,
-      email: state.email,
-      password: currentUser.password,
-    };
-
-    return axios
-      .put("/api/user", newAccountDetails)
-      .then((res) => {
-        // setCurrentUser(res.data.data);
-      })
-      .catch((err) => console.log("Error Updating Account: ", err));
   };
 
   // Check if user has already wishlisted that beer
@@ -333,17 +246,18 @@ function App() {
       />
       <Login
         open={loginOpen}
-        // onChange={handleLoginChange}
         handleClose={handleLoginClose}
-        // onSubmit={handleLoginSubmit}
         errMessage={errMessage}
+        changeUserData={changeUserData}
+        submitLoginData={submitLoginData}
       />
       <Register
         open={registerOpen}
-        onChange={handleRegisterChange}
         handleClose={handleRegisterClose}
-        onSubmit={handleRegisterSubmit}
         errMessage={errMessage}
+        changeUserData={changeUserData}
+        setLoggedInUser={setLoggedInUser}
+        setErrorMessage={setErrorMessage}
       />
 
       <Banner />
@@ -425,19 +339,16 @@ function App() {
       <ShareOption open={shareOpen} close={handleShareOptionClose} />
 
       <Snackbar handleClose={handleCloseSB} open={openSB} textSB={textSB} />
-      {state.firstName && currentUser && (
+      {currentUser && (
         <MyAccount
-          firstNameBeforeUpdate={currentUser.first_name}
-          lastNameBeforeUpdate={currentUser.last_name}
-          first_name={state.firstName}
-          last_name={state.lastName}
-          email={state.email}
+          firstName={currentUser.first_name}
+          lastName={currentUser.last_name}
+          email={currentUser.email}
           open={accuontOpen}
           handleClose={() => setAccuontOpen(false)}
-          handleAccountChange={handleRegisterChange}
           beers={currentWishlist}
           reviews={currentBeerReviews}
-          onSubmit={handleAccountChangeSubmit}
+          changeAccountDetails={changeAccountDetails}
         />
       )}
       <Scanner

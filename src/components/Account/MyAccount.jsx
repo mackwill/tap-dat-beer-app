@@ -92,24 +92,26 @@ export default function ProductDetail(props) {
           <List>
             <ListItem style={{ display: "flex", justifyContent: "center" }}>
               <Avatar className={classes.mainBlue}>
-                {props.firstNameBeforeUpdate[0]}
-                {props.lastNameBeforeUpdate[0]}
+                {/* {props.firstNameBeforeUpdate[0]}
+                {props.lastNameBeforeUpdate[0]} */}
+                {props.firstName[0]}
+                {props.lastName[0]}
               </Avatar>
             </ListItem>
             <ListItem>
               <Box width={1} textAlign="center">
                 <Typography variant="h6">
-                  {props.firstNameBeforeUpdate} {props.lastNameBeforeUpdate}
+                  {/* {props.firstNameBeforeUpdate} {props.lastNameBeforeUpdate} */}
+                  {props.firstName} {props.lastName}
                 </Typography>
               </Box>
             </ListItem>
             <ListItem>
               <UserDetails
-                first_name={props.first_name}
-                last_name={props.last_name}
+                changeAccountDetails={props.changeAccountDetails}
+                first_name={props.firstName}
+                last_name={props.lastName}
                 email={props.email}
-                onChange={props.handleAccountChange}
-                onSubmit={props.onSubmit}
               />
             </ListItem>
 

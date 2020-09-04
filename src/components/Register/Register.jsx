@@ -11,28 +11,16 @@ import useApplicationData from "../../hooks/useApplicationData";
 import axios from "axios";
 
 export default function Register(props) {
-  // console.log("props ", props);
-  const [err, setError] = useState(false);
-  let errorMsg = "";
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [errMessage, setErrorMessage] = useState(null);
 
-  const {
-    firstName,
-    lastName,
-    email,
-    password,
-    passwordConfirmation,
-    changeUserData,
-    errMessage,
-    setLoggedInUser,
-    setErrorMessage,
-  } = useApplicationData();
+  const { changeUserData, setLoggedInUser } = props;
 
-  const handleRegisterChange = (e) => {
-    e.persist();
-    changeUserData(e);
-  };
-
-  const handleRegisterSubmit = (e) => {
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
     if (password !== passwordConfirmation) {
@@ -46,15 +34,14 @@ export default function Register(props) {
       email,
       password,
     };
-    return axios
-      .post("/api/register", newUser)
-      .then((res) => {
-        setLoggedInUser(res.data.user);
-        props.handleClose();
-      })
-      .catch((err) => {
-        setErrorMessage("That email already exists");
-      });
+
+    try {
+      const response = await axios.post("/api/register", newUser);
+      setLoggedInUser(response.data.user);
+      props.handleClose();
+    } catch (error) {
+      setErrorMessage("That email already exists");
+    }
   };
 
   return (
@@ -76,7 +63,7 @@ export default function Register(props) {
               type="text"
               name="firstName"
               fullWidth
-              onChange={handleRegisterChange}
+              onChange={(e) => setFirstName(e.target.value)}
             />
             <TextField
               required
@@ -86,7 +73,7 @@ export default function Register(props) {
               type="text"
               name="lastName"
               fullWidth
-              onChange={handleRegisterChange}
+              onChange={(e) => setLastName(e.target.value)}
             />
             <TextField
               required
@@ -96,7 +83,7 @@ export default function Register(props) {
               type="email"
               name="email"
               fullWidth
-              onChange={handleRegisterChange}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               required
@@ -106,7 +93,7 @@ export default function Register(props) {
               type="password"
               name="password"
               fullWidth
-              onChange={handleRegisterChange}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <TextField
               required
@@ -116,7 +103,7 @@ export default function Register(props) {
               type="password"
               name="passwordConfirmation"
               fullWidth
-              onChange={handleRegisterChange}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
             />
           </DialogContent>
           <CustomAlert errMessage={errMessage} severity="warning" />
