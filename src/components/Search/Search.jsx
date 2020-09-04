@@ -56,7 +56,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function FullScreenDialog(props) {
   const [searchResults, setSearchResults] = useState([]);
   const [popularSearch, setPopularSearch] = useState([]);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(0);
   const classes = useStyles();
 
   const onChangeSearch = (e) => {
@@ -64,6 +64,7 @@ export default function FullScreenDialog(props) {
   };
 
   useEffect(() => {
+    console.log("is this being called");
     return axios
       .get("/api/search/analytics")
       .then((data) => setPopularSearch(data.data.finalData))
@@ -71,15 +72,16 @@ export default function FullScreenDialog(props) {
   }, []);
 
   useEffect(() => {
+    setPageNumber(1);
     axios
-      .get(
-        `/api/search?q=${encodeURI(
-          props.searchQuery
-        )}&page=${pageNumber}&limit=10`
-      )
+      .get(`/api/search?q=${encodeURI(props.searchQuery)}&page=1&limit=10`)
       .then((data) => {
         setSearchResults(data.data.results);
-        setPageNumber(data.data.next.page);
+        if (data.data.next) {
+          setPageNumber(data.data.next.page);
+        } else {
+          setPageNumber(null);
+        }
       })
       .catch((e) => console.log("Error on search query:", e));
   }, [props.searchQuery]);
@@ -93,7 +95,6 @@ export default function FullScreenDialog(props) {
         )}&page=${pageNumber}&limit=10`
       )
       .then((data) => {
-        console.log("laodmore results:", data);
         if (data.data.next) {
           setPageNumber(data.data.next.page);
         } else {

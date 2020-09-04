@@ -11,21 +11,17 @@ import BeerCategoryList from "./components/Category/BeerCategoryList";
 import ProductDetail from "./components/ProductDetail/ProductDetail";
 import Search from "./components/Search/Search";
 import Review from "./components/ReviewForm/Review";
-import Account from "./components/Account/Account";
-import Wishlist from "./components/Wishlist/Wishlist";
-import MyWishlist from "./components/MyReviews/MyReviews";
-import MyReviews from "./components/MyReviews/MyReviews";
 import ShareOption from "./components/ShareOption/ShareOption";
 import Button from "@material-ui/core/Button";
 import Snackbar from "./components/Small-Components/Snackbar";
 import MyAccount from "./components/Account/MyAccount";
-import CustomAlert from "./components/Alert/CustomAlert";
 import Scanner from "./components/Scanner/Scanner";
 import EditReview from "./components/MyReviews/EditReview";
 //import Review from './components/Review/Review'
 import useApplicationData from "./hooks/useApplicationData";
 
 function App() {
+  let userData;
   const [registerOpen, setRegisterOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [beerDetailOpen, setBeerDetailOpen] = useState(false);
@@ -40,13 +36,20 @@ function App() {
   const [singleReview, setSingleReview] = useState({});
   const [beers, setBeers] = useState([]);
 
-  const [state, setState] = useState({
-    firstName: null,
-    lastName: null,
-    email: null,
-    password: null,
-    passwordConfirmation: null,
-  });
+  const {
+    state,
+    submitLoginData,
+    addBeerToWishlist,
+    deleteBeerFromWishlist,
+    setClickedBeerToCurrent,
+    getReviewsAndWishlistForSingleUser,
+    changeUserData,
+    setLoggedInUser,
+    setErrorMessage,
+    changeAccountDetails,
+    setRecentlyViewed,
+    deleteReviewById,
+  } = useApplicationData();
 
   const {
     top10RatedBeers,
@@ -61,20 +64,12 @@ function App() {
     currentBeerReviews,
     currentUser,
     errMessage,
-    submitLoginData,
-    addBeerToWishlist,
-    deleteBeerFromWishlist,
-    setClickedBeerToCurrent,
-    getReviewsAndWishlistForSingleUser,
-    changeUserData,
     firstName,
     lastName,
     email,
     password,
     passwordConfirmation,
-    setLoggedInUser,
-    setErrorMessage,
-  } = useApplicationData();
+  } = state;
 
   const [openSB, setOpenSB] = useState(false);
   const [textSB, setTextSB] = useState(false);
@@ -162,23 +157,11 @@ function App() {
       setLoginOpen(true);
       return;
     }
-    return axios.delete(`/api/reviews/${review_id}`).then((res) => {
-      const newBeerReview = removeDeletedBeerReview(review_id);
-      console.log(newBeerReview);
-      setState((prev) => ({
-        ...prev,
-        currentBeerReviews: newBeerReview,
-      }));
-      handleClickSB(`Your review was removed from your Review list`);
-    });
+    deleteReviewById(review_id);
+    handleClickSB(`Your review was removed from your Review list`);
   };
 
   // -------------------- To Here --------------------
-
-  // const handleLoginChange = (e) => {
-  //   e.persist();
-  //   changeUserData(e);
-  // };
 
   const handleLoginClose = (e) => {
     setLoginOpen(false);
@@ -189,57 +172,16 @@ function App() {
     setRegisterOpen(true);
   };
 
-  const handleRegisterChange = (e) => {
-    e.persist();
-    changeUserData(e);
-  };
-
   const handleRegisterClose = (e) => {
     setRegisterOpen(false);
     changeUserData(e, true);
   };
 
-  const handleRegisterSubmit = (e) => {
-    e.preventDefault();
-
-    if (
-      !state.firstName ||
-      !state.lastName ||
-      !state.email ||
-      !state.password ||
-      !state.passwordConfirmation
-    ) {
-      // setErrMessage("Please fill out all fields");
-      return;
-    } else if (state.password !== state.passwordConfirmation) {
-      // setErrMessage("Passwords do not match");
-      return;
-    }
-
-    const newUser = {
-      firstName,
-      lastName,
-      email,
-      password,
-    };
-    return axios
-      .post("/api/register", newUser)
-      .then((res) => {
-        setLoggedInUser(res.data.user);
-        handleRegisterClose();
-      })
-      .catch((err) => {
-        setErrorMessage("That email already exists");
-      });
-  };
-
   const handleLogout = (e) => {
     // e.preventDefault();
 
-    console.log("Logout clicked");
     return axios.post("/api/logout").then((data) => {
-      // setCurrentUser(null);
-      // setCurrentWishlist([]);
+      setLoggedInUser(null);
 
       handleClickSB(`You are now logged out`);
     });
@@ -279,49 +221,18 @@ function App() {
         beer_id: id,
       });
     }
+    setRecentlyViewed();
     setClickedBeerToCurrent(id);
   };
 
   const handleBeerDetailClose = (e) => {
     setBeerDetailOpen(false);
-
-    // setTimeout(() => {
-    //   setCurrentBeer(null);
-    //   setCurrentBeerReviews([]);
-    // }, 300);
   };
 
-  const handleAccountOpen = (e) => {
-    // Uncomment when modal is here
-    const prevFirstName = currentUser.first_name;
-    const prevLastName = currentUser.last_name;
-    const prevEmail = currentUser.email;
-    setState((prev) => ({
-      ...prev,
-      firstName: prevFirstName,
-      lastName: prevLastName,
-      email: prevEmail,
-    }));
+  const handleAccountOpen = async (e) => {
+    await getReviewsAndWishlistForSingleUser();
+
     setAccuontOpen(true);
-    getReviewsAndWishlistForSingleUser();
-  };
-
-  // Handle account detail change form submit
-  const handleAccountChangeSubmit = (e) => {
-    e.preventDefault();
-    const newAccountDetails = {
-      first_name: state.firstName,
-      last_name: state.lastName,
-      email: state.email,
-      password: currentUser.password,
-    };
-
-    return axios
-      .put("/api/user", newAccountDetails)
-      .then((res) => {
-        // setCurrentUser(res.data.data);
-      })
-      .catch((err) => console.log("Error Updating Account: ", err));
   };
 
   // Check if user has already wishlisted that beer
@@ -388,18 +299,18 @@ function App() {
       />
       <Login
         open={loginOpen}
-        // onChange={handleLoginChange}
         handleClose={handleLoginClose}
-        // onSubmit={handleLoginSubmit}
         errMessage={errMessage}
+        changeUserData={changeUserData}
+        submitLoginData={submitLoginData}
       />
       <Register
         open={registerOpen}
-        onChange={handleRegisterChange}
         handleClose={handleRegisterClose}
-        onSubmit={handleRegisterSubmit}
         errMessage={errMessage}
-        state={{ firstName, lastName, email, password, passwordConfirmation }}
+        changeUserData={changeUserData}
+        setLoggedInUser={setLoggedInUser}
+        setErrorMessage={setErrorMessage}
       />
 
       <Banner />
@@ -451,7 +362,6 @@ function App() {
           open={beerDetailOpen}
           handleClose={handleBeerDetailClose}
           currentBeer={currentBeer}
-          beers={beers}
           reviews={currentBeerReviews}
           openForm={handleReviewOpen}
           currentUser={currentUser}
@@ -492,21 +402,18 @@ function App() {
 
       <Button onClick={() => handleClickSB()}>Open simple snackbar</Button>
       <Snackbar handleClose={handleCloseSB} open={openSB} textSB={textSB} />
-      {state.firstName && currentUser && (
+      {currentUser && (
         <MyAccount
-          firstNameBeforeUpdate={currentUser.first_name}
-          lastNameBeforeUpdate={currentUser.last_name}
-          first_name={state.firstName}
-          last_name={state.lastName}
-          email={state.email}
+          firstName={currentUser.first_name}
+          lastName={currentUser.last_name}
+          email={currentUser.email}
           open={accuontOpen}
           handleClose={() => setAccuontOpen(false)}
-          handleAccountChange={handleRegisterChange}
           beers={currentWishlist}
           reviews={currentBeerReviews}
-          onSubmit={handleAccountChangeSubmit}
           handleEditReviewOpen={handleEditReviewOpen}
           handleDeleteMyReview={handleDeleteMyReview}
+          changeAccountDetails={changeAccountDetails}
         />
       )}
       <Scanner

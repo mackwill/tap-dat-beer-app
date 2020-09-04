@@ -8,6 +8,8 @@ const SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE";
 const SET_USER_BEER_DATA = "SET_USER_BEER_DATA";
 const SET_WISHLIST = "SET_WISHLIST";
 const SET_REGISTRATION_OR_USER_DATA = "SET_REGISTRATION_OR_USER_DATA";
+const SET_RECENTLY_VIEWED = "SET_RECENTLY_VIEWED";
+const SET_USER_REVIEWS = "SET_USER_REVIEWS";
 const reducer = (state, action) => {
   switch (action.type) {
     case SET_CURRENT_USER: {
@@ -22,6 +24,9 @@ const reducer = (state, action) => {
     case SET_WISHLIST: {
       return { ...state, currentWishlist: action.value };
     }
+    case SET_RECENTLY_VIEWED: {
+      return { ...state, recentlyViewed: action.value };
+    }
     case SET_ERROR_MESSAGE: {
       return { ...state, errMessage: action.value };
     }
@@ -29,9 +34,11 @@ const reducer = (state, action) => {
       if (action.value.name) {
         return { ...state, [action.value.name]: action.value.value };
       } else {
-        console.log("action,value: ", action.value);
         return { ...state, ...action.value };
       }
+    }
+    case SET_USER_REVIEWS: {
+      return { ...state, currentBeerReviews: action.value };
     }
     default:
       throw new Error(
@@ -87,7 +94,7 @@ export default function useApplicationData() {
       .catch((err) => {
         console.log("Error getting beers: ", err);
       });
-  }, []);
+  }, [state.currentUser]);
 
   const submitLoginData = (email, password) => {
     return axios
@@ -126,9 +133,7 @@ export default function useApplicationData() {
           },
         });
       })
-      .catch((err) => {
-        console.log("Error getting beers: ", err);
-      });
+      .catch((err) => {});
   }, [state.currentUser]);
 
   const deleteBeerFromWishlist = (wishlist_id, currentBeer) => {
@@ -211,7 +216,7 @@ export default function useApplicationData() {
     }
     dispatch({
       type: SET_REGISTRATION_OR_USER_DATA,
-      value: { ...dispatchValue },
+      value: dispatchValue,
     });
   };
 
@@ -229,8 +234,54 @@ export default function useApplicationData() {
     });
   };
 
+  const changeAccountDetails = async (user) => {
+    const newAccountDetails = {
+      ...state.currentUser,
+      first_name: user.firstName,
+      last_name: user.lastName,
+      email: user.email,
+    };
+
+    try {
+      await axios.put("/api/user", newAccountDetails);
+      const updatedUser = await axios.get("/api/user");
+      dispatch({
+        type: SET_CURRENT_USER,
+        value: updatedUser.data.data,
+      });
+    } catch (error) {
+      console.log("Error updating account: ", error);
+    }
+  };
+
+  const setRecentlyViewed = async () => {
+    const newRecentlyViewed = await axios.get("/api/beers/recently");
+    dispatch({
+      type: SET_RECENTLY_VIEWED,
+      value: newRecentlyViewed.data.data,
+    });
+  };
+
+  // Removes the deleted beer from =the state list of currentBeer Reviews
+  const removeDeletedBeerReview = (id) => {
+    const filteredList = state.currentBeerReviews.filter((beer) => {
+      return id !== beer.id;
+    });
+    return filteredList;
+  };
+
+  // Delete a review from your list of My Reviews
+  const deleteReviewById = async (review_id) => {
+    await axios.delete(`/api/reviews/${review_id}`);
+    const newBeerReview = removeDeletedBeerReview(review_id);
+    dispatch({
+      type: SET_USER_REVIEWS,
+      value: newBeerReview,
+    });
+  };
+
   return {
-    ...state,
+    state,
     submitLoginData,
     addBeerToWishlist,
     deleteBeerFromWishlist,
@@ -239,5 +290,8 @@ export default function useApplicationData() {
     changeUserData,
     setLoggedInUser,
     setErrorMessage,
+    changeAccountDetails,
+    setRecentlyViewed,
+    deleteReviewById,
   };
 }

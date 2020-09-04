@@ -7,36 +7,43 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import CustomAlert from "../Alert/CustomAlert";
+import useApplicationData from "../../hooks/useApplicationData";
+import axios from "axios";
 
 export default function Register(props) {
-  // console.log("props ", props);
-  const [err, setError] = useState(false);
-  let errorMsg = "";
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [errMessage, setErrorMessage] = useState(null);
 
-  const submitForm = () => {
-    if (props.state.password !== props.state.passwordConfirmation) {
-      errorMsg = "Password do not match";
-      setError(true);
+  const { changeUserData, setLoggedInUser } = props;
+
+  const handleRegisterSubmit = async (e) => {
+    e.preventDefault();
+
+    if (password !== passwordConfirmation) {
+      setErrorMessage("Passwords do not match");
       return;
-    } else {
-      props.onSubmit();
     }
-  };
-  const handleChange = async (e) => {
-    await props.onChange(e);
 
-    console.log("hererere");
-    console.log("passwprd", props.state.password);
-    console.log("password confirmation: ", props.state.passwordConfirmation);
-    if (props.state.password !== props.state.passwordConfirmation) {
-      console.log("here");
-      setError(true);
-      errorMsg = "Password do not match";
-    } else {
-      console.log("false yo");
-      setError(false);
+    const newUser = {
+      firstName,
+      lastName,
+      email,
+      password,
+    };
+
+    try {
+      const response = await axios.post("/api/register", newUser);
+      setLoggedInUser(response.data.user);
+      props.handleClose();
+    } catch (error) {
+      setErrorMessage("That email already exists");
     }
   };
+
   return (
     <div>
       <Dialog
@@ -44,10 +51,11 @@ export default function Register(props) {
         onClose={props.handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <form onSubmit={submitForm}>
+        <form onSubmit={handleRegisterSubmit}>
           <DialogTitle id="form-dialog-title">Sign Up!</DialogTitle>
           <DialogContent>
             <TextField
+              required
               autoFocus
               margin="dense"
               id="firstName"
@@ -55,56 +63,50 @@ export default function Register(props) {
               type="text"
               name="firstName"
               fullWidth
-              value={props.state.firstName}
-              onChange={props.onChange}
-              // onChange={handleChange}
+              onChange={(e) => setFirstName(e.target.value)}
             />
             <TextField
+              required
               margin="dense"
               id="lastName"
               label="Last Name"
               type="text"
               name="lastName"
               fullWidth
-              value={props.state.lastName}
-              onChange={props.onChange}
+              onChange={(e) => setLastName(e.target.value)}
             />
             <TextField
+              required
               margin="dense"
               id="email"
               label="Email"
               type="email"
               name="email"
               fullWidth
-              value={props.state.email}
-              onChange={props.onChange}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
+              required
               margin="dense"
               id="password"
               label="Password"
               type="password"
               name="password"
               fullWidth
-              // onChange={props.onChange}
-              onChange={handleChange}
-              value={props.state.password}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <TextField
-              error={err}
+              required
               margin="dense"
               id="confirmPassword"
               label="Confirm Password"
               type="password"
               name="passwordConfirmation"
               fullWidth
-              // onChange={props.onChange}
-              onChange={handleChange}
-              // value={props.state.passwordConfirmation}
-              helperText={errorMsg}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
             />
           </DialogContent>
-          <CustomAlert errMessage={props.errMessage} severity="warning" />
+          <CustomAlert errMessage={errMessage} severity="warning" />
           <DialogActions>
             <Button onClick={props.handleClose} color="primary">
               Cancel
