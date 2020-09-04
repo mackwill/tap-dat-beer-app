@@ -72,6 +72,7 @@ function App() {
     addBeerToWishlist,
     deleteBeerFromWishlist,
     setClickedBeerToCurrent,
+    getReviewsAndWishlistForSingleUser,
   } = useApplicationData();
 
   const [openSB, setOpenSB] = useState(false);
@@ -292,9 +293,7 @@ function App() {
       email: prevEmail,
     }));
     setAccuontOpen(true);
-    // return axios.get("/api/reviews/user").then((res) => {
-    //   setCurrentBeerReviews(res.data.data);
-    // });
+    getReviewsAndWishlistForSingleUser();
   };
 
   // Handle account detail change form submit
@@ -317,6 +316,7 @@ function App() {
 
   // Check if user has already wishlisted that beer
   const hasUserWishlistedBeer = (id) => {
+    console.log("herwerwerwe");
     const filteredList = currentWishlist.filter((beer) => {
       return id === beer.id;
     });
@@ -330,39 +330,22 @@ function App() {
       return;
     }
 
+    const checkWishlist = await hasUserWishlistedBeer(currentBeer.id);
+
     // Check to see if the user has already wishlisted a beer
     // and remove it from the wishlist if they have
-    if (hasUserWishlistedBeer(currentBeer.id).length > 0) {
-      const wish = currentWishlist.filter(
-        (elm) => elm.id === currentBeer.id
-      )[0];
-      await deleteBeerFromWishlist(wish.w_id, currentBeer);
+    if (checkWishlist.length > 0) {
+      const wish = currentWishlist.filter((beer) => beer.id === currentBeer.id);
+      console.log("wish:", wish[0].w_id);
+      await deleteBeerFromWishlist(wish[0].w_id, currentBeer);
       handleClickSB(`${currentBeer.name} was removed from your wishlist`);
+      return;
     }
 
     if (currentUser && currentBeer) {
       await addBeerToWishlist(currentBeer.id);
       handleClickSB(`${currentBeer.name} was saved to wishlist`);
     }
-  };
-
-  // Sort beers by highest rated
-  const sortTopBeers = () => {
-    const copyBeers = [...beers];
-
-    copyBeers.sort((a, b) => {
-      return Number(a.avg_rank) - Number(b.avg_rank);
-    });
-    return copyBeers.reverse();
-  };
-
-  // Sort beers by most reviewed
-  const sortReviewedBeers = () => {
-    const copyBeers = [...beers];
-    copyBeers.sort((a, b) => {
-      return a.num_reviews - b.num_reviews;
-    });
-    return copyBeers.reverse();
   };
 
   // Open scanner

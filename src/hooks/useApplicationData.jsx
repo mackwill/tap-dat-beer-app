@@ -6,6 +6,7 @@ const SET_VISITOR_BEER_DATA = "SET_VISITOR_BEER_DATA";
 const SET_CURRENT_USER = "SET_CURRENT_USER";
 const SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE";
 const SET_USER_BEER_DATA = "SET_USER_BEER_DATA";
+const SET_WISHLIST = "SET_WISHLIST";
 const reducer = (state, action) => {
   switch (action.type) {
     case SET_CURRENT_USER: {
@@ -16,6 +17,9 @@ const reducer = (state, action) => {
     }
     case SET_USER_BEER_DATA: {
       return { ...state, ...action.value };
+    }
+    case SET_WISHLIST: {
+      return { ...state, currentWishlist: action.value };
     }
     case SET_ERROR_MESSAGE: {
       return { ...state, errMessage: action.value };
@@ -127,23 +131,43 @@ export default function useApplicationData() {
   };
 
   const deleteBeerFromWishlist = (wishlist_id, currentBeer) => {
-    return axios.delete(`/api/wishlists/${wishlist_id}`).then((res) => {
-      const newWishList = removeDeletedBeer(currentBeer.id);
-      dispatch({
-        type: "SET_USER_BEER_DATA",
-        value: newWishList,
+    // return axios.delete(`/api/wishlists/${wishlist_id}`).then((res) => {
+    //   const newWishList = removeDeletedBeer(currentBeer.id);
+    //   console.log("newWishlist: ", newWishList);
+    //   dispatch({
+    //     type: SET_WISHLIST,
+    //     value: newWishList,
+    //   });
+    // });
+    console.log("wishlist: ", wishlist_id);
+    return axios
+      .delete(`/api/wishlists/${wishlist_id}`)
+      .then((res) => {
+        return axios.get("/api/wishlists");
+      })
+      .then((res) => {
+        console.log("res: ", res);
+        dispatch({
+          type: SET_WISHLIST,
+          value: res.data.data,
+        });
       });
-    });
   };
 
   const addBeerToWishlist = (beer_id, currentBeer) => {
     return axios
-      .post("/api/wishlists", beer_id)
+      .post("/api/wishlists/", {
+        beer_id: beer_id,
+        user_id: state.currentUser.id,
+      })
+      .then(() => {
+        return axios.get("/api/wishlists");
+      })
       .then((res) => {
-        const newWishList = [...state.currentWishlist, currentBeer];
+        console.log("res: ", res);
         dispatch({
-          type: SET_USER_BEER_DATA,
-          value: newWishList,
+          type: SET_WISHLIST,
+          value: res.data.data,
         });
       })
       .catch((err) => console.log("err, ", err));
@@ -165,11 +189,24 @@ export default function useApplicationData() {
     });
   };
 
-  const getReviewsForSingleUser = async () => {
-    const reviews = await axios.get("/api/reviews/user");
-    dispatch({
-      type: SET_USER_BEER_DATA,
-      value: reviews,
+  const getReviewsAndWishlistForSingleUser = async () => {
+    // const reviews = await axios.get("/api/reviews/user");
+    // dispatch({
+    //   type: SET_USER_BEER_DATA,
+    //   value: reviews,
+    // });
+    Promise.all([
+      Promise.resolve(axios.get("/api/reviews/user")),
+      Promise.resolve(axios.get("/api/wishlists")),
+    ]).then((all) => {
+      console.log("all: ", all);
+      dispatch({
+        type: SET_USER_BEER_DATA,
+        value: {
+          currentBeerReviews: all[0].data.data,
+          currentWishlist: all[1].data.data,
+        },
+      });
     });
   };
 
@@ -179,6 +216,6 @@ export default function useApplicationData() {
     addBeerToWishlist,
     deleteBeerFromWishlist,
     setClickedBeerToCurrent,
-    getReviewsForSingleUser,
+    getReviewsAndWishlistForSingleUser,
   };
 }
