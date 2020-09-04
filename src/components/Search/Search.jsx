@@ -73,14 +73,14 @@ export default function FullScreenDialog(props) {
   useEffect(() => {
     setPageNumber(1);
     axios
-      .get(
-        `/api/search?q=${encodeURI(
-          props.searchQuery
-        )}&page=${pageNumber}&limit=10`
-      )
+      .get(`/api/search?q=${encodeURI(props.searchQuery)}&page=1&limit=10`)
       .then((data) => {
         setSearchResults(data.data.results);
-        setPageNumber(data.data.next.page);
+        if (data.data.next) {
+          setPageNumber(data.data.next.page);
+        } else {
+          setPageNumber(null);
+        }
       })
       .catch((e) => console.log("Error on search query:", e));
   }, [props.searchQuery]);
@@ -94,7 +94,6 @@ export default function FullScreenDialog(props) {
         )}&page=${pageNumber}&limit=10`
       )
       .then((data) => {
-        console.log("laodmore results:", data);
         if (data.data.next) {
           setPageNumber(data.data.next.page);
         } else {
