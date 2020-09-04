@@ -24,6 +24,7 @@ import Scanner from "./components/Scanner/Scanner";
 import useApplicationData from "./hooks/useApplicationData";
 
 function App() {
+  let userData;
   const [registerOpen, setRegisterOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [beerDetailOpen, setBeerDetailOpen] = useState(false);
@@ -181,12 +182,11 @@ function App() {
   };
 
   const handleLogout = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     console.log("Logout clicked");
     return axios.post("/api/logout").then((data) => {
-      // setCurrentUser(null);
-      // setCurrentWishlist([]);
+      setLoggedInUser(null);
 
       handleClickSB(`You are now logged out`);
     });

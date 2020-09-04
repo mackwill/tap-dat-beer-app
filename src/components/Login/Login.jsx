@@ -36,7 +36,7 @@ export default function Login(props) {
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     Promise.resolve(submitLoginData(email, password))
-      .then(() => props.handleLoginClose())
+      .then(() => props.handleClose())
       .catch((err) => console.log("Nothing: ", err));
   };
   return (

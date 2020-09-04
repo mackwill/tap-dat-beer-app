@@ -87,7 +87,7 @@ export default function useApplicationData() {
       .catch((err) => {
         console.log("Error getting beers: ", err);
       });
-  }, []);
+  }, [state.currentUser]);
 
   const submitLoginData = (email, password) => {
     return axios
