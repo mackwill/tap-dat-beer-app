@@ -63,8 +63,9 @@ export default function ProductDetail(props) {
   };
 
   const hasAlreadyReviewed =
-    props.reviews.filter((review) => review.user_id === props.currentUser.id)
-      .length > 0
+    props.reviews.filter(
+      (review) => review.user_id === props.currentUser && props.currentUser.id
+    ).length > 0
       ? true
       : false;
 
