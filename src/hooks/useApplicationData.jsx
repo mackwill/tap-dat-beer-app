@@ -29,7 +29,6 @@ const reducer = (state, action) => {
       if (action.value.name) {
         return { ...state, [action.value.name]: action.value.value };
       } else {
-        console.log("action,value: ", action.value);
         return { ...state, ...action.value };
       }
     }
@@ -126,9 +125,7 @@ export default function useApplicationData() {
           },
         });
       })
-      .catch((err) => {
-        console.log("Error getting beers: ", err);
-      });
+      .catch((err) => {});
   }, [state.currentUser]);
 
   const deleteBeerFromWishlist = (wishlist_id, currentBeer) => {
@@ -211,7 +208,7 @@ export default function useApplicationData() {
     }
     dispatch({
       type: SET_REGISTRATION_OR_USER_DATA,
-      value: { ...dispatchValue },
+      value: dispatchValue,
     });
   };
 

@@ -344,7 +344,6 @@ function App() {
         handleClose={handleRegisterClose}
         onSubmit={handleRegisterSubmit}
         errMessage={errMessage}
-        state={{ firstName, lastName, email, password, passwordConfirmation }}
       />
 
       <Banner />
