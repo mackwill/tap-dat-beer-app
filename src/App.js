@@ -108,16 +108,19 @@ function App() {
     setShareOpen(false);
   };
 
-  const handleEditReviewOpen =  async (id) => {
-    console.log('id passed in editreview open', id);
+  const handleEditReviewOpen = async (id) => {
+    console.log("id passed in editreview open", id);
     const selectedEditReviewId = currentBeerReviews.filter((beer) => {
       return id === beer.id;
     });
-    console.log('this is selectedEdit', selectedEditReviewId);
-    await setSingleReview(selectedEditReviewId[0])
-    console.log('single review after await', singleReview, selectedEditReviewId); 
+    console.log("this is selectedEdit", selectedEditReviewId);
+    await setSingleReview(selectedEditReviewId[0]);
+    console.log(
+      "single review after await",
+      singleReview,
+      selectedEditReviewId
+    );
     setEditMyReviewsOpen(true);
-
   };
 
   const handleEditReviewClose = (e) => {
@@ -125,10 +128,8 @@ function App() {
   };
 
   const handleEditReviewUpdate = () => {
-      getReviewsAndWishlistForSingleUser();
-    };
-  
-
+    getReviewsAndWishlistForSingleUser();
+  };
 
   const handleReviewOpen = (e) => {
     //clear the review state
@@ -137,7 +138,6 @@ function App() {
 
   const handleReviewClose = (e) => {
     setReviewOpen(false);
-    
   };
 
   // Removes the deleted beer from =the state list of currentBeer Reviews
@@ -162,22 +162,17 @@ function App() {
       setLoginOpen(true);
       return;
     }
-      return axios
-        .delete(`/api/reviews/${review_id}`)
-        .then((res) => {
-          const newBeerReview = removeDeletedBeerReview(review_id);
-          console.log(newBeerReview);
-          setState((prev) => ({
-            ...prev,
-            currentBeerReviews: newBeerReview,
-          }));
-          handleClickSB(
-            `Your review was removed from your Review list`
-          );
-        });
-  }
+    return axios.delete(`/api/reviews/${review_id}`).then((res) => {
+      const newBeerReview = removeDeletedBeerReview(review_id);
+      console.log(newBeerReview);
+      setState((prev) => ({
+        ...prev,
+        currentBeerReviews: newBeerReview,
+      }));
+      handleClickSB(`Your review was removed from your Review list`);
+    });
+  };
 
-  
   // -------------------- To Here --------------------
 
   // const handleLoginChange = (e) => {
@@ -189,7 +184,6 @@ function App() {
     setLoginOpen(false);
     changeUserData(e, true);
   };
-
 
   const handleRegisterOpen = (e) => {
     setRegisterOpen(true);
@@ -204,7 +198,6 @@ function App() {
     setRegisterOpen(false);
     changeUserData(e, true);
   };
-
 
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
@@ -241,7 +234,7 @@ function App() {
   };
 
   const handleLogout = (e) => {
-   // e.preventDefault();
+    // e.preventDefault();
 
     console.log("Logout clicked");
     return axios.post("/api/logout").then((data) => {
@@ -291,7 +284,7 @@ function App() {
 
   const handleBeerDetailClose = (e) => {
     setBeerDetailOpen(false);
-    
+
     // setTimeout(() => {
     //   setCurrentBeer(null);
     //   setCurrentBeerReviews([]);
@@ -488,14 +481,14 @@ function App() {
       {/* Move review component and share option to beer detail page */}
       <ShareOption open={shareOpen} close={handleShareOptionClose} />
 
-     
-      {editMyReviewsOpen && <EditReview
-        open={editMyReviewsOpen}
-        close={handleEditReviewClose}
-        review={singleReview}
-        handleEditReviewUpdate={handleEditReviewUpdate}
-      />}
-
+      {editMyReviewsOpen && (
+        <EditReview
+          open={editMyReviewsOpen}
+          close={handleEditReviewClose}
+          review={singleReview}
+          handleEditReviewUpdate={handleEditReviewUpdate}
+        />
+      )}
 
       <Button onClick={() => handleClickSB()}>Open simple snackbar</Button>
       <Snackbar handleClose={handleCloseSB} open={openSB} textSB={textSB} />
