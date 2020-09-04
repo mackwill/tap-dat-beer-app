@@ -21,6 +21,7 @@ import MyAccount from "./components/Account/MyAccount";
 import CustomAlert from "./components/Alert/CustomAlert";
 import Scanner from "./components/Scanner/Scanner";
 //import Review from './components/Review/Review'
+import useApplicationData from "./hooks/useApplicationData";
 
 function App() {
   const [registerOpen, setRegisterOpen] = useState(false);
@@ -29,24 +30,13 @@ function App() {
   const [accuontOpen, setAccuontOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
   const [reviewOpen, setReviewOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const [myWishlistOpen, setMyWishlistOpen] = useState(false);
   const [myReviewsOpen, setMyReviewsOpen] = useState(false);
   const [userNote, setUserNote] = useState(false);
-  const [errMessage, setErrMessage] = useState(null);
   const [scannerOpen, setScannerOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [currentBeer, setCurrentBeer] = useState(null);
   const [beers, setBeers] = useState([]);
-  const [top10RatedBeers, setTop10RatedBeers] = useState([]);
-  const [top10ReviewedBeers, setTop10ReviewedBeers] = useState([]);
-  const [beerCategories, setBeerCategories] = useState([]);
-  const [currentBeerReviews, setCurrentBeerReviews] = useState([]);
-  const [recommendedBeers, setRecommendedBeers] = useState([]);
-  const [recentlyViewed, setRecentlyViewed] = useState([]);
-  const [currentWishlist, setCurrentWishlist] = useState([]);
 
   const [state, setState] = useState({
     firstName: null,
@@ -55,6 +45,33 @@ function App() {
     password: null,
     passwordConfirmation: null,
   });
+
+  const {
+    top10RatedBeers,
+    top10ReviewedBeers,
+    recommendedBeers,
+    recentlyViewed,
+    beerCategories,
+    currentWishlist,
+    currentBeer,
+    currentBeerReviews,
+    currentUser,
+    errMessage,
+    submitLoginData,
+    addBeerToWishlist,
+    deleteBeerFromWishlist,
+    setClickedBeerToCurrent,
+    getReviewsAndWishlistForSingleUser,
+    changeUserData,
+    firstName,
+    lastName,
+    email,
+    password,
+    passwordConfirmation,
+    setLoggedInUser,
+    setErrorMessage,
+  } = useApplicationData();
+
   const [openSB, setOpenSB] = useState(false);
   const [textSB, setTextSB] = useState(false);
 
@@ -70,22 +87,8 @@ function App() {
 
     setOpenSB(false);
   };
-  const filterBeerCategories = () => {
-    const categories = [];
 
-    beers.forEach((beer) => {
-      if (!categories.includes(beer.type)) {
-        categories.push(beer.type);
-      }
-    });
-    return categories;
-  };
-
-  const beersByCategory = (category) => {
-    const beerListCategory = beers.filter((beer) => beer.type === category);
-    return beerListCategory;
-  };
-
+  // -------------------- Here --------------------
   const handleSearchOpen = (e) => {
     setSearchOpen(true);
   };
@@ -110,79 +113,37 @@ function App() {
     setReviewOpen(false);
   };
 
-  const handleLoginOpen = (e) => {
-    console.log("Open Login modal");
-    setLoginOpen(true);
-  };
+  // -------------------- To Here --------------------
 
-  const handleLoginChange = (e) => {
-    e.persist();
-    setState((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value.trim(),
-    }));
-  };
+  // const handleLoginChange = (e) => {
+  //   e.persist();
+  //   changeUserData(e);
+  // };
 
   const handleLoginClose = (e) => {
     setLoginOpen(false);
-    setState((prev) => ({
-      ...prev,
-      email: null,
-      password: null,
-    }));
-    setErrMessage(null);
+    changeUserData(e, true);
   };
 
-  const handleLoginSubmit = (e) => {
-    e.preventDefault();
-    console.log("Here");
-
-    if (!state.email || !state.password) {
-      setErrMessage("Please fill out both fields to login");
-      return;
-    }
-    return axios
-      .post("/api/login", {
-        email: state.email,
-        password: state.password,
-      })
-      .then((res) => {
-        console.log("login promise res:  ", res);
-
-        setCurrentUser(res.data.user);
-        handleLoginClose();
-      })
-      .catch((err) => {
-        setErrMessage("Invalid email or password");
-      });
-  };
+  // const handleLoginSubmit = (e) => {
+  //   e.preventDefault();
+  //   Promise.resolve(submitLoginData(state.email, state.password))
+  //     .then(() => handleLoginClose())
+  //     .catch((err) => console.log("Nothing: ", err));
+  // };
 
   const handleRegisterOpen = (e) => {
-    console.log("Open Register modal");
-    // Uncomment this when the modal is here:
     setRegisterOpen(true);
   };
 
   const handleRegisterChange = (e) => {
     e.persist();
-    console.log("e.target.value", e.target.value);
-    console.log("e.target.name", e.target.name);
-    setState((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value.trim(),
-    }));
+    changeUserData(e);
   };
 
   const handleRegisterClose = (e) => {
     setRegisterOpen(false);
-    setState((prev) => ({
-      ...prev,
-      firstName: null,
-      lastName: null,
-      email: null,
-      password: null,
-    }));
-    setErrMessage(null);
+    changeUserData(e, true);
   };
 
   const handleRegisterSubmit = (e) => {
@@ -195,38 +156,37 @@ function App() {
       !state.password ||
       !state.passwordConfirmation
     ) {
-      setErrMessage("Please fill out all fields");
+      // setErrMessage("Please fill out all fields");
       return;
     } else if (state.password !== state.passwordConfirmation) {
-      setErrMessage("Passwords do not match");
+      // setErrMessage("Passwords do not match");
       return;
     }
 
     const newUser = {
-      firstName: state.firstName,
-      lastName: state.lastName,
-      email: state.email,
-      password: state.password,
+      firstName,
+      lastName,
+      email,
+      password,
     };
     return axios
       .post("/api/register", newUser)
       .then((res) => {
-        console.log("Register promise data: ", res);
-        setCurrentUser(res.data.user);
+        setLoggedInUser(res.data.user);
         handleRegisterClose();
       })
       .catch((err) => {
-        setErrMessage("That email already exists");
+        setErrorMessage("That email already exists");
       });
   };
 
   const handleLogout = (e) => {
-    // e.preventDefault();
+    e.preventDefault();
 
     console.log("Logout clicked");
     return axios.post("/api/logout").then((data) => {
-      setCurrentUser(null);
-      setCurrentWishlist([]);
+      // setCurrentUser(null);
+      // setCurrentWishlist([]);
 
       handleClickSB(`You are now logged out`);
     });
@@ -259,25 +219,21 @@ function App() {
     }
 
     if (isBeerInRecentlyViewedList(id).length === 0) {
-      console.log("thijierotiejotjeroitjeorijt");
       await axios.post("/api/search/analytics", {
         user_id: userId,
         beer_id: id,
       });
     }
-    const selectedBeer = await axios.get(`/api/beers/${id}`);
-    const reviewsOfSelectedBeer = await axios.get(`/api/reviews/beers/${id}`);
-    setCurrentBeer(selectedBeer.data.beer);
-    setCurrentBeerReviews(reviewsOfSelectedBeer.data);
+    setClickedBeerToCurrent(id);
   };
 
   const handleBeerDetailClose = (e) => {
     setBeerDetailOpen(false);
 
-    setTimeout(() => {
-      setCurrentBeer(null);
-      setCurrentBeerReviews([]);
-    }, 300);
+    // setTimeout(() => {
+    //   setCurrentBeer(null);
+    //   setCurrentBeerReviews([]);
+    // }, 300);
   };
 
   const handleAccountOpen = (e) => {
@@ -292,9 +248,7 @@ function App() {
       email: prevEmail,
     }));
     setAccuontOpen(true);
-    return axios.get("/api/reviews/user").then((res) => {
-      setCurrentBeerReviews(res.data.data);
-    });
+    getReviewsAndWishlistForSingleUser();
   };
 
   // Handle account detail change form submit
@@ -310,20 +264,9 @@ function App() {
     return axios
       .put("/api/user", newAccountDetails)
       .then((res) => {
-        setCurrentUser(res.data.data);
+        // setCurrentUser(res.data.data);
       })
       .catch((err) => console.log("Error Updating Account: ", err));
-  };
-  // Get list of beers wishlisted by the currently logged in user
-  const handleMyWishlistOpen = (e) => {
-    setMyWishlistOpen(true);
-
-    return axios
-      .get("/api/wishlists")
-      .then((res) => {
-        setCurrentWishlist(res.data.data);
-      })
-      .catch((err) => console.log("Error: ", err));
   };
 
   // Check if user has already wishlisted that beer
@@ -334,76 +277,38 @@ function App() {
     return filteredList;
   };
 
-  // Removes the deleted beer from the state list of currentWishlist
-  const removeDeletedBeer = (id) => {
-    const filteredList = currentWishlist.filter((beer) => {
-      return id !== beer.id;
-    });
-    return filteredList;
-  };
-
   // Add an item to your wishlist if it isn't already liked
-  const handleAddToWishlist = (e) => {
+  const handleAddToWishlist = async (e) => {
     if (!currentUser) {
       setLoginOpen(true);
       return;
     }
 
+    const checkWishlist = await hasUserWishlistedBeer(currentBeer.id);
+
     // Check to see if the user has already wishlisted a beer
     // and remove it from the wishlist if they have
-    if (hasUserWishlistedBeer(currentBeer.id).length > 0) {
-      const wish = currentWishlist.filter(
-        (elm) => elm.id === currentBeer.id
-      )[0];
-      return axios.delete(`/api/wishlists/${wish.w_id}`).then((res) => {
-        const newWishList = removeDeletedBeer(currentBeer.id);
-
-        setCurrentWishlist(newWishList);
-        handleClickSB(`${currentBeer.name} was removed from your wishlist`);
-      });
+    if (checkWishlist.length > 0) {
+      const wish = currentWishlist.filter((beer) => beer.id === currentBeer.id);
+      await deleteBeerFromWishlist(wish[0].w_id, currentBeer);
+      handleClickSB(`${currentBeer.name} was removed from your wishlist`);
+      return;
     }
 
     if (currentUser && currentBeer) {
-      return axios
-        .post("/api/wishlists", {
-          beer_id: currentBeer.id,
-          user_id: currentUser.id,
-        })
-        .then((res) => {
-          const newWishList = [...currentWishlist, currentBeer];
-          setCurrentWishlist([...newWishList]);
-          handleClickSB(`${currentBeer.name} was saved to wishlist`);
-        })
-        .catch((err) => console.log("err, ", err));
+      await addBeerToWishlist(currentBeer.id);
+      handleClickSB(`${currentBeer.name} was saved to wishlist`);
     }
-  };
-
-  const handleMyReviewsOpen = (e) => {
-    // setMyReviewsOpen(true);
-    console.log("review");
-  };
-  // Sort beers by highest rated
-  const sortTopBeers = () => {
-    const copyBeers = [...beers];
-
-    copyBeers.sort((a, b) => {
-      return Number(a.avg_rank) - Number(b.avg_rank);
-    });
-    return copyBeers.reverse();
-  };
-
-  // Sort beers by most reviewed
-  const sortReviewedBeers = () => {
-    const copyBeers = [...beers];
-    copyBeers.sort((a, b) => {
-      return a.num_reviews - b.num_reviews;
-    });
-    return copyBeers.reverse();
   };
 
   // Open scanner
   const handleScannerOpen = (e) => {
     setScannerOpen(true);
+    // if (state) {
+    //   setScannerOpen(true);
+    // } else {
+    //   setScannerOpen(false);
+    // }
   };
 
   const handleScannerClose = (e) => {
@@ -415,62 +320,12 @@ function App() {
     setSearchQuery(category);
   };
 
-  // Get all the beers once the home page is loaded
-  useEffect(() => {
-    Promise.all([
-      Promise.resolve(axios.get("/api/beers/top10rated")),
-      Promise.resolve(axios.get("/api/beers/top10reviewed")),
-      Promise.resolve(axios.get("/api/beers/categories")),
-    ])
-      .then((all) => {
-        console.log("all:  ", all);
-        setTop10RatedBeers(all[0].data.data);
-        setTop10ReviewedBeers(all[1].data.data);
-        setBeerCategories(all[2].data.data);
-      })
-      .catch((err) => {
-        console.log("Error getting beers: ", err);
-      });
-  }, []);
-
-  useEffect(() => {
-    Promise.resolve(axios.get("/api/user")).then((res) => {
-      console.log("res of current user");
-      setCurrentUser(res.data.data);
-    });
-  }, []);
-  useEffect(() => {
-    Promise.all([
-      Promise.resolve(axios.get("/api/wishlists")),
-      Promise.resolve(axios.get("/api/beers/recommendations")),
-      Promise.resolve(axios.get("/api/beers/recently")),
-    ])
-      .then((all) => {
-        setCurrentWishlist(all[0].data.data);
-        setRecommendedBeers(all[1].data.data);
-        setRecentlyViewed(all[2].data.data);
-      })
-      .then((res) => {
-        return axios.get("/api/beers/recommendations");
-      })
-      .then((res) => {
-        console.log("res recommendation: ", res);
-        // setState((prev) => ({
-        //   ...prev,
-        //   recommendedBeers: [...res.data.data],
-        // }));
-      })
-      .catch((err) => {
-        console.log("Error getting beers: ", err);
-      });
-  }, [currentUser]);
-
   return (
     <div className="App">
       <Navbar
         handleSearchOpen={handleSearchOpen}
         handleRegisterOpen={handleRegisterOpen}
-        handleLoginOpen={handleLoginOpen}
+        handleLoginOpen={setLoginOpen}
         currentUser={currentUser}
         handleLogout={handleLogout}
         handleAccountOpen={handleAccountOpen}
@@ -478,9 +333,9 @@ function App() {
       />
       <Login
         open={loginOpen}
-        onChange={handleLoginChange}
+        // onChange={handleLoginChange}
         handleClose={handleLoginClose}
-        onSubmit={handleLoginSubmit}
+        // onSubmit={handleLoginSubmit}
         errMessage={errMessage}
       />
       <Register
@@ -489,20 +344,21 @@ function App() {
         handleClose={handleRegisterClose}
         onSubmit={handleRegisterSubmit}
         errMessage={errMessage}
+        state={{ firstName, lastName, email, password, passwordConfirmation }}
       />
 
       <Banner />
 
       {currentUser && (
         <Fragment>
-          {recommendedBeers.length != 0 && (
+          {recommendedBeers.length !== 0 && (
             <Category
               category={"Recommended"}
               beers={recommendedBeers}
               onClick={handleBeerDetailClick}
             />
           )}
-          {recentlyViewed.length != 0 && (
+          {recentlyViewed.length !== 0 && (
             <Category
               category={"Recently Viewed"}
               beers={recentlyViewed}
@@ -559,19 +415,16 @@ function App() {
         close={handleSearchClose}
         onClick={handleClickFromSearchResult}
       />
+
+      {/* Move review component and share option to beer detail page */}
       <Review
         currentBeer={currentBeer}
         open={reviewOpen}
         close={handleReviewClose}
       />
+      {/* Move review component and share option to beer detail page */}
       <ShareOption open={shareOpen} close={handleShareOptionClose} />
 
-      <Wishlist
-        open={myWishlistOpen}
-        close={() => setMyWishlistOpen(false)}
-        beers={currentWishlist}
-        onClick={handleBeerDetailClick}
-      />
       <Snackbar handleClose={handleCloseSB} open={openSB} textSB={textSB} />
       {state.firstName && currentUser && (
         <MyAccount
