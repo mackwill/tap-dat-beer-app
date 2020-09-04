@@ -162,7 +162,7 @@ function App() {
 
   // Delete a review from your list of My Reviews
   const handleDeleteMyReview = (review_id) => {
-    if (!state.currentUser) {
+    if (!currentUser) {
       setLoginOpen(true);
       return;
     }
@@ -174,7 +174,7 @@ function App() {
           const newBeerReview = removeDeletedBeerReview(review_id);
           setState((prev) => ({
             ...prev,
-            currentBeerReviews: newBeerReview,
+            currentBeerReviews: [newBeerReview],
           }));
           handleClickSB(
             `Your review was removed from your Review list`
@@ -302,7 +302,7 @@ function App() {
   };
 
   const handleLogout = (e) => {
-    e.preventDefault();
+   // e.preventDefault();
 
     console.log("Logout clicked");
     return axios.post("/api/logout").then((data) => {
