@@ -4,12 +4,10 @@ import Results from "../Search/Results";
 
 export default function TitlebarGridList(props) {
   return (
-    <List>
-      <Results
-        onClick={props.onClick}
-        searchResults={props.similarBeers}
-        title="Similar Beers"
-      />
-    </List>
+    <Results
+      onClick={props.onClick}
+      searchResults={props.similarBeers}
+      title="Similar Beers"
+    />
   );
 }

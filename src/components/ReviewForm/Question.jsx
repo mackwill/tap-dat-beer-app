@@ -2,6 +2,7 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { TextField } from "@material-ui/core";
+import DialogActions from "@material-ui/core/DialogActions";
 
 import { makeStyles } from "@material-ui/styles";
 const userStyles = makeStyles((theme) => ({
@@ -60,7 +61,7 @@ export default function Question(props) {
   });
 
   return (
-    <div>
+    <>
       <DialogTitle id="form-dialog-title">{props.question}</DialogTitle>
       {props.finalQuestion && (
         <>
@@ -84,6 +85,6 @@ export default function Question(props) {
         </>
       )}
       {!props.finalQuestion && <div className={classes.root}>{buttons}</div>}
-    </div>
+    </>
   );
 }
