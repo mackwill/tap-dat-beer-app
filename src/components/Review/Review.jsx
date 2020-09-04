@@ -28,7 +28,6 @@ const theme = createMuiTheme({
     },
   },
 });
-
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -53,7 +52,6 @@ const useStyles = makeStyles({
     color: theme.palette.secondary.main,
   },
 });
-
 export default function Review(props) {
   const classes = useStyles();
 
@@ -78,9 +76,11 @@ export default function Review(props) {
                   <Typography variant="h5" component="h5">
                     {props.first_name}
                   </Typography>
+                  <Typography variant="h5" component="h5">
+                    {props.creation_date}
+                  </Typography>
                 </Box>
               )}
-
               {props.beer_name && (
                 <Box component="div" display="flex" alignItems="center">
                   <Typography variant="p" component="p">
@@ -88,7 +88,6 @@ export default function Review(props) {
                   </Typography>
                 </Box>
               )}
-
               <Box textAlign="right">
                 <Rating
                   name="read-only"
@@ -98,9 +97,7 @@ export default function Review(props) {
                 />
               </Box>
             </Box>
-
             <Divider />
-
             <Grid
               container
               spacing={1}
@@ -129,7 +126,6 @@ export default function Review(props) {
               </Grid>
             </Grid>
             <Divider />
-
             <Typography
               variant="body2"
               component="p"
@@ -138,14 +134,16 @@ export default function Review(props) {
               {props.review}
             </Typography>
           </CardContent>
+        
           <CardActions>
             <IconButton>
-              <EditIcon className={classes.iconBlue} />
+              <EditIcon className={classes.iconBlue} onClick={() => props.handleEditReviewOpen(props.id)}  />
             </IconButton>
             <IconButton>
-              <DeleteIcon className={classes.iconBlue} />
+              <DeleteIcon className={classes.iconBlue}  onClick={() => props.handleDeleteMyReview(props.id)} />
             </IconButton>
           </CardActions>
+            
         </Card>
       </Box>
     </Grid>

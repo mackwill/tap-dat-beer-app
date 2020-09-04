@@ -20,6 +20,7 @@
     "react-elastic-carousel": "^0.7.4",
     "react-scripts": "3.4.3",
     "react-share": "^4.2.1",
+    "react-webcam": "^5.2.0",
     "styled-components": "^5.1.1"
   },
   "scripts": {

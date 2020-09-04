@@ -9,6 +9,7 @@ const SET_USER_BEER_DATA = "SET_USER_BEER_DATA";
 const SET_WISHLIST = "SET_WISHLIST";
 const SET_REGISTRATION_OR_USER_DATA = "SET_REGISTRATION_OR_USER_DATA";
 const SET_RECENTLY_VIEWED = "SET_RECENTLY_VIEWED";
+const SET_USER_REVIEWS = "SET_USER_REVIEWS";
 const reducer = (state, action) => {
   switch (action.type) {
     case SET_CURRENT_USER: {
@@ -35,6 +36,9 @@ const reducer = (state, action) => {
       } else {
         return { ...state, ...action.value };
       }
+    }
+    case SET_USER_REVIEWS: {
+      return { ...state, currentBeerReviews: action.value };
     }
     default:
       throw new Error(
@@ -257,6 +261,25 @@ export default function useApplicationData() {
       value: newRecentlyViewed.data.data,
     });
   };
+
+  // Removes the deleted beer from =the state list of currentBeer Reviews
+  const removeDeletedBeerReview = (id) => {
+    const filteredList = state.currentBeerReviews.filter((beer) => {
+      return id !== beer.id;
+    });
+    return filteredList;
+  };
+
+  // Delete a review from your list of My Reviews
+  const deleteReviewById = async (review_id) => {
+    await axios.delete(`/api/reviews/${review_id}`);
+    const newBeerReview = removeDeletedBeerReview(review_id);
+    dispatch({
+      type: SET_USER_REVIEWS,
+      value: newBeerReview,
+    });
+  };
+
   return {
     state,
     submitLoginData,
@@ -269,5 +292,6 @@ export default function useApplicationData() {
     setErrorMessage,
     changeAccountDetails,
     setRecentlyViewed,
+    deleteReviewById,
   };
 }

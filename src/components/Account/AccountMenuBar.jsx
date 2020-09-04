@@ -21,7 +21,7 @@ export default function AccountMenuBar(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  console.log('Account Menu Bar: ', props)
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -44,7 +44,7 @@ export default function AccountMenuBar(props) {
         {value === 1 && props.reviews && (
           <Grid container spacing={3}>
             {props.reviews.map((review) => {
-              return <Review {...review} myReview={true} myReviews={true} />;
+              return <Review {...review} myReview={true} myReviews={true} handleDeleteMyReview={props.handleDeleteMyReview} handleEditReviewOpen={props.handleEditReviewOpen} />;
             })}
           </Grid>
         )}

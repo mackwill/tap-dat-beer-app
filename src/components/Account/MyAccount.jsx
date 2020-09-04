@@ -112,6 +112,9 @@ export default function ProductDetail(props) {
                 onClick={props.handleBeerDetailClick}
                 beers={props.beers}
                 reviews={props.reviews}
+                handleDeleteMyReview={props.handleDeleteMyReview}
+                handleEditReviewOpen={props.handleEditReviewOpen}
+
               />
             </ListItem>
           </List>

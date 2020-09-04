@@ -51,6 +51,8 @@ export default function Review(props) {
     props.close();
   };
 
+  
+
   const nextAndSubmit = (id) => {
     const reviewObject = {
       sweet: questionA,
@@ -63,7 +65,7 @@ export default function Review(props) {
     };
     return axios.post("/api/reviews", reviewObject).then((data) => {
       console.log("Sent a review to db");
-      props.close();
+      handleClose();
     });
   };
 

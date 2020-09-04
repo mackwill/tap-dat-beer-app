@@ -1,5 +1,4 @@
 import React, { useState, useEffect, Fragment } from "react";
-import logo from "./logo.svg";
 import Navbar from "./components/Navbar/Navbar";
 import Login from "./components/Login/Login";
 import axios from "axios";
@@ -17,6 +16,8 @@ import Button from "@material-ui/core/Button";
 import Snackbar from "./components/Small-Components/Snackbar";
 import MyAccount from "./components/Account/MyAccount";
 import Scanner from "./components/Scanner/Scanner";
+import EditReview from "./components/MyReviews/EditReview";
+//import Review from './components/Review/Review'
 import useApplicationData from "./hooks/useApplicationData";
 
 function App() {
@@ -31,6 +32,8 @@ function App() {
   const [shareOpen, setShareOpen] = useState(false);
   const [userNote, setUserNote] = useState(false);
   const [scannerOpen, setScannerOpen] = useState(false);
+  const [editMyReviewsOpen, setEditMyReviewsOpen] = useState(false);
+  const [singleReview, setSingleReview] = useState({});
   const [beers, setBeers] = useState([]);
 
   const {
@@ -45,6 +48,7 @@ function App() {
     setErrorMessage,
     changeAccountDetails,
     setRecentlyViewed,
+    deleteReviewById,
   } = useApplicationData();
 
   const {
@@ -54,7 +58,9 @@ function App() {
     recentlyViewed,
     beerCategories,
     currentWishlist,
+    setCurrentBeer,
     currentBeer,
+    setCurrentBeerReviews,
     currentBeerReviews,
     currentUser,
     errMessage,
@@ -87,7 +93,6 @@ function App() {
   };
   const handleSearchClose = (e) => {
     setSearchOpen(false);
-    setSearchQuery("");
   };
 
   const handleShareOptionOpen = (e) => {
@@ -98,12 +103,62 @@ function App() {
     setShareOpen(false);
   };
 
+  const handleEditReviewOpen = async (id) => {
+    console.log("id passed in editreview open", id);
+    const selectedEditReviewId = currentBeerReviews.filter((beer) => {
+      return id === beer.id;
+    });
+    console.log("this is selectedEdit", selectedEditReviewId);
+    await setSingleReview(selectedEditReviewId[0]);
+    console.log(
+      "single review after await",
+      singleReview,
+      selectedEditReviewId
+    );
+    setEditMyReviewsOpen(true);
+  };
+
+  const handleEditReviewClose = (e) => {
+    setEditMyReviewsOpen(false);
+  };
+
+  const handleEditReviewUpdate = () => {
+    getReviewsAndWishlistForSingleUser();
+  };
+
   const handleReviewOpen = (e) => {
+    //clear the review state
     setReviewOpen(true);
   };
 
   const handleReviewClose = (e) => {
     setReviewOpen(false);
+  };
+
+  // Removes the deleted beer from =the state list of currentBeer Reviews
+  const removeDeletedBeerReview = (id) => {
+    const filteredList = currentBeerReviews.filter((beer) => {
+      return id !== beer.id;
+    });
+    return filteredList;
+  };
+
+  // Check if user has already reviewed that beer
+  const hasUserReviewedBeer = (id) => {
+    const filteredList = currentBeerReviews.filter((beer) => {
+      return id === beer.id;
+    });
+    return filteredList;
+  };
+
+  // Delete a review from your list of My Reviews
+  const handleDeleteMyReview = (review_id) => {
+    if (!currentUser) {
+      setLoginOpen(true);
+      return;
+    }
+    deleteReviewById(review_id);
+    handleClickSB(`Your review was removed from your Review list`);
   };
 
   // -------------------- To Here --------------------
@@ -157,6 +212,8 @@ function App() {
     if (currentUser) {
       userId = currentUser.id;
     }
+
+    console.log("id here:", id);
 
     if (isBeerInRecentlyViewedList(id).length === 0) {
       await axios.post("/api/search/analytics", {
@@ -314,6 +371,7 @@ function App() {
           setOpenSB={handleClickSB}
           onClick={handleBeerDetailClick}
           setUserNote={setUserNote}
+          handleEditReviewOpen={handleEditReviewOpen}
         />
       )}
       <Search
@@ -333,6 +391,16 @@ function App() {
       {/* Move review component and share option to beer detail page */}
       <ShareOption open={shareOpen} close={handleShareOptionClose} />
 
+      {editMyReviewsOpen && (
+        <EditReview
+          open={editMyReviewsOpen}
+          close={handleEditReviewClose}
+          review={singleReview}
+          handleEditReviewUpdate={handleEditReviewUpdate}
+        />
+      )}
+
+      <Button onClick={() => handleClickSB()}>Open simple snackbar</Button>
       <Snackbar handleClose={handleCloseSB} open={openSB} textSB={textSB} />
       {currentUser && (
         <MyAccount
@@ -343,6 +411,8 @@ function App() {
           handleClose={() => setAccuontOpen(false)}
           beers={currentWishlist}
           reviews={currentBeerReviews}
+          handleEditReviewOpen={handleEditReviewOpen}
+          handleDeleteMyReview={handleDeleteMyReview}
           changeAccountDetails={changeAccountDetails}
         />
       )}
