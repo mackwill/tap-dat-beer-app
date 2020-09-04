@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   TextField,
@@ -10,8 +10,35 @@ import {
 } from "@material-ui/core";
 
 import CustomAlert from "../Alert/CustomAlert";
+import useApplicationData from "../../hooks/useApplicationData";
 
 export default function Login(props) {
+  const {
+    email,
+    password,
+    errMessage,
+    changeUserData,
+    setLoginOpen,
+    submitLoginData,
+  } = useApplicationData();
+
+  const handleLoginChange = (e) => {
+    e.persist();
+    changeUserData(e);
+  };
+
+  // const handleLoginClose = (e) => {
+  //   // setLoginOpen(false);
+  //   setOpen(false);
+  //   changeUserData(e, true);
+  // };
+
+  const handleLoginSubmit = (e) => {
+    e.preventDefault();
+    Promise.resolve(submitLoginData(email, password))
+      .then(() => props.handleLoginClose())
+      .catch((err) => console.log("Nothing: ", err));
+  };
   return (
     <div>
       <Dialog
@@ -19,7 +46,8 @@ export default function Login(props) {
         onClose={props.handleClose}
         aria-labelledby="form-dialog-title"
       >
-        <form onSubmit={props.onSubmit}>
+        {/* <form onSubmit={onSubmit}> */}
+        <form onSubmit={handleLoginSubmit}>
           <DialogTitle id="form-dialog-title">
             Login To Your Account!
           </DialogTitle>
@@ -33,7 +61,7 @@ export default function Login(props) {
               type="email"
               name="email"
               fullWidth
-              onChange={props.onChange}
+              onChange={handleLoginChange}
             />
 
             <TextField
@@ -44,10 +72,12 @@ export default function Login(props) {
               type="password"
               name="password"
               fullWidth
-              onChange={props.onChange}
+              onChange={handleLoginChange}
             />
           </DialogContent>
-          <CustomAlert errMessage={props.errMessage} severity={"warning"} />
+          {/* <CustomAlert errMessage={errMessage} severity={"warning"} /> */}
+          <CustomAlert errMessage={errMessage} severity={"warning"} />
+
           <DialogActions>
             <Button onClick={props.handleClose} color="primary">
               Cancel

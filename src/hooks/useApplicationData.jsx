@@ -7,6 +7,7 @@ const SET_CURRENT_USER = "SET_CURRENT_USER";
 const SET_ERROR_MESSAGE = "SET_ERROR_MESSAGE";
 const SET_USER_BEER_DATA = "SET_USER_BEER_DATA";
 const SET_WISHLIST = "SET_WISHLIST";
+const SET_REGISTRATION_OR_USER_DATA = "SET_REGISTRATION_OR_USER_DATA";
 const reducer = (state, action) => {
   switch (action.type) {
     case SET_CURRENT_USER: {
@@ -23,6 +24,14 @@ const reducer = (state, action) => {
     }
     case SET_ERROR_MESSAGE: {
       return { ...state, errMessage: action.value };
+    }
+    case SET_REGISTRATION_OR_USER_DATA: {
+      if (action.value.name) {
+        return { ...state, [action.value.name]: action.value.value };
+      } else {
+        console.log("action,value: ", action.value);
+        return { ...state, ...action.value };
+      }
     }
     default:
       throw new Error(
@@ -43,11 +52,15 @@ export default function useApplicationData() {
     currentWishlist: [],
     currentUser: null,
     errMessage: null,
+    firstName: null,
+    lastName: null,
+    email: null,
+    password: null,
+    passwordConfirmation: null,
   });
+
   useEffect(() => {
     return axios.get("/api/user").then((res) => {
-      console.log("res of current user");
-      // setCurrentUser(res.data.data);
       dispatch({
         type: SET_CURRENT_USER,
         value: res.data.data,
@@ -83,21 +96,17 @@ export default function useApplicationData() {
         password,
       })
       .then((res) => {
-        console.log("login promise res:  ", res);
         dispatch({
           type: SET_CURRENT_USER,
           value: res.data.user,
         });
-
-        // setCurrentUser(res.data.user);
-        // handleLoginClose();
       })
       .catch((err) => {
         dispatch({
           type: SET_ERROR_MESSAGE,
           value: "Invalid email or password",
         });
-        // setErrMessage("Invalid email or password");
+        throw new Error();
       });
   };
 
@@ -108,7 +117,6 @@ export default function useApplicationData() {
       Promise.resolve(axios.get("/api/wishlists")),
     ])
       .then((all) => {
-        console.log("all data: ", all);
         dispatch({
           type: SET_USER_BEER_DATA,
           value: {
@@ -123,30 +131,13 @@ export default function useApplicationData() {
       });
   }, [state.currentUser]);
 
-  const removeDeletedBeer = (id) => {
-    const filteredList = state.currentWishlist.filter((beer) => {
-      return id !== beer.id;
-    });
-    return filteredList;
-  };
-
   const deleteBeerFromWishlist = (wishlist_id, currentBeer) => {
-    // return axios.delete(`/api/wishlists/${wishlist_id}`).then((res) => {
-    //   const newWishList = removeDeletedBeer(currentBeer.id);
-    //   console.log("newWishlist: ", newWishList);
-    //   dispatch({
-    //     type: SET_WISHLIST,
-    //     value: newWishList,
-    //   });
-    // });
-    console.log("wishlist: ", wishlist_id);
     return axios
       .delete(`/api/wishlists/${wishlist_id}`)
       .then((res) => {
         return axios.get("/api/wishlists");
       })
       .then((res) => {
-        console.log("res: ", res);
         dispatch({
           type: SET_WISHLIST,
           value: res.data.data,
@@ -164,7 +155,6 @@ export default function useApplicationData() {
         return axios.get("/api/wishlists");
       })
       .then((res) => {
-        console.log("res: ", res);
         dispatch({
           type: SET_WISHLIST,
           value: res.data.data,
@@ -178,7 +168,6 @@ export default function useApplicationData() {
       Promise.resolve(axios.get(`/api/beers/${id}`)),
       Promise.resolve(axios.get(`/api/reviews/beers/${id}`)),
     ]).then((all) => {
-      console.log("all:", all);
       dispatch({
         type: SET_VISITOR_BEER_DATA,
         value: {
@@ -190,16 +179,10 @@ export default function useApplicationData() {
   };
 
   const getReviewsAndWishlistForSingleUser = async () => {
-    // const reviews = await axios.get("/api/reviews/user");
-    // dispatch({
-    //   type: SET_USER_BEER_DATA,
-    //   value: reviews,
-    // });
     Promise.all([
       Promise.resolve(axios.get("/api/reviews/user")),
       Promise.resolve(axios.get("/api/wishlists")),
     ]).then((all) => {
-      console.log("all: ", all);
       dispatch({
         type: SET_USER_BEER_DATA,
         value: {
@@ -210,6 +193,42 @@ export default function useApplicationData() {
     });
   };
 
+  const changeUserData = (e, clear = false) => {
+    let dispatchValue = {};
+    if (clear) {
+      dispatchValue = {
+        firstName: null,
+        lastName: null,
+        email: null,
+        password: null,
+        passwordConfirmation: null,
+      };
+    } else {
+      dispatchValue = {
+        name: e.target.name,
+        value: e.target.value.trim(),
+      };
+    }
+    dispatch({
+      type: SET_REGISTRATION_OR_USER_DATA,
+      value: { ...dispatchValue },
+    });
+  };
+
+  const setLoggedInUser = (user) => {
+    dispatch({
+      type: SET_CURRENT_USER,
+      value: user,
+    });
+  };
+
+  const setErrorMessage = (msg) => {
+    dispatch({
+      type: SET_ERROR_MESSAGE,
+      value: msg,
+    });
+  };
+
   return {
     ...state,
     submitLoginData,
@@ -217,5 +236,8 @@ export default function useApplicationData() {
     deleteBeerFromWishlist,
     setClickedBeerToCurrent,
     getReviewsAndWishlistForSingleUser,
+    changeUserData,
+    setLoggedInUser,
+    setErrorMessage,
   };
 }

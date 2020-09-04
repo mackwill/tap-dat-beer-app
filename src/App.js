@@ -30,24 +30,13 @@ function App() {
   const [accuontOpen, setAccuontOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
   const [reviewOpen, setReviewOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const [myWishlistOpen, setMyWishlistOpen] = useState(false);
   const [myReviewsOpen, setMyReviewsOpen] = useState(false);
   const [userNote, setUserNote] = useState(false);
-  // const [errMessage, setErrMessage] = useState(null);
   const [scannerOpen, setScannerOpen] = useState(false);
-  // const [currentUser, setCurrentUser] = useState(null);
-  // const [currentBeer, setCurrentBeer] = useState(null);
   const [beers, setBeers] = useState([]);
-  // const [top10RatedBeers, setTop10RatedBeers] = useState([]);
-  // const [top10ReviewedBeers, setTop10ReviewedBeers] = useState([]);
-  // const [beerCategories, setBeerCategories] = useState([]);
-  // const [currentBeerReviews, setCurrentBeerReviews] = useState([]);
-  // const [recommendedBeers, setRecommendedBeers] = useState([]);
-  // const [recentlyViewed, setRecentlyViewed] = useState([]);
-  // const [currentWishlist, setCurrentWishlist] = useState([]);
 
   const [state, setState] = useState({
     firstName: null,
@@ -73,6 +62,14 @@ function App() {
     deleteBeerFromWishlist,
     setClickedBeerToCurrent,
     getReviewsAndWishlistForSingleUser,
+    changeUserData,
+    firstName,
+    lastName,
+    email,
+    password,
+    passwordConfirmation,
+    setLoggedInUser,
+    setErrorMessage,
   } = useApplicationData();
 
   const [openSB, setOpenSB] = useState(false);
@@ -90,21 +87,7 @@ function App() {
 
     setOpenSB(false);
   };
-  const filterBeerCategories = () => {
-    const categories = [];
 
-    beers.forEach((beer) => {
-      if (!categories.includes(beer.type)) {
-        categories.push(beer.type);
-      }
-    });
-    return categories;
-  };
-
-  const beersByCategory = (category) => {
-    const beerListCategory = beers.filter((beer) => beer.type === category);
-    return beerListCategory;
-  };
   // -------------------- Here --------------------
   const handleSearchOpen = (e) => {
     setSearchOpen(true);
@@ -131,63 +114,36 @@ function App() {
   };
 
   // -------------------- To Here --------------------
-  // const handleLoginOpen = (e) => {
-  //   console.log("Open Login modal");
-  //   setLoginOpen(true);
-  // };
 
-  const handleLoginChange = (e) => {
-    e.persist();
-    setState((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value.trim(),
-    }));
-  };
+  // const handleLoginChange = (e) => {
+  //   e.persist();
+  //   changeUserData(e);
+  // };
 
   const handleLoginClose = (e) => {
     setLoginOpen(false);
-    setState((prev) => ({
-      ...prev,
-      email: null,
-      password: null,
-    }));
-    // setErrMessage(null);
+    changeUserData(e, true);
   };
 
-  const handleLoginSubmit = (e) => {
-    e.preventDefault();
-    console.log("Here");
-
-    submitLoginData(state.email, state.password);
-    handleLoginClose();
-  };
+  // const handleLoginSubmit = (e) => {
+  //   e.preventDefault();
+  //   Promise.resolve(submitLoginData(state.email, state.password))
+  //     .then(() => handleLoginClose())
+  //     .catch((err) => console.log("Nothing: ", err));
+  // };
 
   const handleRegisterOpen = (e) => {
-    console.log("Open Register modal");
-    // Uncomment this when the modal is here:
     setRegisterOpen(true);
   };
 
   const handleRegisterChange = (e) => {
     e.persist();
-    console.log("e.target.value", e.target.value);
-    console.log("e.target.name", e.target.name);
-    setState((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value.trim(),
-    }));
+    changeUserData(e);
   };
 
   const handleRegisterClose = (e) => {
     setRegisterOpen(false);
-    setState((prev) => ({
-      ...prev,
-      firstName: null,
-      lastName: null,
-      email: null,
-      password: null,
-    }));
-    // setErrMessage(null);
+    changeUserData(e, true);
   };
 
   const handleRegisterSubmit = (e) => {
@@ -208,20 +164,19 @@ function App() {
     }
 
     const newUser = {
-      firstName: state.firstName,
-      lastName: state.lastName,
-      email: state.email,
-      password: state.password,
+      firstName,
+      lastName,
+      email,
+      password,
     };
     return axios
       .post("/api/register", newUser)
       .then((res) => {
-        console.log("Register promise data: ", res);
-        // setCurrentUser(res.data.user);
+        setLoggedInUser(res.data.user);
         handleRegisterClose();
       })
       .catch((err) => {
-        // setErrMessage("That email already exists");
+        setErrorMessage("That email already exists");
       });
   };
 
@@ -316,7 +271,6 @@ function App() {
 
   // Check if user has already wishlisted that beer
   const hasUserWishlistedBeer = (id) => {
-    console.log("herwerwerwe");
     const filteredList = currentWishlist.filter((beer) => {
       return id === beer.id;
     });
@@ -336,7 +290,6 @@ function App() {
     // and remove it from the wishlist if they have
     if (checkWishlist.length > 0) {
       const wish = currentWishlist.filter((beer) => beer.id === currentBeer.id);
-      console.log("wish:", wish[0].w_id);
       await deleteBeerFromWishlist(wish[0].w_id, currentBeer);
       handleClickSB(`${currentBeer.name} was removed from your wishlist`);
       return;
@@ -380,9 +333,9 @@ function App() {
       />
       <Login
         open={loginOpen}
-        onChange={handleLoginChange}
+        // onChange={handleLoginChange}
         handleClose={handleLoginClose}
-        onSubmit={handleLoginSubmit}
+        // onSubmit={handleLoginSubmit}
         errMessage={errMessage}
       />
       <Register
@@ -391,21 +344,21 @@ function App() {
         handleClose={handleRegisterClose}
         onSubmit={handleRegisterSubmit}
         errMessage={errMessage}
-        state={state}
+        state={{ firstName, lastName, email, password, passwordConfirmation }}
       />
 
       <Banner />
 
       {currentUser && (
         <Fragment>
-          {recommendedBeers.length != 0 && (
+          {recommendedBeers.length !== 0 && (
             <Category
               category={"Recommended"}
               beers={recommendedBeers}
               onClick={handleBeerDetailClick}
             />
           )}
-          {recentlyViewed.length != 0 && (
+          {recentlyViewed.length !== 0 && (
             <Category
               category={"Recently Viewed"}
               beers={recentlyViewed}
@@ -472,12 +425,6 @@ function App() {
       {/* Move review component and share option to beer detail page */}
       <ShareOption open={shareOpen} close={handleShareOptionClose} />
 
-      <Wishlist
-        open={myWishlistOpen}
-        close={() => setMyWishlistOpen(false)}
-        beers={currentWishlist}
-        onClick={handleBeerDetailClick}
-      />
       <Snackbar handleClose={handleCloseSB} open={openSB} textSB={textSB} />
       {state.firstName && currentUser && (
         <MyAccount
