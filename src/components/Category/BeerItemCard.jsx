@@ -109,27 +109,15 @@ export default function BeerItemCard(props) {
         onError={imgError}
       />
       <CardActions disableSpacing className={classes.footer}>
-        <Box
-          display={"flex"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-          width={1}
-        >
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon className={classes.icon} />
-          </IconButton>
-          <Box textAlign="right" display={"flex"}>
-            <Rating
-              // icon={starRating}
-              className={classes.icon}
-              name="read-only"
-              size="small"
-              // value={props.rank / 2}
-              value={props.avg_rank / 2}
-              precision={0.25}
-              readOnly
-            />
-          </Box>
+        <Box width={1} justifyContent={"center"} display={"flex"}>
+          <Rating
+            className={classes.icon}
+            name="read-only"
+            size="small"
+            value={props.avg_rank}
+            precision={0.25}
+            readOnly
+          />
         </Box>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit></Collapse>
