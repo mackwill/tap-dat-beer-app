@@ -64,6 +64,7 @@ export default function FullScreenDialog(props) {
   };
 
   useEffect(() => {
+    console.log("is this being called");
     return axios
       .get("/api/search/analytics")
       .then((data) => setPopularSearch(data.data.finalData))
