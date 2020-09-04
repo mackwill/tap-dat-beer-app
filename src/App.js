@@ -31,7 +31,8 @@ function App() {
   const [accuontOpen, setAccuontOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [searchResults, setSearchResults] = useState([]);
+  const [popularSearch, setPopularSearch] = useState([]);
   const [reviewOpen, setReviewOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
   const [myWishlistOpen, setMyWishlistOpen] = useState(false);
@@ -89,13 +90,19 @@ function App() {
     const beerListCategory = beers.filter((beer) => beer.type === category);
     return beerListCategory;
   };
+  const onChangeSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
 
   const handleSearchOpen = (e) => {
     setSearchOpen(true);
+    return axios
+      .get("/api/search/analytics")
+      .then((data) => setPopularSearch(data.data.finalData))
+      .catch((e) => null);
   };
   const handleSearchClose = (e) => {
     setSearchOpen(false);
-    setSearchQuery("");
   };
 
   const handleShareOptionOpen = (e) => {
@@ -108,7 +115,7 @@ function App() {
 
   const handleEditReviewOpen =  async (id) => {
     console.log(id);
-    const selectedEditReviewId = state.currentBeerReviews.filter((beer) => {
+    const selectedEditReviewId = currentBeerReviews.filter((beer) => {
       return id === beer.id;
     });
     console.log('this is selectedEdit', selectedEditReviewId);
@@ -122,6 +129,13 @@ function App() {
     setEditMyReviewsOpen(false);
   };
 
+  const handleEditReviewUpdate = () => {
+    return axios.get("/api/reviews/user").then((res) => {
+      setCurrentBeerReviews(res.data.data);
+    });
+  }
+
+
   const handleReviewOpen = (e) => {
     setReviewOpen(true);
   };
@@ -130,29 +144,9 @@ function App() {
     setReviewOpen(false);
   };
 
-// Delete a review from your list of My Reviews
-// const handleEditMyReview = (review_id) => {
-//   if (!state.currentUser) {
-//     setLoginOpen(true);
-//     return;
-//   }
-  
-//     return axios
-//       .get(`/api/reviews/${review_id}`)
-//       .then((res) => {
-//         setState((prev) => ({
-//           ...prev,
-//           currentBeerReviews: newBeerReview,
-//         }));
-        
-//       });
-// }
-
-
-
   // Removes the deleted beer from =the state list of currentBeer Reviews
   const removeDeletedBeerReview = (id) => {
-    const filteredList = state.currentBeerReviews.filter((beer) => {
+    const filteredList = currentBeerReviews.filter((beer) => {
       return id !== beer.id;
     });
     return filteredList;
@@ -160,7 +154,7 @@ function App() {
 
   // Check if user has already reviewed that beer
   const hasUserReviewedBeer = (id) => {
-    const filteredList = state.currentBeerReviews.filter((beer) => {
+    const filteredList = currentBeerReviews.filter((beer) => {
       return id === beer.id;
     });
     return filteredList;
@@ -263,6 +257,15 @@ function App() {
     setErrMessage(null);
   };
 
+  useEffect(() => {
+    axios
+      .get(`/api/search?q=${encodeURI(searchQuery)}`)
+      .then((data) => {
+        setSearchResults(data.data.data);
+      })
+      .catch((e) => console.log("Error on search query:", e));
+  }, [searchQuery]);
+
   const handleRegisterSubmit = (e) => {
     e.preventDefault();
 
@@ -336,6 +339,8 @@ function App() {
       userId = currentUser.id;
     }
 
+    console.log("id here:", id);
+
     if (isBeerInRecentlyViewedList(id).length === 0) {
       console.log("thijierotiejotjeroitjeorijt");
       await axios.post("/api/search/analytics", {
@@ -343,10 +348,14 @@ function App() {
         beer_id: id,
       });
     }
-    const selectedBeer = await axios.get(`/api/beers/${id}`);
-    const reviewsOfSelectedBeer = await axios.get(`/api/reviews/beers/${id}`);
-    setCurrentBeer(selectedBeer.data.beer);
-    setCurrentBeerReviews(reviewsOfSelectedBeer.data);
+
+    return axios
+      .get(`/api/beers/${id}`)
+      .then((res) => {
+        setCurrentBeer(res.data.beer);
+        return res.data.reviews;
+      })
+      .then((reviews) => setCurrentBeerReviews(reviews));
   };
 
   const handleBeerDetailClose = (e) => {
@@ -647,10 +656,12 @@ function App() {
         />
       )}
       <Search
+        popularSearch={popularSearch}
+        onChangeSearch={onChangeSearch}
         searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
         open={searchOpen}
         close={handleSearchClose}
+        searchResults={searchResults}
         onClick={handleClickFromSearchResult}
       />
       <Review
@@ -669,12 +680,13 @@ function App() {
       <MyReviews
         open={myReviewsOpen}
         close={() => setMyReviewsOpen(false)}
-        reviews={state.currentBeerReviews}
+        reviews={currentBeerReviews}
       />
-      {Object.keys(singleReview).length && <EditReview
+      {editMyReviewsOpen && <EditReview
         open={editMyReviewsOpen}
         close={handleEditReviewClose}
         review={singleReview}
+        handleEditReviewUpdate={handleEditReviewUpdate}
       />}
 
 
@@ -694,10 +706,9 @@ function App() {
           handleAccountChange={handleRegisterChange}
           beers={currentWishlist}
           reviews={currentBeerReviews}
-          handleDeleteMyReview={handleDeleteMyReview}
-          //handleEditMyReview={handleEditMyReview}
-          handleEditReviewOpen={handleEditReviewOpen}
           onSubmit={handleAccountChangeSubmit}
+          handleEditReviewOpen={handleEditReviewOpen}
+          handleDeleteMyReview={handleDeleteMyReview}
         />
       )}
       <Scanner

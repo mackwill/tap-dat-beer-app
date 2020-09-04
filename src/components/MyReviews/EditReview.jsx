@@ -26,9 +26,17 @@ export default function EditReview(props) {
 
   const editAndSubmit = (event) => {
     event.preventDefault()
-    return axios.put("/api/reviews/", review).then((data) => {
+    console.log(review);
+    return axios.put(`/api/reviews/${review.id}`, review).then((data) => {
       console.log("Sent a review to db", review);
+      //its now time to update the state of the existing review id.  Update the review.
+      //option to refresh all my reviews.
       props.close()
+      props.handleEditReviewUpdate()
+
+      //props another function  happens in app.js
+    }).catch((error) =>{
+      console.log('past axios', error.response)
     });
   };
 
@@ -115,7 +123,7 @@ export default function EditReview(props) {
             <Button onClick={props.close} color="primary">
               Cancel
             </Button>
-            <Button type="submit" color="primary"   >
+            <Button type="submit" color="primary" >
               Update
             </Button>
           </DialogActions>
