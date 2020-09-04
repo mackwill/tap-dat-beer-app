@@ -1,11 +1,11 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
-import { Box, Grid, IconButton, CardMedia } from "@material-ui/core";
+import { Box, Grid, IconButton } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
 import Rating from "@material-ui/lab/Rating";
 import Avatar from "@material-ui/core/Avatar";
@@ -28,10 +28,8 @@ const theme = createMuiTheme({
     },
   },
 });
-
 const useStyles = makeStyles({
   root: {
-    display: "flex",
     minWidth: 275,
   },
   bullet: {
@@ -50,39 +48,17 @@ const useStyles = makeStyles({
     backgroundColor: theme.palette.secondary.main,
     marginRight: "0.5rem",
   },
-  content: {
-    flex: "1 0 auto",
-  },
-  cover: {
-    width: 151,
   iconBlue: {
     color: theme.palette.secondary.main,
-  }
-}});
-
+  },
+});
 export default function Review(props) {
   const classes = useStyles();
-  console.log('Review props: ', props)
-
-  const reviewSelect = event => {
-    props.handleDeleteMyReview(props.id)
-  }
-
-  // const editReviewSelect = event => {
-  //   props.handleEditReviewOpen(props.id)
-  // }
 
   return (
     <Grid item xs={11} md={6} lg={5} style={{ margin: "auto" }}>
       <Box width={0.95} m={"auto"}>
         <Card className={classes.root} variant="outlined">
-          {props.myReview && (
-            <CardMedia
-              className={classes.cover}
-              image="http://www.thebeerstore.ca/sites/default/files/styles/brand_hero/public/sbs/brand/0915H.jpg?itok=Z22bQsb3"
-            />
-          )}
-
           <CardContent>
             <Box
               component="div"
@@ -100,9 +76,11 @@ export default function Review(props) {
                   <Typography variant="h5" component="h5">
                     {props.first_name}
                   </Typography>
+                  <Typography variant="h5" component="h5">
+                    {props.creation_date}
+                  </Typography>
                 </Box>
               )}
-
               {props.beer_name && (
                 <Box component="div" display="flex" alignItems="center">
                   <Typography variant="p" component="p">
@@ -110,7 +88,6 @@ export default function Review(props) {
                   </Typography>
                 </Box>
               )}
-
               <Box textAlign="right">
                 <Rating
                   name="read-only"
@@ -120,9 +97,7 @@ export default function Review(props) {
                 />
               </Box>
             </Box>
-
             <Divider />
-
             <Grid
               container
               spacing={1}
@@ -151,7 +126,6 @@ export default function Review(props) {
               </Grid>
             </Grid>
             <Divider />
-
             <Typography
               variant="body2"
               component="p"
@@ -160,14 +134,16 @@ export default function Review(props) {
               {props.review}
             </Typography>
           </CardContent>
+        
           <CardActions>
             <IconButton>
-              <EditIcon  onClick={() => props.handleEditReviewOpen(props.id)} />
+              <EditIcon className={classes.iconBlue} onClick={() => props.handleEditReviewOpen(props.id)}  />
             </IconButton>
-            <IconButton  >
-              <DeleteIcon onClick={reviewSelect} />
+            <IconButton>
+              <DeleteIcon className={classes.iconBlue}  onClick={() => props.handleDeleteMyReview(props.id)} />
             </IconButton>
           </CardActions>
+            
         </Card>
       </Box>
     </Grid>

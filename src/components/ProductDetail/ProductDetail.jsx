@@ -19,6 +19,8 @@ import { Box, Grid } from "@material-ui/core";
 import ShareIcon from "@material-ui/icons/Share";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import UnderBeer from "./UnderBeer";
+import Alert from '@material-ui/lab/Alert';
+
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -58,6 +60,14 @@ export default function ProductDetail(props) {
     e.target.onerror = null;
     e.target.src = "images/beer_placeholder.png";
   };
+
+  const hasAlreadyReviewed = (props.reviews.filter((review) => review.user_id === props.currentUser.id).length > 0 ? true : false)
+
+//   const selectedReviewId = props.reviews.filter((review) => {
+//     return(
+//     review.user_id === props.currentUser.id && review.beer_id === props.currentBeer.id
+//   )
+// })[0]
 
   return (
     <div>
@@ -128,7 +138,9 @@ export default function ProductDetail(props) {
             <Divider />
             <ListItem>
               <Box width={1} textAlign="right">
-                {props.currentUser && (
+
+
+                {props.currentUser && !hasAlreadyReviewed &&(
                   <Button
                     variant="contained"
                     color="primary"
@@ -136,6 +148,10 @@ export default function ProductDetail(props) {
                   >
                     Review
                   </Button>
+                )}
+                                {props.currentUser && hasAlreadyReviewed &&(
+                        <Alert severity="info">You've alrady reviewed this beer</Alert>
+
                 )}
                 <IconButton>
                   <ShareIcon

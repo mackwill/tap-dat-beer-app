@@ -20,6 +20,12 @@ export default function EditReview(props) {
   const [review, setReview] = useState(props.review)
 
     const handleChange = (event) => {
+      if(event.target.value >= 1 && event.target.value <= 5) {
+      setReview({ ...review, [event.target.name]: event.target.value });
+      }
+    };
+
+    const handleChangeText = (event) => {
       setReview({ ...review, [event.target.name]: event.target.value });
     };
 
@@ -114,7 +120,7 @@ export default function EditReview(props) {
               name="review"
               value={review.review}
               //fullWidth
-              onChange={handleChange}
+              onChange={handleChangeText}
             />
           </DialogContent>
           {/* <CustomAlert errMessage={props.errMessage} /> */}
