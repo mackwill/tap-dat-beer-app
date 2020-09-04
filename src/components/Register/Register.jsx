@@ -44,11 +44,15 @@ export default function Register(props) {
     }
   };
 
+  const registerClose = (e) => {
+    props.handleClose(e);
+    setErrorMessage(null);
+  };
   return (
     <div>
       <Dialog
         open={props.open}
-        onClose={props.handleClose}
+        onClose={() => registerClose()}
         aria-labelledby="form-dialog-title"
       >
         <form onSubmit={handleRegisterSubmit}>
@@ -108,7 +112,7 @@ export default function Register(props) {
           </DialogContent>
           <CustomAlert errMessage={errMessage} severity="warning" />
           <DialogActions>
-            <Button onClick={props.handleClose} color="primary">
+            <Button onClick={() => registerClose()} color="primary">
               Cancel
             </Button>
             <Button type="submit" color="primary">

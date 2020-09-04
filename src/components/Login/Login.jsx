@@ -23,6 +23,7 @@ export default function Login(props) {
     changeUserData,
     setLoginOpen,
     submitLoginData,
+    setErrorMessage,
   } = props;
 
   const handleLoginChange = (e) => {
@@ -36,11 +37,16 @@ export default function Login(props) {
       .then(() => props.handleClose())
       .catch((err) => console.log("Nothing: ", err));
   };
+
+  const loginClose = (e) => {
+    props.handleClose(e);
+    setErrorMessage(null);
+  };
   return (
     <div>
       <Dialog
         open={props.open}
-        onClose={props.handleClose}
+        onClose={() => loginClose()}
         aria-labelledby="form-dialog-title"
       >
         {/* <form onSubmit={onSubmit}> */}
@@ -75,7 +81,7 @@ export default function Login(props) {
           <CustomAlert errMessage={errMessage} severity={"warning"} />
 
           <DialogActions>
-            <Button onClick={props.handleClose} color="primary">
+            <Button onClick={() => loginClose()} color="primary">
               Cancel
             </Button>
             <Button type="submit" color="primary">
