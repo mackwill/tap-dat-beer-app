@@ -88,8 +88,12 @@ export default function Review(props) {
                   <Typography variant="h5" component="h5">
                     {props.first_name}
                   </Typography>
-                  <Typography variant="h5" component="h5">
-                    {props.creation_date}
+                  <Typography variant="h6" component="h6">
+                    {new Intl.DateTimeFormat("en-GB", {
+                      month: "long",
+                      day: "2-digit",
+                      year: "numeric",
+                    }).format(new Date(props.creation_date))}
                   </Typography>
                 </Box>
               )}
