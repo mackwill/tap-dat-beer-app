@@ -422,8 +422,6 @@ function App() {
           handleEditReviewUpdate={handleEditReviewUpdate}
         />
       )}
-
-      <Button onClick={() => handleClickSB()}>Open simple snackbar</Button>
       <Snackbar handleClose={handleCloseSB} open={openSB} textSB={textSB} />
       {currentUser && (
         <MyAccount

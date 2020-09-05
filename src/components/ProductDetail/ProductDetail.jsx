@@ -37,13 +37,13 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       light: "#7e5dc0",
-      main: "#5e35b1",
+      main: "#005792",
       dark: "#41257b",
       contrastText: "#fff",
     },
     secondary: {
       light: "#637bfe",
-      main: "#3d5afe",
+      main: "#318fb5",
       dark: "#2a3eb1",
       contrastText: "#fff",
     },
@@ -67,7 +67,10 @@ export default function ProductDetail(props) {
   };
 
   useEffect(() => {
-    if (hasAlreadyReviewed(props.reviews, props.currentUser.id)) {
+    if (
+      props.curerentUser &&
+      hasAlreadyReviewed(props.reviews, props.currentUser.id)
+    ) {
       setReviewed(true);
     } else {
       setReviewed(false);
@@ -163,7 +166,7 @@ export default function ProductDetail(props) {
                 {props.currentUser && props.reviews && !reviewed && (
                   <Button
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     onClick={props.openForm}
                   >
                     Review

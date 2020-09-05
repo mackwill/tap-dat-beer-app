@@ -23,7 +23,7 @@ const theme = createMuiTheme({
     },
     secondary: {
       light: "#637bfe",
-      main: "#3d5afe",
+      main: "#318fb5",
       dark: "#2a3eb1",
       contrastText: "#fff",
     },
@@ -146,21 +146,22 @@ export default function Review(props) {
               {props.review}
             </Typography>
           </CardContent>
-
-          <CardActions>
-            <IconButton>
-              <EditIcon
-                className={classes.iconBlue}
-                onClick={() => props.handleEditReviewOpen(props.id)}
-              />
-            </IconButton>
-            <IconButton>
-              <DeleteIcon
-                className={classes.iconBlue}
-                onClick={handleConfirmDeleteOpen}
-              />
-            </IconButton>
-          </CardActions>
+          {props.myReviews && (
+            <CardActions>
+              <IconButton>
+                <EditIcon
+                  className={classes.iconBlue}
+                  onClick={() => props.handleEditReviewOpen(props.id)}
+                />
+              </IconButton>
+              <IconButton>
+                <DeleteIcon
+                  className={classes.iconBlue}
+                  onClick={handleConfirmDeleteOpen}
+                />
+              </IconButton>
+            </CardActions>
+          )}
         </Card>
       </Box>
       {confirmDeleteOpen && (
