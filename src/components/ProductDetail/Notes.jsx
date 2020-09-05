@@ -13,11 +13,11 @@ export default function EmptyTextarea(props) {
       </ListSubheader>
       <Box pb={"1rem"} style={{ backgroundColor: "#f0f0f0" }}>
         <Button variant="contained" fullWidth onClick={props.saveNote}>
-          <SaveIcon />
+          Save Notes
         </Button>
       </Box>
       <TextareaAutosize
-        style={{ width: "100%", height: "70vw" }}
+        style={{ width: "100%", height: "40vw" }}
         aria-label="empty textarea"
         placeholder="This beer is ..."
         value={props.personalNotes}

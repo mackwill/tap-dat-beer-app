@@ -6,6 +6,7 @@ import Tab from "@material-ui/core/Tab";
 import Results from "../Search/Results";
 import Review from "../Review/Review";
 import { List, ListItem, Grid } from "@material-ui/core";
+import ListSubheader from "@material-ui/core/ListSubheader";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,8 +24,8 @@ export default function AccountMenuBar(props) {
   };
   console.log("Account Menu Bar: ", props);
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
+    <div className={classes.root} style={{ backgroundColor: "#f0f0f0" }}>
+      <AppBar style={{ borderRadius: "5px" }} position="static">
         <Tabs value={value} onChange={handleChange}>
           <Tab label="My Wishlist" />
           <Tab label="My Reviews" />
@@ -32,30 +33,36 @@ export default function AccountMenuBar(props) {
       </AppBar>
       <List>
         {value === 0 && (
-          <ListItem>
-            <Results
-              onClick={props.onClick}
-              searchResults={props.beers}
-              title="Wishlisted Beers"
-            />
-          </ListItem>
+          <Results
+            onClick={props.onClick}
+            searchResults={props.beers}
+            title="Wishlisted Beers"
+          />
         )}
 
         {value === 1 && props.reviews && (
-          <Grid container spacing={3}>
-            {props.reviews.map((review) => {
-              return (
-                <Review
-                  {...review}
-                  myReview={true}
-                  myReviews={true}
-                  handleDeleteMyReview={props.handleDeleteMyReview}
-                  handleEditReviewOpen={props.handleEditReviewOpen}
-                  handleConfirmDeleteOpen={props.handleConfirmDeleteOpen}
-                />
-              );
-            })}
-          </Grid>
+          <>
+            <ListSubheader
+              component="div"
+              style={{ backgroundColor: "#f0f0f0" }}
+            >
+              Personal notes about
+            </ListSubheader>
+            <Grid container spacing={3}>
+              {props.reviews.map((review) => {
+                return (
+                  <Review
+                    {...review}
+                    myReview={true}
+                    myReviews={true}
+                    handleDeleteMyReview={props.handleDeleteMyReview}
+                    handleEditReviewOpen={props.handleEditReviewOpen}
+                    handleConfirmDeleteOpen={props.handleConfirmDeleteOpen}
+                  />
+                );
+              })}
+            </Grid>
+          </>
         )}
       </List>
 

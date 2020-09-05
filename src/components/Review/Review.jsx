@@ -65,10 +65,9 @@ export default function Review(props) {
   };
 
   const classes = useStyles();
-  console.log("This is the review props", props);
 
   return (
-    <Grid item xs={12} md={6} lg={5}>
+    <Grid item xs={12} md={6} lg={6}>
       <Box m={"auto"}>
         <Card className={classes.root} variant="outlined">
           <CardContent>
@@ -89,7 +88,7 @@ export default function Review(props) {
                     {props.first_name}
                   </Typography>
                   <Typography variant="h5" component="h5">
-                    {props.creation_date}
+                    {/* {props.creation_date} */}
                   </Typography>
                 </Box>
               )}
