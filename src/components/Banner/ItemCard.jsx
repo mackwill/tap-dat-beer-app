@@ -11,7 +11,9 @@ import Button from "@material-ui/core/Button";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    height: "150px",
+    height: "52vh",
+    justifyContent: "center",
+    padding: "55px",
   },
   details: {
     display: "flex",
@@ -21,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     flex: "1 0 auto",
   },
   cover: {
-    width: 151,
+    width: "90%",
   },
   controls: {
     display: "flex",
@@ -47,9 +49,7 @@ export default function MediaControlCard(props) {
               {props.subtitle}
             </Typography>
           </CardContent>
-          <div className={classes.controls}>
-            <Button>Learn More</Button>
-          </div>
+          <div className={classes.controls}></div>
         </div>
         <CardMedia
           className={classes.cover}

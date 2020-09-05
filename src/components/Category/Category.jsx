@@ -2,7 +2,7 @@ import React from "react";
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import GridListTile from "@material-ui/core/GridListTile";
-
+import "../../index.css";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
 import BeerItemCard from "./BeerItemCard";
@@ -12,6 +12,7 @@ import { GridList, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    fontFamily: ["Oswald", "sans-serif"],
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-around",

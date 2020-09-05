@@ -7,9 +7,11 @@ import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/styles";
 
 const contentStyle = {
-  height: "160px",
+  height: "300px",
+  width: "100%",
   color: "#fff",
   lineHeight: "160px",
   textAlign: "center",
@@ -26,7 +28,7 @@ export default function Banner() {
   const medium = useMediaQuery(theme.breakpoints.up("md"));
   const large = useMediaQuery(theme.breakpoints.up("lg"));
 
-  let carouselHeight = "20rem";
+  let carouselHeight = "60rem";
 
   if (large) {
     carouselHeight = "40rem";
@@ -42,23 +44,31 @@ export default function Banner() {
   const items = [
     {
       id: 1,
-      title: "OctoberFest 2021 is here!",
-      subtitle: "Celebrate beer in Covid times",
-      image: "images/banner_oktober.jpg",
+      //title: "OctoberFest 2021 is here!",
+      //subtitle: "Celebrate beer in Covid times",
+      image: "images/27th-annual-Great-Canadian-Beer-Festival-2019.jpg",
       url: "#",
     },
     {
       id: 2,
-      title: "Discover the new Fall Stouts",
-      subtitle: "Guiness, Dark Horse & PumpStout",
-      image: "images/banner_stout.jpg",
+      //title: "Discover the new Fall Stouts",
+      //subtitle: "Guiness, Dark Horse & PumpStout",
+      image: "images/og-summer.jpg",
       url: "#",
     },
     {
       id: 3,
-      title: "The perfect home brewing kit",
-      subtitle: "Brew you own beer this winter",
-      image: "images/banner_brewing_kit.jpg",
+      //title: "The perfect home brewing kit",
+      //subtitle: "Brew you own beer this winter",
+      image: "images/toronto-craft-beer-festival-1885192-3157672-regular.jpg",
+      url: "#",
+    },
+    {
+      id: 4,
+      //title: "The perfect home brewing kit",
+      //subtitle: "Brew you own beer this winter",
+      image:
+        "images/newmarket-craftbeer-food-festival-2003262-3623942-regular.jpg",
       url: "#",
     },
   ];
@@ -68,11 +78,7 @@ export default function Banner() {
       <Carousel activeIndex={index} onSelect={handleSelect}>
         {items.map((item) => (
           <Carousel.Item>
-            <ItemCard
-              image={item.image}
-              title={item.title}
-              subtitle={item.subtitle}
-            ></ItemCard>
+            <ItemCard image={item.image}></ItemCard>
           </Carousel.Item>
         ))}
       </Carousel>
