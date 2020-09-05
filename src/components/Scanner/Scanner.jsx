@@ -41,13 +41,20 @@ export default function Scanner(props) {
     }
     if (Object.values(beersId).some((elm) => elm > 30)) {
       props.openBeer(Number(results[0].label));
+      const track = webcamRef.current.srcObject.getTracks()[0];
+      track.stop();
+      setBtnText("Click");
       props.handleClose();
 
       return;
     }
     if (counter > 100) {
       setBtnText("Sorry we couldn't find the beer that matches");
+      const track = webcamRef.current.srcObject.getTracks()[0];
+      track.stop();
+
       setTimeout(() => {
+        setBtnText("Click");
         props.handleClose();
       }, 2000);
       return;
