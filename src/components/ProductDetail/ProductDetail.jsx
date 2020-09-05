@@ -63,10 +63,6 @@ export default function ProductDetail(props) {
   };
 
   const hasAlreadyReviewed = (reviews, currentId) => {
-    // props.reviews.filter((review) => review.user_id === props.currentUser.id)
-    // .length > 0
-    // ? true
-    // : false;
     const reviewedBeers = reviews.filter(
       (review) => review.user_id === currentId
     );
