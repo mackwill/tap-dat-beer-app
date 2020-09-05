@@ -13,16 +13,15 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import { Box, Grid } from "@material-ui/core";
 import ShareIcon from "@material-ui/icons/Share";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import UnderBeer from "./UnderBeer";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
-import MenuIcon from "@material-ui/icons/Menu";
 import Alert from "@material-ui/lab/Alert";
-
+import useMediaQuery from "@material-ui/core/useMediaQuery";
+import GradeIcon from "@material-ui/icons/Grade";
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
@@ -30,6 +29,26 @@ const useStyles = makeStyles((theme) => ({
   title: {
     marginLeft: theme.spacing(2),
     flex: 1,
+  },
+  desktopList: {
+    backgroundColor: "#f0f0f0",
+    display: "flex",
+    justifyContent: "space-between",
+    height: "100%",
+  },
+  mobileList: {
+    backgroundColor: "#f0f0f0",
+  },
+  desktopBeer: {
+    display: "flex",
+    flexDirection: "column",
+    flexGrow: "1",
+    alignSelf: "center",
+    padding: "0 3rem",
+  },
+  desktopUnder: {
+    alignItems: "flex-start",
+    flexGrow: "1",
   },
 }));
 
@@ -55,6 +74,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function ProductDetail(props) {
+  const small = useMediaQuery(theme.breakpoints.up("sm"));
+  const medium = useMediaQuery(theme.breakpoints.up("md"));
+  const large = useMediaQuery(theme.breakpoints.up("lg"));
+
   const [reviewed, setReviewed] = useState(false);
   const classes = useStyles();
 
@@ -65,6 +88,7 @@ export default function ProductDetail(props) {
     console.log("reviewed beers", reviewedBeers.length);
     return reviewedBeers.length > 0;
   };
+  const fakeIBU = Math.floor(Math.random() * 100);
 
   useEffect(() => {
     if (
@@ -108,92 +132,111 @@ export default function ProductDetail(props) {
             </Toolbar>
           </AppBar>
 
-          <List style={{ backgroundColor: "#f0f0f0" }}>
-            <ListItem>
-              <Box width={1}>
-                <Typography variant="h6">{props.currentBeer.name}</Typography>
-                <Typography style={{ opacity: "0.3" }} variant="p">
-                  {props.currentBeer.brewery}
-                </Typography>
-              </Box>
-            </ListItem>
-            <ListItem
-              style={{
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <img
-                style={{ borderRadius: "10px", border: "1px solid #a9a9a9" }}
-                src={props.currentBeer.beer_image}
-                onError={imgError}
-              />
-            </ListItem>
-            <ListItem style={{ width: "60%", margin: "auto" }}>
-              <Grid container spacing={1} textAlign="center">
-                <Grid container item xs={6} spacing={1}>
-                  <Box m={"auto"}>
-                    <Typography variant="p">
-                      ABV: {props.currentBeer.abv}%
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid container item xs={6} spacing={1}>
-                  <Box m={"auto"}>
-                    <Typography variant="p">IBU: --</Typography>
-                  </Box>
-                </Grid>
-                <Grid container item xs={6} spacing={1}>
-                  <Box m={"auto"}>
-                    <Typography variant="p">
-                      Type: {props.currentBeer.type}
-                    </Typography>
-                  </Box>
-                </Grid>
-                <Grid container item xs={6} spacing={1}>
-                  <Box m={"auto"}>
-                    <Typography variant="p">
-                      Rating: {props.currentBeer.avg_rank}
-                    </Typography>
-                  </Box>
-                </Grid>
-              </Grid>
-            </ListItem>
-
-            <Divider />
-            <ListItem>
-              <Box width={1} textAlign="right">
-                {props.currentUser && props.reviews && !reviewed && (
-                  <Button
-                    variant="contained"
-                    color="secondary"
-                    onClick={props.openForm}
+          <List
+            className={`${medium ? classes.desktopList : classes.mobileList}`}
+          >
+            <div className={`${medium ? classes.desktopBeer : ""}`}>
+              <ListItem>
+                <Box width={1}>
+                  <Typography align="center" variant="h6">
+                    {props.currentBeer.name}
+                  </Typography>
+                  <Typography
+                    align="center"
+                    style={{ opacity: "0.6" }}
+                    variant="subtitle1"
                   >
-                    Review
-                  </Button>
-                )}
-                {props.currentUser && props.reviews && reviewed && (
-                  <Alert severity="info">
-                    You've alrady reviewed this beer
-                  </Alert>
-                )}
-                <IconButton>
-                  <ShareIcon
-                    color="secondary"
-                    onClick={props.handleShareOptionOpen}
-                  />
-                </IconButton>
-                <IconButton>
-                  <FavoriteIcon
-                    color="secondary"
-                    onClick={props.handleAddToWishlist}
-                  />
-                </IconButton>
-              </Box>
-            </ListItem>
-            <Divider />
+                    {props.currentBeer.brewery}
+                  </Typography>
+                </Box>
+              </ListItem>
+              <ListItem
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <img
+                  style={{
+                    borderRadius: "10px",
+                    border: "1px solid #a9a9a9",
+                    marginBottom: "1rem",
+                    minWidth: "350px",
+                  }}
+                  src={props.currentBeer.beer_image}
+                  onError={imgError}
+                />
+              </ListItem>
 
-            <ListItem>
+              <ListItem style={{ margin: "auto" }}>
+                <Grid container spacing={1} textAlign="center">
+                  <Grid container item xs={3} spacing={1}>
+                    <Box m={"auto"}>
+                      <Typography variant="p">
+                        ABV: {props.currentBeer.abv}%
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid container item xs={3} spacing={1}>
+                    <Box m={"auto"}>
+                      <Typography variant="p">IBU: {fakeIBU}</Typography>
+                    </Box>
+                  </Grid>
+                  <Grid container item xs={3} spacing={1}>
+                    <Box m={"auto"}>
+                      <Typography variant="p">
+                        {props.currentBeer.type}
+                      </Typography>
+                    </Box>
+                  </Grid>
+                  <Grid container item xs={3} spacing={1}>
+                    <Box m={"auto"}>
+                      <Typography variant="p">
+                        {props.currentBeer.avg_rank}/10
+                      </Typography>
+                    </Box>
+                  </Grid>
+                </Grid>
+                <Divider />
+              </ListItem>
+
+              <ListItem>
+                <Box
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                  width={1}
+                  textAlign="right"
+                >
+                  {props.currentUser && props.reviews && !reviewed && (
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      onClick={props.openForm}
+                    >
+                      Review
+                    </Button>
+                  )}
+                  {props.currentUser && props.reviews && reviewed && (
+                    <Alert severity="info">
+                      You've already reviewed this beer
+                    </Alert>
+                  )}
+                  <IconButton>
+                    <ShareIcon
+                      color="secondary"
+                      onClick={props.handleShareOptionOpen}
+                    />
+                  </IconButton>
+                  <IconButton>
+                    <FavoriteIcon
+                      color="secondary"
+                      onClick={props.handleAddToWishlist}
+                    />
+                  </IconButton>
+                </Box>
+                <Divider />
+              </ListItem>
+            </div>
+            <ListItem className={`${medium ? classes.desktopUnder : ""}`}>
               <UnderBeer
                 setOpenSB={props.setOpenSB}
                 beers={props.beers}

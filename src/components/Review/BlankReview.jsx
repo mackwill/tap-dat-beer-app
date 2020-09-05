@@ -54,8 +54,8 @@ export default function BlankReview(props) {
   console.log("review: ", props);
 
   return (
-    <Grid item xs={11} md={6} lg={5} style={{ margin: "auto" }}>
-      <Box width={0.95} m={"auto"}>
+    <Grid item xs={12} md={12} lg={12} style={{ margin: "auto" }}>
+      <Box m={"auto"}>
         <Card className={classes.root} variant="outlined">
           <CardContent>
             <Typography

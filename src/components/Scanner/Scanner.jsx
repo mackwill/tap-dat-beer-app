@@ -41,33 +41,33 @@ export default function Scanner(props) {
     }
     if (Object.values(beersId).some((elm) => elm > 30)) {
       props.openBeer(Number(results[0].label));
-      const track = webcamRef.current.srcObject.getTracks()[0];
-      track.stop();
-      setBtnText("Click");
-      props.handleClose();
+      closeScanner();
 
       return;
     }
     if (counter > 100) {
       setBtnText("Sorry we couldn't find the beer that matches");
-      const track = webcamRef.current.srcObject.getTracks()[0];
-      track.stop();
 
       setTimeout(() => {
-        setBtnText("Click");
-        props.handleClose();
+        closeScanner();
       }, 2000);
       return;
     }
     counter++;
     requestAnimationFrame(scanBeer);
   };
+  const closeScanner = () => {
+    const track = webcamRef.current.srcObject.getTracks()[0];
+    track.stop();
+    setBtnText("Click");
+    props.handleClose();
+  };
 
   return (
     <div ref={containerRef}>
       <Dialog
         open={props.open}
-        onClose={props.handleClose}
+        onClose={closeScanner}
         aria-labelledby="form-dialog-title"
       >
         <video

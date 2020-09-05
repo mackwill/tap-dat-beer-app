@@ -18,6 +18,7 @@ import Slide from "@material-ui/core/Slide";
 import { Box, Grid, Avatar } from "@material-ui/core";
 import UserDetails from "./UserDetails";
 import AccountMenuBar from "./AccountMenuBar";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const rootTheme = createMuiTheme({
   palette: {
@@ -50,6 +51,26 @@ const useStyles = makeStyles((theme) => ({
     width: "5rem",
     height: "5rem",
   },
+  desktopList: {
+    backgroundColor: "#f0f0f0",
+    display: "flex",
+    justifyContent: "space-between",
+    height: "100%",
+  },
+  mobileList: {
+    backgroundColor: "#f0f0f0",
+  },
+  desktopBeer: {
+    display: "flex",
+    flexDirection: "column",
+    flexGrow: "1",
+    alignSelf: "center",
+    padding: "0 3rem",
+  },
+  desktopUnder: {
+    alignItems: "flex-start",
+    flexGrow: "1",
+  },
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -57,6 +78,9 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function ProductDetail(props) {
+  const small = useMediaQuery(rootTheme.breakpoints.up("sm"));
+  const medium = useMediaQuery(rootTheme.breakpoints.up("md"));
+  const large = useMediaQuery(rootTheme.breakpoints.up("lg"));
   const classes = useStyles();
 
   return (
@@ -83,31 +107,33 @@ export default function ProductDetail(props) {
               </Typography>
             </Toolbar>
           </AppBar>
-          <List>
-            <ListItem style={{ display: "flex", justifyContent: "center" }}>
-              <Avatar className={classes.mainBlue}>
-                {props.firstName[0]}
-                {props.lastName[0]}
-              </Avatar>
-            </ListItem>
-            <ListItem>
-              <Box width={1} textAlign="center">
-                <Typography variant="h6">
-                  {props.firstName} {props.lastName}
-                </Typography>
-              </Box>
-            </ListItem>
-            <ListItem>
-              <UserDetails
-                changeAccountDetails={props.changeAccountDetails}
-                first_name={props.firstName}
-                last_name={props.lastName}
-                email={props.email}
-              />
-            </ListItem>
-
-            <Divider />
-            <ListItem>
+          <List
+            className={`${medium ? classes.desktopList : classes.mobileList}`}
+          >
+            <div className={`${medium ? classes.desktopBeer : ""}`}>
+              <ListItem style={{ display: "flex", justifyContent: "center" }}>
+                <Avatar className={classes.mainBlue}>
+                  {props.firstName[0]}
+                  {props.lastName[0]}
+                </Avatar>
+              </ListItem>
+              <ListItem>
+                <Box width={1} textAlign="center">
+                  <Typography variant="h6">
+                    {props.firstName} {props.lastName}
+                  </Typography>
+                </Box>
+              </ListItem>
+              <ListItem>
+                <UserDetails
+                  changeAccountDetails={props.changeAccountDetails}
+                  first_name={props.firstName}
+                  last_name={props.lastName}
+                  email={props.email}
+                />
+              </ListItem>
+            </div>
+            <ListItem className={`${medium ? classes.desktopUnder : ""}`}>
               <AccountMenuBar
                 onClick={props.handleBeerDetailClick}
                 beers={props.beers}
