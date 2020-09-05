@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   makeStyles,
   MuiThemeProvider,
@@ -55,25 +55,30 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function ProductDetail(props) {
+  const [reviewed, setReviewed] = useState(false);
   const classes = useStyles();
-
-  const imgError = (e) => {
-    e.target.onerror = null;
-    e.target.src = "images/beer_placeholder.png";
-  };
 
   const hasAlreadyReviewed = (reviews, currentId) => {
     const reviewedBeers = reviews.filter(
       (review) => review.user_id === currentId
     );
-    return reviewedBeers.length;
+    console.log("reviewed beers", reviewedBeers.length);
+    return reviewedBeers.length > 0;
   };
 
-  //   const selectedReviewId = props.reviews.filter((review) => {
-  //     return(
-  //     review.user_id === props.currentUser.id && review.beer_id === props.currentBeer.id
-  //   )
-  // })[0]
+  useEffect(() => {
+    if (hasAlreadyReviewed(props.reviews, props.currentUser.id)) {
+      setReviewed(true);
+    } else {
+      setReviewed(false);
+    }
+    console.log("reviewed: ", reviewed);
+  }, [props.currentBeer]);
+
+  const imgError = (e) => {
+    e.target.onerror = null;
+    e.target.src = "images/beer_placeholder.png";
+  };
 
   return (
     <div>
@@ -155,26 +160,20 @@ export default function ProductDetail(props) {
             <Divider />
             <ListItem>
               <Box width={1} textAlign="right">
-                {props.currentUser &&
-                  props.reviews &&
-                  hasAlreadyReviewed(props.reviews, props.currentBeer.id) ===
-                    0 && (
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={props.openForm}
-                    >
-                      Review
-                    </Button>
-                  )}
-                {props.currentUser &&
-                  props.reviews &&
-                  hasAlreadyReviewed(props.reviews, props.currentBeer.id) >
-                    0 && (
-                    <Alert severity="info">
-                      You've alrady reviewed this beer
-                    </Alert>
-                  )}
+                {props.currentUser && props.reviews && !reviewed && (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={props.openForm}
+                  >
+                    Review
+                  </Button>
+                )}
+                {props.currentUser && props.reviews && reviewed && (
+                  <Alert severity="info">
+                    You've alrady reviewed this beer
+                  </Alert>
+                )}
                 <IconButton>
                   <ShareIcon
                     color="secondary"

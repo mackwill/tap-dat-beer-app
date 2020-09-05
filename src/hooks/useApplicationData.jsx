@@ -10,6 +10,7 @@ const SET_WISHLIST = "SET_WISHLIST";
 const SET_REGISTRATION_OR_USER_DATA = "SET_REGISTRATION_OR_USER_DATA";
 const SET_RECENTLY_VIEWED = "SET_RECENTLY_VIEWED";
 const SET_USER_REVIEWS = "SET_USER_REVIEWS";
+const SET_CURRENT_BEER = "SET_CURRENT_BEER";
 const reducer = (state, action) => {
   switch (action.type) {
     case SET_CURRENT_USER: {
@@ -23,6 +24,9 @@ const reducer = (state, action) => {
     }
     case SET_WISHLIST: {
       return { ...state, currentWishlist: action.value };
+    }
+    case SET_CURRENT_BEER: {
+      return { ...state, currentBeer: action.value };
     }
     case SET_RECENTLY_VIEWED: {
       return { ...state, recentlyViewed: action.value };
@@ -169,18 +173,29 @@ export default function useApplicationData() {
   };
 
   const setClickedBeerToCurrent = async (id) => {
-    Promise.all([
-      Promise.resolve(axios.get(`/api/beers/${id}`)),
-      Promise.resolve(axios.get(`/api/reviews/beers/${id}`)),
-    ]).then((all) => {
+    if (id) {
+      Promise.all([
+        Promise.resolve(axios.get(`/api/beers/${id}`)),
+        Promise.resolve(axios.get(`/api/reviews/beers/${id}`)),
+      ]).then((all) => {
+        dispatch({
+          type: SET_VISITOR_BEER_DATA,
+          value: {
+            currentBeer: all[0].data.beer,
+            currentBeerReviews: all[0].data.reviews,
+          },
+        });
+      });
+      return;
+    } else {
       dispatch({
         type: SET_VISITOR_BEER_DATA,
         value: {
-          currentBeer: all[0].data.beer,
-          currentBeerReviews: all[0].data.reviews,
+          currentBeer: null,
+          currentBeerReviews: null,
         },
       });
-    });
+    }
   };
 
   const getReviewsAndWishlistForSingleUser = async () => {
@@ -280,6 +295,24 @@ export default function useApplicationData() {
     });
   };
 
+  const setCurrentBeer = async (id = null) => {
+    let dispatchValue = {};
+    if (!id) {
+      dispatchValue = {
+        currentBeer: null,
+      };
+    } else {
+      const beer = await axios.get(`/api/beers/${id}`);
+      dispatchValue = {
+        currentBeer: beer.data.data,
+      };
+    }
+    dispatch({
+      type: SET_CURRENT_BEER,
+      value: dispatchValue,
+    });
+  };
+
   return {
     state,
     submitLoginData,
@@ -293,5 +326,6 @@ export default function useApplicationData() {
     changeAccountDetails,
     setRecentlyViewed,
     deleteReviewById,
+    setCurrentBeer,
   };
 }

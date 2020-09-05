@@ -49,6 +49,7 @@ function App() {
     changeAccountDetails,
     setRecentlyViewed,
     deleteReviewById,
+    setCurrentBeer,
   } = useApplicationData();
 
   const {
@@ -58,7 +59,6 @@ function App() {
     recentlyViewed,
     beerCategories,
     currentWishlist,
-    setCurrentBeer,
     currentBeer,
     setCurrentBeerReviews,
     currentBeerReviews,
@@ -231,6 +231,9 @@ function App() {
 
   const handleBeerDetailClose = (e) => {
     setBeerDetailOpen(false);
+    setTimeout(() => {
+      setClickedBeerToCurrent();
+    }, 200);
   };
 
   const handleAccountOpen = async (e) => {
