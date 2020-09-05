@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
     height: "9rem",
     backgroundSize: "contain",
     objectFit: "contain",
+    width: "auto",
+    margin: "auto",
+    borderRadius: "5px",
     // paddingTop: "100%", // 16:9
   },
   header: {

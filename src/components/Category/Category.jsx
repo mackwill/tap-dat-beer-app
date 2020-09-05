@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import GridListTile from "@material-ui/core/GridListTile";
 
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -8,15 +8,35 @@ import { useTheme } from "@material-ui/core/styles";
 import BeerItemCard from "./BeerItemCard";
 
 import "./Category.css";
-import { GridList, Typography } from "@material-ui/core";
+import { GridList, Typography, Divider } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: "#7e5dc0",
+      main: "#4e89ae",
+      dark: "#41257b",
+      contrastText: "#fff",
+    },
+    secondary: {
+      light: "#637bfe",
+      main: "#3d5afe",
+      dark: "#2a3eb1",
+      contrastText: "#fff",
+    },
+    defaultBackground: {
+      main: "#f0f0f0",
+    },
+  },
+});
+
+const useStyles = makeStyles(() => ({
   root: {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-around",
     overflow: "hidden",
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.defaultBackground.main,
   },
   gridList: {
     flexWrap: "nowrap",
@@ -81,6 +101,8 @@ export default function Category(props) {
               </GridListTile>
             ))}
           </GridList>
+
+          <Divider />
         </Box>
       </Box>
     </div>

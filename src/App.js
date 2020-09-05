@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar/Navbar";
 import Login from "./components/Login/Login";
 import axios from "axios";
 
-import "./App.css";
+// import "./App.css";
 import Register from "./components/Register/Register";
 import Banner from "./components/Banner/Banner";
 import Category from "./components/Category/Category";
@@ -20,8 +20,37 @@ import EditReview from "./components/MyReviews/EditReview";
 import ConfirmDelete from "./components/MyReviews/ConfirmDelete";
 //import Review from "./components/Review/Review";
 import useApplicationData from "./hooks/useApplicationData";
+import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: "#7e5dc0",
+      main: "#4e89ae",
+      dark: "#41257b",
+      contrastText: "#fff",
+    },
+    secondary: {
+      light: "#637bfe",
+      main: "#3d5afe",
+      dark: "#2a3eb1",
+      contrastText: "#fff",
+    },
+    defaultBackground: {
+      main: "#f0f0f0",
+    },
+  },
+});
+
+const useStyles = makeStyles(() => ({
+  body: {
+    backgroundColor: theme.palette.defaultBackground.main,
+  },
+}));
 
 function App() {
+  const classes = useStyles();
+
   let userData;
   const [registerOpen, setRegisterOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
@@ -306,7 +335,7 @@ function App() {
   };
 
   return (
-    <div className="App">
+    <div className={classes.body}>
       <Navbar
         handleSearchOpen={handleSearchOpen}
         handleRegisterOpen={handleRegisterOpen}
