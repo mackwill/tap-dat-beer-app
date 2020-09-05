@@ -62,11 +62,12 @@ export default function ProductDetail(props) {
     e.target.src = "images/beer_placeholder.png";
   };
 
-  const hasAlreadyReviewed =
-    props.reviews.filter((review) => review.user_id === props.currentUser.id)
-      .length > 0
-      ? true
-      : false;
+  const hasAlreadyReviewed = (reviews, currentId) => {
+    const reviewedBeers = reviews.filter(
+      (review) => review.user_id === currentId
+    );
+    return reviewedBeers.length;
+  };
 
   //   const selectedReviewId = props.reviews.filter((review) => {
   //     return(
@@ -154,20 +155,26 @@ export default function ProductDetail(props) {
             <Divider />
             <ListItem>
               <Box width={1} textAlign="right">
-                {props.currentUser && !hasAlreadyReviewed && (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={props.openForm}
-                  >
-                    Review
-                  </Button>
-                )}
-                {props.currentUser && hasAlreadyReviewed && (
-                  <Alert severity="info">
-                    You've alrady reviewed this beer
-                  </Alert>
-                )}
+                {props.currentUser &&
+                  props.reviews &&
+                  hasAlreadyReviewed(props.reviews, props.currentBeer.id) ===
+                    0 && (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={props.openForm}
+                    >
+                      Review
+                    </Button>
+                  )}
+                {props.currentUser &&
+                  props.reviews &&
+                  hasAlreadyReviewed(props.reviews, props.currentBeer.id) >
+                    0 && (
+                    <Alert severity="info">
+                      You've alrady reviewed this beer
+                    </Alert>
+                  )}
                 <IconButton>
                   <ShareIcon
                     color="secondary"

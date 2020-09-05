@@ -7,8 +7,10 @@ export default function Scanner(props) {
   const containerRef = React.useRef(null);
   const webcamRef = React.useRef(null);
   const [classifier, setClassifier] = useState(null);
-  const beersId = {};
+  const beersId = { noBeer: 0 };
+  const [btnText, setBtnText] = useState("Click");
   props.beers.forEach((elm) => (beersId[elm.id] = 0));
+  let track;
 
   useEffect(() => {
     if (props.open) {
@@ -27,8 +29,9 @@ export default function Scanner(props) {
 
   const scanBeer = () => {
     classifier.classify(resultsReady);
+    setBtnText("Scanning...");
   };
-
+  let counter = 0;
   const resultsReady = (error, results) => {
     if (error) {
       console.log("error", error);
@@ -38,10 +41,25 @@ export default function Scanner(props) {
     }
     if (Object.values(beersId).some((elm) => elm > 30)) {
       props.openBeer(Number(results[0].label));
+      const track = webcamRef.current.srcObject.getTracks()[0];
+      track.stop();
+      setBtnText("Click");
       props.handleClose();
 
       return;
     }
+    if (counter > 100) {
+      setBtnText("Sorry we couldn't find the beer that matches");
+      const track = webcamRef.current.srcObject.getTracks()[0];
+      track.stop();
+
+      setTimeout(() => {
+        setBtnText("Click");
+        props.handleClose();
+      }, 2000);
+      return;
+    }
+    counter++;
     requestAnimationFrame(scanBeer);
   };
 
@@ -58,7 +76,7 @@ export default function Scanner(props) {
           autoPlay
           ref={webcamRef}
         ></video>
-        {classifier && <Button onClick={() => scanBeer()}>Click</Button>}
+        {classifier && <Button onClick={() => scanBeer()}>{btnText}</Button>}
       </Dialog>
     </div>
   );

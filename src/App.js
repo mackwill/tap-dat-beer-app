@@ -165,6 +165,10 @@ function App() {
     handleClickSB(`Your review was removed from your Review list`);
   };
 
+  const handleChangeAccountDetails = (accountDetails) => {
+    changeAccountDetails(accountDetails);
+    handleClickSB(`Your account details were updated`);
+  };
   // -------------------- To Here --------------------
 
   const handleLoginClose = (e) => {
@@ -250,7 +254,16 @@ function App() {
   // Add an item to your wishlist if it isn't already liked
   const handleAddToWishlist = async (e) => {
     if (!currentUser) {
-      setLoginOpen(true);
+      handleClickSB([
+        <a href="javascript:void(0)" onClick={() => setLoginOpen(true)}>
+          Login
+        </a>,
+        " or ",
+        <a href="javascript:void(0)" onClick={() => setRegisterOpen(true)}>
+          Register
+        </a>,
+        "to use that feature",
+      ]);
       return;
     }
 
@@ -305,6 +318,7 @@ function App() {
         open={loginOpen}
         handleClose={handleLoginClose}
         errMessage={errMessage}
+        setErrorMessage={setErrorMessage}
         changeUserData={changeUserData}
         submitLoginData={submitLoginData}
       />
@@ -422,6 +436,7 @@ function App() {
           handleDeleteMyReview={handleDeleteMyReview}
           changeAccountDetails={changeAccountDetails}
           // handleConfirmDeleteOpen={handleConfirmDeleteOpen}
+          changeAccountDetails={handleChangeAccountDetails}
         />
       )}
       <Scanner
