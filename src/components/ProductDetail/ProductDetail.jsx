@@ -21,7 +21,7 @@ import UnderBeer from "./UnderBeer";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Alert from "@material-ui/lab/Alert";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-
+import GradeIcon from "@material-ui/icons/Grade";
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",
@@ -192,7 +192,7 @@ export default function ProductDetail(props) {
                   <Grid container item xs={3} spacing={1}>
                     <Box m={"auto"}>
                       <Typography variant="p">
-                        {props.currentBeer.avg_rank}
+                        {props.currentBeer.avg_rank}/10
                       </Typography>
                     </Box>
                   </Grid>

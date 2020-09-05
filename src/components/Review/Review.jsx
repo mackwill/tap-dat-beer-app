@@ -85,10 +85,16 @@ export default function Review(props) {
                     {props.first_name[0]}
                   </Avatar>
                   <Typography variant="h5" component="h5">
-                    {props.first_name}
+                    {props.first_name} -
                   </Typography>
-                  <Typography variant="h5" component="h5">
-                    {/* {props.creation_date} */}
+                  <Typography
+                    style={{ opacity: "0.7" }}
+                    variant="h6"
+                    component="h6"
+                  >
+                    {new Intl.DateTimeFormat("en-US").format(
+                      new Date(props.creation_date)
+                    )}
                   </Typography>
                 </Box>
               )}
