@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleTabs(props) {
+export default function UnderBeer(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
   const [similarBeers, setSimilarBeers] = useState([]);
