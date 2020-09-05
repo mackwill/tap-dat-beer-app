@@ -1,118 +1,119 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import ButtonBase from "@material-ui/core/ButtonBase";
-import Typography from "@material-ui/core/Typography";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardMedia from "@material-ui/core/CardMedia";
 
-const image = "images/beer_placeholder.png";
+import Collapse from "@material-ui/core/Collapse";
+
+import Typography from "@material-ui/core/Typography";
+import { red } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    flexWrap: "wrap",
-    minWidth: 300,
-    width: "100%",
+    maxWidth: 365,
   },
-  image: {
-    position: "relative",
-    height: 200,
-    [theme.breakpoints.down("xs")]: {
-      width: "100% !important", // Overrides inline-style
-      height: 100,
-    },
-    "&:hover, &$focusVisible": {
-      zIndex: 1,
-      "& $imageBackdrop": {
-        opacity: 0.15,
-      },
-      "& $imageMarked": {
-        opacity: 0,
-      },
-      "& $imageTitle": {
-        border: "4px solid currentColor",
-      },
-    },
+  media: {
+    height: "9rem",
+    backgroundSize: "contain",
+    objectFit: "contain",
+    padding: "0.5rem",
+    width: "90%",
+    margin: "auto",
+    // paddingTop: "100%", // 16:9
   },
-  focusVisible: {},
-  imageButton: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
+  header: {
     display: "flex",
     alignItems: "center",
+    textAlign: "center",
     justifyContent: "center",
-    color: theme.palette.common.white,
+    height: "3rem",
+    paddingTop: "1.25rem",
   },
-  imageSrc: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    backgroundSize: "cover",
-    backgroundPosition: "center 40%",
+  headerTypography: {
+    fontSize: "1rem",
   },
-  imageBackdrop: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    backgroundColor: theme.palette.common.black,
-    opacity: 0.4,
-    transition: theme.transitions.create("opacity"),
+  subHeaderTypography: {
+    fontSize: "0.6rem",
   },
-  imageTitle: {
-    position: "relative",
-    padding: `${theme.spacing(2)}px ${theme.spacing(4)}px ${
-      theme.spacing(1) + 6
-    }px`,
+  expand: {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
   },
-  imageMarked: {
-    height: 3,
-    width: 18,
-    backgroundColor: theme.palette.common.white,
-    position: "absolute",
-    bottom: -2,
-    left: "calc(50% - 9px)",
-    transition: theme.transitions.create("opacity"),
+  expandOpen: {
+    transform: "rotate(180deg)",
+  },
+  avatar: {
+    backgroundColor: red[500],
+  },
+  footer: {
+    height: "2rem",
+  },
+  icon: {
+    fontSize: "1rem",
   },
 }));
 
-export default function CategoryCard(props) {
+const beerTypes = {
+  "Ale":
+    "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap.svg",
+  "Porter":
+    "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap4.svg",
+  "Lager":
+    "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap1.svg",
+  "Malt":
+    "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap2.svg",
+  "Flavoured Malt":
+    "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap2.svg",
+  "Stout":
+    "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap4.svg",
+};
+
+export default function BeerItemCard(props) {
+  console.log("props: ", props);
   const classes = useStyles();
+  const [expanded, setExpanded] = React.useState(false);
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
+
+  const imgError = (e) => {
+    e.target.onerror = null;
+    e.target.src = "images/beer_placeholder.png";
+  };
+
+  const cardHeader = (
+    <Typography className={classes.headerTypography} variant="p" component="p">
+      {props.title}
+    </Typography>
+  );
+
+  const cardSubHeader = (
+    <Typography
+      className={classes.subHeaderTypography}
+      variant="p"
+      component="p"
+    >
+      {props.brewery}
+    </Typography>
+  );
 
   return (
-    <ButtonBase
-      focusRipple
-      key={props.title}
-      id={props.title}
-      className={classes.image}
-      focusVisibleClassName={classes.focusVisible}
-      onClick={() => props.onClick(props.title)}
-      style={{
-        width: image.width,
-      }}
-    >
-      <span
-        className={classes.imageSrc}
-        style={{
-          backgroundImage: `url(${image})`,
-        }}
+    <Card className={classes.root} variant="outlined">
+      <CardHeader className={classes.header} title={cardHeader} />
+      <CardMedia
+        className={classes.media}
+        // image={props.beer_image}
+        // title={props.name}s
+        src={beerTypes[props.title]}
+        component="img"
+        onError={imgError}
       />
-      <span className={classes.imageBackdrop} />
-      <span className={classes.imageButton}>
-        <Typography
-          component="span"
-          variant="subtitle1"
-          color="inherit"
-          className={classes.imageTitle}
-        >
-          {props.title}
-          <span className={classes.imageMarked} />
-        </Typography>
-      </span>
-    </ButtonBase>
+      <Collapse in={expanded} timeout="auto" unmountOnExit></Collapse>
+    </Card>
   );
 }

@@ -65,11 +65,10 @@ export default function Review(props) {
   };
 
   const classes = useStyles();
-  console.log("This is the review props", props);
 
   return (
-    <Grid item xs={11} md={6} lg={5} style={{ margin: "auto" }}>
-      <Box width={0.95} m={"auto"}>
+    <Grid item xs={12} md={6} lg={6}>
+      <Box m={"auto"}>
         <Card className={classes.root} variant="outlined">
           <CardContent>
             <Box
@@ -86,10 +85,16 @@ export default function Review(props) {
                     {props.first_name[0]}
                   </Avatar>
                   <Typography variant="h5" component="h5">
-                    {props.first_name}
+                    {props.first_name} -
                   </Typography>
-                  <Typography variant="h5" component="h5">
-                    {props.creation_date}
+                  <Typography
+                    style={{ opacity: "0.7" }}
+                    variant="h6"
+                    component="h6"
+                  >
+                    {new Intl.DateTimeFormat("en-US").format(
+                      new Date(props.creation_date)
+                    )}
                   </Typography>
                 </Box>
               )}

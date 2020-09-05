@@ -15,7 +15,14 @@ import LockOpenIcon from "@material-ui/icons/LockOpen";
 import Box from "@material-ui/core/Box";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
+import { Button } from "@material-ui/core";
 
+const LOGIN = "login";
+const LOGOUT = "logout";
+const ACCOUNT = "account";
+const REGISTER = "register";
+const SCANNER = "scanner";
+const SEARCH = "search";
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -33,7 +40,7 @@ const theme = createMuiTheme({
   },
 });
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   grow: {
     flexGrow: 1,
   },
@@ -72,6 +79,8 @@ const useStyles = makeStyles((theme) => ({
     color: "#fff",
     paddingLeft: "0.4rem",
     paddingRight: "0.4rem",
+    marginLeft: "0.25rem",
+    marginRight: "0.25rem",
   },
   inputRoot: {
     color: "inherit",
@@ -90,6 +99,7 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
     [theme.breakpoints.up("md")]: {
       display: "flex",
+      alignItems: "center",
     },
   },
   sectionMobile: {
@@ -101,6 +111,11 @@ const useStyles = makeStyles((theme) => ({
   },
   menuItemText: {
     margin: 0,
+  },
+  button: {
+    color: theme.palette.primary.contrastText,
+    marginLeft: "0.25rem",
+    marginRight: "0.25rem",
   },
 }));
 
@@ -131,22 +146,22 @@ export default function PrimarySearchAppBar(props) {
 
   const handleMenuItemClick = (action) => {
     switch (action) {
-      case "login":
+      case LOGIN:
         props.handleLoginOpen(true);
         break;
-      case "register":
+      case REGISTER:
         props.handleRegisterOpen();
         break;
-      case "account":
+      case ACCOUNT:
         props.handleAccountOpen();
         break;
-      case "scanner":
+      case SCANNER:
         props.handleScannerOpen();
         break;
-      case "logout":
+      case LOGOUT:
         props.handleLogout();
         break;
-      case "search":
+      case SEARCH:
         props.handleSearchOpen();
         break;
     }
@@ -205,7 +220,7 @@ export default function PrimarySearchAppBar(props) {
         <p className={classes.menuItemText}>Scanner</p>
       </MenuItem>
       <Box display={visitorShow}>
-        <MenuItem onClick={() => handleMenuItemClick("register")}>
+        <MenuItem onClick={() => handleMenuItemClick(REGISTER)}>
           <IconButton
             aria-label="register new user"
             aria-controls="primary-search-account-menu"
@@ -216,7 +231,7 @@ export default function PrimarySearchAppBar(props) {
           </IconButton>
           <p className={classes.menuItemText}>Register</p>
         </MenuItem>
-        <MenuItem onClick={() => handleMenuItemClick("login")}>
+        <MenuItem onClick={() => handleMenuItemClick(LOGIN)}>
           <IconButton
             aria-label="login user"
             aria-controls="primary-search-account-menu"
@@ -229,7 +244,7 @@ export default function PrimarySearchAppBar(props) {
         </MenuItem>
       </Box>
       <Box display={userShow}>
-        <MenuItem onClick={() => handleMenuItemClick("account")}>
+        <MenuItem onClick={() => handleMenuItemClick(ACCOUNT)}>
           <IconButton
             aria-label="account of current user"
             aria-controls="primary-search-account-menu"
@@ -240,7 +255,7 @@ export default function PrimarySearchAppBar(props) {
           </IconButton>
           <p className={classes.menuItemText}>My Account</p>
         </MenuItem>
-        <MenuItem onClick={() => handleMenuItemClick("logout")}>
+        <MenuItem onClick={() => handleMenuItemClick(LOGOUT)}>
           <IconButton
             aria-label="logout user"
             aria-controls="primary-search-account-menu"
@@ -275,66 +290,53 @@ export default function PrimarySearchAppBar(props) {
                 />
               </Typography>
               <Box display={"flex"}>
-                <IconButton onClick={() => handleMenuItemClick("search")}>
-                  <div className={classes.searchIcon}>
-                    <SearchIcon />
-                  </div>
+                <IconButton
+                  color="inherit"
+                  onClick={() => handleMenuItemClick(SEARCH)}
+                >
+                  <SearchIcon />
                 </IconButton>
                 <div className={classes.grow} />
                 <div className={classes.sectionDesktop}>
-                  <IconButton
-                    aria-label="scanner"
-                    aria-controls="primary-search-account-menu"
-                    aria-haspopup="true"
-                    color="inherit"
-                    onClick={() => handleMenuItemClick("scanner")}
+                  <Button
+                    className={classes.button}
+                    color={theme.palette.primary.contrastText}
+                    onClick={() => handleMenuItemClick(SCANNER)}
                   >
-                    <CameraAltIcon />
-                  </IconButton>
+                    Scanner
+                  </Button>
 
                   <Box display={visitorShow}>
-                    <IconButton
-                      edge="end"
-                      aria-label="register new user"
-                      aria-controls={menuId}
-                      aria-haspopup="true"
-                      onClick={() => handleMenuItemClick("register")}
-                      color="inherit"
+                    <Button
+                      className={classes.button}
+                      color={theme.palette.primary.contrastText}
+                      onClick={() => handleMenuItemClick(REGISTER)}
                     >
-                      <PersonAddIcon />
-                    </IconButton>
-                    <IconButton
-                      edge="end"
-                      aria-label="login user"
-                      aria-controls={menuId}
-                      aria-haspopup="true"
-                      onClick={() => handleMenuItemClick("login")}
-                      color="inherit"
+                      Register
+                    </Button>
+                    <Button
+                      className={classes.button}
+                      color={theme.palette.primary.contrastText}
+                      onClick={() => handleMenuItemClick(LOGIN)}
                     >
-                      <LockOpenIcon />
-                    </IconButton>
+                      Login
+                    </Button>
                   </Box>
                   <Box display={userShow}>
-                    <IconButton
-                      edge="end"
-                      aria-label="account of current  user"
-                      aria-controls={menuId}
-                      aria-haspopup="true"
+                    <Button
+                      className={classes.button}
+                      color={theme.palette.primary.contrastText}
                       onClick={() => handleMenuItemClick("account")}
-                      color="inherit"
                     >
-                      <AccountCircle />
-                    </IconButton>
-                    <IconButton
-                      edge="end"
-                      aria-label="logout user"
-                      aria-controls={menuId}
-                      aria-haspopup="true"
+                      My Account
+                    </Button>
+                    <Button
+                      className={classes.button}
+                      color={theme.palette.primary.contrastText}
                       onClick={() => handleMenuItemClick("logout")}
-                      color="inherit"
                     >
-                      <ExitToAppIcon />
-                    </IconButton>
+                      Logout
+                    </Button>
                   </Box>
                 </div>
                 <div className={classes.sectionMobile}>

@@ -1,8 +1,8 @@
 import React from "react";
 import BeerCategoryCard from "./BeerCategoryCard";
-import Box from "@material-ui/core/Box";
+import { Box, Divider } from "@material-ui/core/";
 import Grid from "@material-ui/core/Grid";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
@@ -14,18 +14,46 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 import "./Category.css";
 import { GridList, Typography } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: "#7e5dc0",
+      main: "#4e89ae",
+      dark: "#41257b",
+      contrastText: "#fff",
+    },
+    secondary: {
+      light: "#637bfe",
+      main: "#3d5afe",
+      dark: "#2a3eb1",
+      contrastText: "#fff",
+    },
+    defaultBackground: {
+      main: "#f0f0f0",
+    },
+  },
+});
+
+const useStyles = makeStyles(() => ({
+  body: {
+    backgroundColor: theme.palette.defaultBackground.main,
+  },
   root: {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-around",
     overflow: "hidden",
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.defaultBackground.main,
   },
   gridList: {
     flexWrap: "nowrap",
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: "translateZ(0)",
+  },
+  beerItemCard: {
+    "&:hover": {
+      textDecoration: "none",
+    },
   },
   title: {
     // color: theme.palette.primary.light,
@@ -38,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function CategoryList(props) {
-  let columns = 2.5;
+  let columns = 2.25;
 
   const theme = useTheme();
   const xsmall = useMediaQuery(theme.breakpoints.up("xs"));
@@ -57,32 +85,41 @@ export default function CategoryList(props) {
     columns = 3;
   }
 
-  const imgError = (e) => {
-    e.target.onerror = null;
-    e.target.src = "images/beer_placeholder.png";
-  };
-
   const classes = useStyles();
   return (
     <div>
       <Box component="div" width={0.9} className={classes.root} m={"auto"}>
-        <Box width={1} component="h3" mb={"1rem"} mt={"1rem"} textAlign="left">
+        <Box
+          width={1}
+          component="h3"
+          mb={"1rem"}
+          mt={"1rem"}
+          textAlign="center"
+        >
           <Typography variant="h5" component="h3" mb={2}>
             {props.title}
           </Typography>
+          <Box mt={"1rem"}>
+            <Divider />
+          </Box>
         </Box>
         <Box width={1}>
           <GridList
             className={classes.gridList}
             cols={columns}
-            cellHeight={"200"}
+            cellHeight={"250"}
             width={1}
           >
             {props.categories.map((category) => (
-              <BeerCategoryCard
-                title={category.type}
-                onClick={props.handleCategoryClick}
-              />
+              <GridListTile
+                className={classes.beerItemCard}
+                key={category}
+                component="a"
+                href="JavaScript:void(0);"
+                onClick={() => props.handleCategoryClick()}
+              >
+                <BeerCategoryCard title={category.type} />
+              </GridListTile>
             ))}
           </GridList>
         </Box>

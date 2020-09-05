@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import GridListTile from "@material-ui/core/GridListTile";
 import "../../index.css";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
@@ -8,16 +8,36 @@ import { useTheme } from "@material-ui/core/styles";
 import BeerItemCard from "./BeerItemCard";
 
 import "./Category.css";
-import { GridList, Typography } from "@material-ui/core";
+import { GridList, Typography, Divider } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: "#7e5dc0",
+      main: "#4e89ae",
+      dark: "#41257b",
+      contrastText: "#fff",
+    },
+    secondary: {
+      light: "#637bfe",
+      main: "#3d5afe",
+      dark: "#2a3eb1",
+      contrastText: "#fff",
+    },
+    defaultBackground: {
+      main: "#f0f0f0",
+    },
+  },
+});
+
+const useStyles = makeStyles(() => ({
   root: {
     fontFamily: ["Oswald", "sans-serif"],
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "space-around",
     overflow: "hidden",
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: theme.palette.defaultBackground.main,
   },
   gridList: {
     flexWrap: "nowrap",
@@ -25,6 +45,11 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     color: "#fff",
+  },
+  beerItemCard: {
+    "&:hover": {
+      textDecoration: "none",
+    },
   },
   titleBar: {
     marginTop: "0.5rem",
@@ -50,17 +75,26 @@ export default function Category(props) {
   } else if (small) {
     columns = 4;
   } else if (betweenXSAndS) {
-    columns = 3;
+    columns = 2.75;
   }
 
   const classes = useStyles();
   return (
     <div>
       <Box component="div" width={0.9} className={classes.root} m={"auto"}>
-        <Box width={1} component="h3" mb={"1rem"} mt={"1rem"} textAlign="left">
+        <Box
+          width={1}
+          component="h3"
+          mb={"1rem"}
+          mt={"1rem"}
+          textAlign="center"
+        >
           <Typography variant="h5" component="h3" mb={2}>
             {props.category}
           </Typography>
+          <Box mt={"1rem"}>
+            <Divider />
+          </Box>
         </Box>
 
         <Box width={1}>
@@ -72,6 +106,7 @@ export default function Category(props) {
           >
             {props.beers.map((beer) => (
               <GridListTile
+                className={classes.beerItemCard}
                 id={beer.id}
                 key={beer.id}
                 component="a"
@@ -82,6 +117,8 @@ export default function Category(props) {
               </GridListTile>
             ))}
           </GridList>
+
+          <Divider />
         </Box>
       </Box>
     </div>
