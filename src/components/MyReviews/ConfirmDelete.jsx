@@ -15,8 +15,11 @@ import { makeStyles } from "@material-ui/styles";
 import Button from "@material-ui/core/Button";
 
 export default function ConfirmDelete(props) {
+  console.log("this is in the confirmdelete section", props);
+
   const editSelect = (event) => {
-    props.handleDeleteMyReview(props.id);
+    //console.log("is their props?", props);
+    props.handleDeleteMyReview(props.reviewId);
     props.close();
   };
 

@@ -18,7 +18,7 @@ import MyAccount from "./components/Account/MyAccount";
 import Scanner from "./components/Scanner/Scanner";
 import EditReview from "./components/MyReviews/EditReview";
 import ConfirmDelete from "./components/MyReviews/ConfirmDelete";
-//import Review from './components/Review/Review'
+//import Review from "./components/Review/Review";
 import useApplicationData from "./hooks/useApplicationData";
 
 function App() {
@@ -31,7 +31,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [reviewOpen, setReviewOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
-  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+
   const [userNote, setUserNote] = useState(false);
   const [scannerOpen, setScannerOpen] = useState(false);
   const [editMyReviewsOpen, setEditMyReviewsOpen] = useState(false);
@@ -51,6 +51,7 @@ function App() {
     changeAccountDetails,
     setRecentlyViewed,
     deleteReviewById,
+    addReviewById,
   } = useApplicationData();
 
   const {
@@ -103,15 +104,6 @@ function App() {
 
   const handleShareOptionClose = (e) => {
     setShareOpen(false);
-  };
-
-  const handleConfirmDeleteOpen = (e) => {
-    console.log("is the confirm delete opening");
-    setConfirmDeleteOpen(true);
-  };
-
-  const handleConfirmDeleteClose = (e) => {
-    setConfirmDeleteOpen(false);
   };
 
   const handleEditReviewOpen = async (id) => {
@@ -169,6 +161,7 @@ function App() {
       return;
     }
     deleteReviewById(review_id);
+    console.log("made it after deletereviewbyid");
     handleClickSB(`Your review was removed from your Review list`);
   };
 
@@ -383,7 +376,7 @@ function App() {
           onClick={handleBeerDetailClick}
           setUserNote={setUserNote}
           handleEditReviewOpen={handleEditReviewOpen}
-          handleConfirmDeleteOpen={handleConfirmDeleteOpen}
+          //handleConfirmDeleteOpen={handleConfirmDeleteOpen}
         />
       )}
       <Search
@@ -393,19 +386,14 @@ function App() {
         close={handleSearchClose}
         onClick={handleClickFromSearchResult}
       />
-      <ConfirmDelete
-        open={confirmDeleteOpen}
-        close={handleConfirmDeleteClose}
-        handleDeleteMyReview={handleDeleteMyReview}
-        onClick={handleClickFromSearchResult}
-      />
 
       {/* Move review component and share option to beer detail page */}
       <Review
         currentBeer={currentBeer}
         open={reviewOpen}
         close={handleReviewClose}
-        handleConfirmDeleteOpen={handleConfirmDeleteOpen}
+        handleDeleteMyReview={handleDeleteMyReview}
+        addReviewById={addReviewById}
       />
       {/* Move review component and share option to beer detail page */}
       <ShareOption open={shareOpen} close={handleShareOptionClose} />
@@ -433,7 +421,7 @@ function App() {
           handleEditReviewOpen={handleEditReviewOpen}
           handleDeleteMyReview={handleDeleteMyReview}
           changeAccountDetails={changeAccountDetails}
-          handleConfirmDeleteOpen={handleConfirmDeleteOpen}
+          // handleConfirmDeleteOpen={handleConfirmDeleteOpen}
         />
       )}
       <Scanner

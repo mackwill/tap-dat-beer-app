@@ -272,11 +272,25 @@ export default function useApplicationData() {
 
   // Delete a review from your list of My Reviews
   const deleteReviewById = async (review_id) => {
+    console.log("deletereviewbyid", review_id);
     await axios.delete(`/api/reviews/${review_id}`);
     const newBeerReview = removeDeletedBeerReview(review_id);
     dispatch({
       type: SET_USER_REVIEWS,
       value: newBeerReview,
+    });
+  };
+
+  // Add a review from your list of My Reviews
+  const addReviewById = async (reviewObject) => {
+    console.log("in the addReview", reviewObject);
+    const newReview = await axios.post("/api/reviews", reviewObject);
+    console.log("test new review", newReview);
+    //const newBeerReview = removeDeletedBeerReview(review_id);
+    const updateReviews = [...state.currentBeerReviews, newReview.data.data];
+    dispatch({
+      type: SET_USER_REVIEWS,
+      value: updateReviews,
     });
   };
 
@@ -293,5 +307,6 @@ export default function useApplicationData() {
     changeAccountDetails,
     setRecentlyViewed,
     deleteReviewById,
+    addReviewById,
   };
 }
