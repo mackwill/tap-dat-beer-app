@@ -314,6 +314,7 @@ function App() {
         open={loginOpen}
         handleClose={handleLoginClose}
         errMessage={errMessage}
+        setErrorMessage={setErrorMessage}
         changeUserData={changeUserData}
         submitLoginData={submitLoginData}
       />

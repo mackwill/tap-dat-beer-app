@@ -4,7 +4,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Notes from "./Notes";
-import Axios from "axios";
+import axios from "axios";
 
 import SimilarBeer_v2 from "./SimilarBeer_v2";
 import UserReviews from "./UserReviews";
@@ -16,9 +16,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SimpleTabs(props) {
+export default function UnderBeer(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
   const [similarBeers, setSimilarBeers] = useState([]);
   const [personalNotes, setPersonalNotes] = useState("");
 
@@ -30,31 +30,38 @@ export default function SimpleTabs(props) {
     setPersonalNotes(e.target.value);
   };
 
-  const getSimilarBeers = () => {
-    return Axios.get(
-      `/api/beers/similar/${props.currentBeer.id}`
-    ).then((data) => setSimilarBeers(data.data.data));
+  const getSimilarBeers = async () => {
+    const beers = await axios.get(`/api/beers/similar/${props.currentBeer.id}`);
+    setSimilarBeers(beers.data.data);
   };
 
-  const saveNote = () => {
+  const saveNote = async () => {
     const notes = { text: personalNotes, beer_id: props.currentBeer.id };
-    return Axios.post("/api/notes", notes)
-      .then((data) => {
-        props.setOpenSB("Your note was saved");
-      })
-      .catch((e) => null);
+    await axios.post("/api/notes", notes);
+    props.setOpenSB("Your note was saved");
   };
 
-  const getNote = () => {
+  const getNote = async () => {
     const id = props.currentBeer.id;
-    return Axios.get(`/api/notes/${id}`).then((note) => {
-      if (!note.data.data) {
-        setPersonalNotes("");
-      } else {
-        setPersonalNotes(note.data.data.text);
-      }
-    });
+    const note = await axios.get(`/api/notes/${id}`);
+
+    if (!note.data.data) {
+      setPersonalNotes("");
+    } else {
+      setPersonalNotes(note.data.data.text);
+    }
   };
+
+  // Update similar beer list when a user clicks on
+  // a beer in the similar list tab
+  const updateSimilarBeers = async () => {
+    const beers = await axios.get(`/api/beers/similar/${props.currentBeer.id}`);
+    setSimilarBeers(beers.data.data);
+  };
+
+  useEffect(() => {
+    updateSimilarBeers();
+  }, [props.currentBeer]);
 
   return (
     <div className={classes.root}>

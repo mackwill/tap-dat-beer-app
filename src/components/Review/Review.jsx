@@ -134,16 +134,22 @@ export default function Review(props) {
               {props.review}
             </Typography>
           </CardContent>
-        
-          <CardActions>
-            <IconButton>
-              <EditIcon className={classes.iconBlue} onClick={() => props.handleEditReviewOpen(props.id)}  />
-            </IconButton>
-            <IconButton>
-              <DeleteIcon className={classes.iconBlue}  onClick={() => props.handleDeleteMyReview(props.id)} />
-            </IconButton>
-          </CardActions>
-            
+          {props.myReviews && (
+            <CardActions>
+              <IconButton>
+                <EditIcon
+                  className={classes.iconBlue}
+                  onClick={() => props.handleEditReviewOpen(props.id)}
+                />
+              </IconButton>
+              <IconButton>
+                <DeleteIcon
+                  className={classes.iconBlue}
+                  onClick={() => props.handleDeleteMyReview(props.id)}
+                />
+              </IconButton>
+            </CardActions>
+          )}
         </Card>
       </Box>
     </Grid>
