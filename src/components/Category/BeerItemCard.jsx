@@ -123,6 +123,7 @@ export default function BeerItemCard(props) {
             precision={0.25}
             readOnly
           />
+          ({props.num_reviews})
         </Box>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit></Collapse>

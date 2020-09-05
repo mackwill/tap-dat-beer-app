@@ -64,7 +64,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     flexGrow: "1",
-    alignSelf: "center",
     padding: "0 3rem",
   },
   desktopUnder: {

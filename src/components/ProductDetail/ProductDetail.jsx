@@ -33,7 +33,6 @@ const useStyles = makeStyles((theme) => ({
   desktopList: {
     backgroundColor: "#f0f0f0",
     display: "flex",
-    justifyContent: "space-between",
     height: "100%",
   },
   mobileList: {
@@ -42,9 +41,8 @@ const useStyles = makeStyles((theme) => ({
   desktopBeer: {
     display: "flex",
     flexDirection: "column",
-    flexGrow: "1",
-    alignSelf: "center",
     padding: "0 3rem",
+    justifyContent: "flex-start",
   },
   desktopUnder: {
     alignItems: "flex-start",
@@ -168,7 +166,7 @@ export default function ProductDetail(props) {
                 />
               </ListItem>
 
-              <ListItem style={{ margin: "auto" }}>
+              <ListItem>
                 <Grid container spacing={1} textAlign="center">
                   <Grid container item xs={3} spacing={1}>
                     <Box m={"auto"}>
@@ -192,7 +190,7 @@ export default function ProductDetail(props) {
                   <Grid container item xs={3} spacing={1}>
                     <Box m={"auto"}>
                       <Typography variant="p">
-                        {props.currentBeer.avg_rank}/10
+                        {props.currentBeer.avg_rank}/5
                       </Typography>
                     </Box>
                   </Grid>
@@ -206,6 +204,12 @@ export default function ProductDetail(props) {
                   width={1}
                   textAlign="right"
                 >
+                  <IconButton>
+                    <FavoriteIcon
+                      color="secondary"
+                      onClick={props.handleAddToWishlist}
+                    />
+                  </IconButton>
                   {props.currentUser && props.reviews && !reviewed && (
                     <Button
                       variant="contained"
@@ -214,6 +218,17 @@ export default function ProductDetail(props) {
                     >
                       Review
                     </Button>
+                  )}
+                  {!props.currentUser && (
+                    <Alert severity="warning">
+                      <a
+                        href="javascript:void(0)"
+                        onClick={() => props.setRegisterOpen(true)}
+                      >
+                        Create an account
+                      </a>{" "}
+                      to leave a review
+                    </Alert>
                   )}
                   {props.currentUser && props.reviews && reviewed && (
                     <Alert severity="info">
@@ -224,12 +239,6 @@ export default function ProductDetail(props) {
                     <ShareIcon
                       color="secondary"
                       onClick={props.handleShareOptionOpen}
-                    />
-                  </IconButton>
-                  <IconButton>
-                    <FavoriteIcon
-                      color="secondary"
-                      onClick={props.handleAddToWishlist}
                     />
                   </IconButton>
                 </Box>
