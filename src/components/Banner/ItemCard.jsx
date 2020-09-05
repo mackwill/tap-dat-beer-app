@@ -11,9 +11,9 @@ import Button from "@material-ui/core/Button";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    height: "52vh",
+    height: "45vh",
     justifyContent: "center",
-    padding: "55px",
+    border: "none",
   },
   details: {
     display: "flex",

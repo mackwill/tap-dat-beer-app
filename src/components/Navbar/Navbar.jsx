@@ -267,7 +267,12 @@ export default function PrimarySearchAppBar(props) {
               alignItems={"center"}
             >
               <Typography className={classes.title} variant="h6">
-                Tap Dat
+                <img
+                  src="images/tapdat-logo.png"
+                  alt="Logo"
+                  height="50px"
+                  width="150px"
+                />
               </Typography>
               <Box display={"flex"}>
                 <IconButton onClick={() => handleMenuItemClick("search")}>
