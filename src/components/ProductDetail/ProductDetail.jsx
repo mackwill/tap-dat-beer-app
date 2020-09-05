@@ -65,6 +65,7 @@ export default function ProductDetail(props) {
     console.log("reviewed beers", reviewedBeers.length);
     return reviewedBeers.length > 0;
   };
+  const fakeIBU = Math.floor(Math.random() * 100);
 
   useEffect(() => {
     if (
@@ -111,8 +112,14 @@ export default function ProductDetail(props) {
           <List style={{ backgroundColor: "#f0f0f0" }}>
             <ListItem>
               <Box width={1}>
-                <Typography variant="h6">{props.currentBeer.name}</Typography>
-                <Typography style={{ opacity: "0.3" }} variant="p">
+                <Typography align="center" variant="h6">
+                  {props.currentBeer.name}
+                </Typography>
+                <Typography
+                  align="center"
+                  style={{ opacity: "0.6" }}
+                  variant="subtitle1"
+                >
                   {props.currentBeer.brewery}
                 </Typography>
               </Box>
@@ -124,36 +131,43 @@ export default function ProductDetail(props) {
               }}
             >
               <img
-                style={{ borderRadius: "10px", border: "1px solid #a9a9a9" }}
+                style={{
+                  borderRadius: "10px",
+                  border: "1px solid #a9a9a9",
+                  marginBottom: "1rem",
+                }}
                 src={props.currentBeer.beer_image}
                 onError={imgError}
               />
             </ListItem>
-            <ListItem style={{ width: "60%", margin: "auto" }}>
+
+            <Divider />
+
+            <ListItem style={{ margin: "auto" }}>
               <Grid container spacing={1} textAlign="center">
-                <Grid container item xs={6} spacing={1}>
+                <Grid container item xs={3} spacing={1}>
                   <Box m={"auto"}>
                     <Typography variant="p">
                       ABV: {props.currentBeer.abv}%
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid container item xs={6} spacing={1}>
+                <Grid container item xs={3} spacing={1}>
                   <Box m={"auto"}>
-                    <Typography variant="p">IBU: --</Typography>
+                    <Typography variant="p">IBU: {fakeIBU}</Typography>
                   </Box>
                 </Grid>
-                <Grid container item xs={6} spacing={1}>
+                <Grid container item xs={3} spacing={1}>
                   <Box m={"auto"}>
                     <Typography variant="p">
-                      Type: {props.currentBeer.type}
+                      {props.currentBeer.type}
                     </Typography>
                   </Box>
                 </Grid>
-                <Grid container item xs={6} spacing={1}>
+                <Grid container item xs={3} spacing={1}>
                   <Box m={"auto"}>
                     <Typography variant="p">
-                      Rating: {props.currentBeer.avg_rank}
+                      {props.currentBeer.avg_rank}
                     </Typography>
                   </Box>
                 </Grid>
@@ -162,7 +176,11 @@ export default function ProductDetail(props) {
 
             <Divider />
             <ListItem>
-              <Box width={1} textAlign="right">
+              <Box
+                style={{ display: "flex", justifyContent: "space-between" }}
+                width={1}
+                textAlign="right"
+              >
                 {props.currentUser && props.reviews && !reviewed && (
                   <Button
                     variant="contained"

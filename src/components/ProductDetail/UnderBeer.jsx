@@ -64,9 +64,9 @@ export default function UnderBeer(props) {
   }, [props.currentBeer]);
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
-        <Tabs value={value} onChange={handleChange}>
+    <div className={classes.root} style={{ backgroundColor: "#f0f0f0" }}>
+      <AppBar style={{ borderRadius: "5px" }} position="static">
+        <Tabs centered value={value} onChange={handleChange}>
           <Tab label="Reviews" />
           <Tab label="Similar Beers" onClick={() => getSimilarBeers()} />
           {props.currentUser && (

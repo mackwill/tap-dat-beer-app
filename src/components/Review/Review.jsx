@@ -68,8 +68,8 @@ export default function Review(props) {
   console.log("This is the review props", props);
 
   return (
-    <Grid item xs={11} md={6} lg={5} style={{ margin: "auto" }}>
-      <Box width={0.95} m={"auto"}>
+    <Grid item xs={12} md={6} lg={5}>
+      <Box m={"auto"}>
         <Card className={classes.root} variant="outlined">
           <CardContent>
             <Box
