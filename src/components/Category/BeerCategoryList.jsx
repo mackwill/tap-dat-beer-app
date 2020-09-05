@@ -1,6 +1,6 @@
 import React from "react";
 import BeerCategoryCard from "./BeerCategoryCard";
-import Box from "@material-ui/core/Box";
+import { Box, Divider } from "@material-ui/core/";
 import Grid from "@material-ui/core/Grid";
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import GridListTile from "@material-ui/core/GridListTile";
@@ -84,10 +84,19 @@ export default function CategoryList(props) {
   return (
     <div>
       <Box component="div" width={0.9} className={classes.root} m={"auto"}>
-        <Box width={1} component="h3" mb={"1rem"} mt={"1rem"} textAlign="left">
+        <Box
+          width={1}
+          component="h3"
+          mb={"1rem"}
+          mt={"1rem"}
+          textAlign="center"
+        >
           <Typography variant="h5" component="h3" mb={2}>
             {props.title}
           </Typography>
+          <Box mt={"1rem"}>
+            <Divider />
+          </Box>
         </Box>
         <Box width={1}>
           <GridList
@@ -103,10 +112,7 @@ export default function CategoryList(props) {
                 href="JavaScript:void(0);"
                 onClick={() => props.handleCategoryClick()}
               >
-                <BeerCategoryCard
-                  title={category.type}
-                  // onClick={props.handleCategoryClick}
-                />
+                <BeerCategoryCard title={category.type} />
               </GridListTile>
             ))}
           </GridList>

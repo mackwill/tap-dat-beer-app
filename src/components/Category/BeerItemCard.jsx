@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     height: "9rem",
     backgroundSize: "contain",
     objectFit: "contain",
-    width: "auto",
+    width: "85%",
     margin: "auto",
     borderRadius: "5px",
     // paddingTop: "100%", // 16:9
@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
   },
   headerTypography: {
     fontSize: "0.8rem",
+    textAlign: "center",
   },
   subHeaderTypography: {
     fontSize: "0.6rem",

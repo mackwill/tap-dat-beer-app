@@ -69,17 +69,26 @@ export default function Category(props) {
   } else if (small) {
     columns = 4;
   } else if (betweenXSAndS) {
-    columns = 3;
+    columns = 2.75;
   }
 
   const classes = useStyles();
   return (
     <div>
       <Box component="div" width={0.9} className={classes.root} m={"auto"}>
-        <Box width={1} component="h3" mb={"1rem"} mt={"1rem"} textAlign="left">
+        <Box
+          width={1}
+          component="h3"
+          mb={"1rem"}
+          mt={"1rem"}
+          textAlign="center"
+        >
           <Typography variant="h5" component="h3" mb={2}>
             {props.category}
           </Typography>
+          <Box mt={"1rem"}>
+            <Divider />
+          </Box>
         </Box>
 
         <Box width={1}>

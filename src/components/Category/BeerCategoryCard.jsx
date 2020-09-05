@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: "contain",
     objectFit: "contain",
     padding: "0.5rem",
+    width: "90%",
     // paddingTop: "100%", // 16:9
   },
   header: {
