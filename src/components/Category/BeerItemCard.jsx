@@ -20,6 +20,7 @@ import Box from "@material-ui/core/Box";
 import StarIcon from "@material-ui/icons/Star";
 const useStyles = makeStyles((theme) => ({
   root: {
+    textDecoration: "none",
     maxWidth: 365,
   },
   media: {

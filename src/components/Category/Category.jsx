@@ -45,6 +45,11 @@ const useStyles = makeStyles(() => ({
   title: {
     color: "#fff",
   },
+  beerItemCard: {
+    "&:hover": {
+      textDecoration: "none",
+    },
+  },
   titleBar: {
     marginTop: "0.5rem",
     background:
@@ -100,6 +105,7 @@ export default function Category(props) {
           >
             {props.beers.map((beer) => (
               <GridListTile
+                className={classes.beerItemCard}
                 id={beer.id}
                 key={beer.id}
                 component="a"
