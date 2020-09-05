@@ -17,7 +17,8 @@ import Snackbar from "./components/Small-Components/Snackbar";
 import MyAccount from "./components/Account/MyAccount";
 import Scanner from "./components/Scanner/Scanner";
 import EditReview from "./components/MyReviews/EditReview";
-//import Review from './components/Review/Review'
+import ConfirmDelete from "./components/MyReviews/ConfirmDelete";
+//import Review from "./components/Review/Review";
 import useApplicationData from "./hooks/useApplicationData";
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [reviewOpen, setReviewOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
+
   const [userNote, setUserNote] = useState(false);
   const [scannerOpen, setScannerOpen] = useState(false);
   const [editMyReviewsOpen, setEditMyReviewsOpen] = useState(false);
@@ -49,7 +51,7 @@ function App() {
     changeAccountDetails,
     setRecentlyViewed,
     deleteReviewById,
-    setCurrentBeer,
+    addReviewById,
   } = useApplicationData();
 
   const {
@@ -158,6 +160,7 @@ function App() {
       return;
     }
     deleteReviewById(review_id);
+    console.log("made it after deletereviewbyid");
     handleClickSB(`Your review was removed from your Review list`);
   };
 
@@ -389,6 +392,7 @@ function App() {
           onClick={handleBeerDetailClick}
           setUserNote={setUserNote}
           handleEditReviewOpen={handleEditReviewOpen}
+          //handleConfirmDeleteOpen={handleConfirmDeleteOpen}
         />
       )}
       <Search
@@ -404,6 +408,8 @@ function App() {
         currentBeer={currentBeer}
         open={reviewOpen}
         close={handleReviewClose}
+        handleDeleteMyReview={handleDeleteMyReview}
+        addReviewById={addReviewById}
       />
       {/* Move review component and share option to beer detail page */}
       <ShareOption open={shareOpen} close={handleShareOptionClose} />
@@ -430,6 +436,8 @@ function App() {
           reviews={currentBeerReviews}
           handleEditReviewOpen={handleEditReviewOpen}
           handleDeleteMyReview={handleDeleteMyReview}
+          changeAccountDetails={changeAccountDetails}
+          // handleConfirmDeleteOpen={handleConfirmDeleteOpen}
           changeAccountDetails={handleChangeAccountDetails}
         />
       )}

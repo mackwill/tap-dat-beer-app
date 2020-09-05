@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/styles";
 import Question from "./Question";
 import axios from "axios";
+//import useApplicationData from "../../hooks/useApplicationData";
 
 const qStyles = makeStyles((theme) => ({
   root: {
@@ -51,9 +52,8 @@ export default function Review(props) {
     props.close();
   };
 
-  
-
   const nextAndSubmit = (id) => {
+    console.log("in next and submit", id);
     const reviewObject = {
       sweet: questionA,
       sour: questionD,
@@ -63,10 +63,8 @@ export default function Review(props) {
       beer_id: props.currentBeer.id,
       review: questionF,
     };
-    return axios.post("/api/reviews", reviewObject).then((data) => {
-      console.log("Sent a review to db");
-      handleClose();
-    });
+    props.addReviewById(reviewObject);
+    handleClose();
   };
 
   return (

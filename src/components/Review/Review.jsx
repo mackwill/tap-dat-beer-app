@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -11,6 +11,7 @@ import Rating from "@material-ui/lab/Rating";
 import Avatar from "@material-ui/core/Avatar";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
+import ConfirmDelete from "../../components/MyReviews/ConfirmDelete";
 
 const theme = createMuiTheme({
   palette: {
@@ -53,7 +54,18 @@ const useStyles = makeStyles({
   },
 });
 export default function Review(props) {
+  const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
+
+  const handleConfirmDeleteOpen = (e) => {
+    setConfirmDeleteOpen(true);
+  };
+
+  const handleConfirmDeleteClose = (e) => {
+    setConfirmDeleteOpen(false);
+  };
+
   const classes = useStyles();
+  console.log("This is the review props", props);
 
   return (
     <Grid item xs={11} md={6} lg={5} style={{ margin: "auto" }}>
@@ -134,24 +146,31 @@ export default function Review(props) {
               {props.review}
             </Typography>
           </CardContent>
-          {props.myReviews && (
-            <CardActions>
-              <IconButton>
-                <EditIcon
-                  className={classes.iconBlue}
-                  onClick={() => props.handleEditReviewOpen(props.id)}
-                />
-              </IconButton>
-              <IconButton>
-                <DeleteIcon
-                  className={classes.iconBlue}
-                  onClick={() => props.handleDeleteMyReview(props.id)}
-                />
-              </IconButton>
-            </CardActions>
-          )}
+
+          <CardActions>
+            <IconButton>
+              <EditIcon
+                className={classes.iconBlue}
+                onClick={() => props.handleEditReviewOpen(props.id)}
+              />
+            </IconButton>
+            <IconButton>
+              <DeleteIcon
+                className={classes.iconBlue}
+                onClick={handleConfirmDeleteOpen}
+              />
+            </IconButton>
+          </CardActions>
         </Card>
       </Box>
+      {confirmDeleteOpen && (
+        <ConfirmDelete
+          open={confirmDeleteOpen}
+          close={handleConfirmDeleteClose}
+          reviewId={props.id}
+          handleDeleteMyReview={props.handleDeleteMyReview}
+        />
+      )}
     </Grid>
   );
 }

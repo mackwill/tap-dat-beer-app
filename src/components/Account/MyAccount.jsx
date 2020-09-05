@@ -114,7 +114,7 @@ export default function ProductDetail(props) {
                 reviews={props.reviews}
                 handleDeleteMyReview={props.handleDeleteMyReview}
                 handleEditReviewOpen={props.handleEditReviewOpen}
-
+                handleConfirmDeleteOpen={props.handleConfirmDeleteOpen}
               />
             </ListItem>
           </List>

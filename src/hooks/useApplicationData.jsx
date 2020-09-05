@@ -287,6 +287,7 @@ export default function useApplicationData() {
 
   // Delete a review from your list of My Reviews
   const deleteReviewById = async (review_id) => {
+    console.log("deletereviewbyid", review_id);
     await axios.delete(`/api/reviews/${review_id}`);
     const newBeerReview = removeDeletedBeerReview(review_id);
     dispatch({
@@ -295,21 +296,16 @@ export default function useApplicationData() {
     });
   };
 
-  const setCurrentBeer = async (id = null) => {
-    let dispatchValue = {};
-    if (!id) {
-      dispatchValue = {
-        currentBeer: null,
-      };
-    } else {
-      const beer = await axios.get(`/api/beers/${id}`);
-      dispatchValue = {
-        currentBeer: beer.data.data,
-      };
-    }
+  // Add a review from your list of My Reviews
+  const addReviewById = async (reviewObject) => {
+    console.log("in the addReview", reviewObject);
+    const newReview = await axios.post("/api/reviews", reviewObject);
+    console.log("test new review", newReview);
+    //const newBeerReview = removeDeletedBeerReview(review_id);
+    const updateReviews = [...state.currentBeerReviews, newReview.data.data];
     dispatch({
-      type: SET_CURRENT_BEER,
-      value: dispatchValue,
+      type: SET_USER_REVIEWS,
+      value: updateReviews,
     });
   };
 
@@ -326,6 +322,6 @@ export default function useApplicationData() {
     changeAccountDetails,
     setRecentlyViewed,
     deleteReviewById,
-    setCurrentBeer,
+    addReviewById,
   };
 }
