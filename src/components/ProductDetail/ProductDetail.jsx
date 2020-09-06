@@ -47,6 +47,10 @@ const useStyles = makeStyles((theme) => ({
   desktopUnder: {
     alignItems: "flex-start",
     flexGrow: "1",
+    overflow: "auto",
+  },
+  gridContainer: {
+    justifyContent: "center",
   },
 }));
 
@@ -65,6 +69,17 @@ const theme = createMuiTheme({
       contrastText: "#fff",
     },
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      tablet: 640,
+      md: 960,
+      laptop: 1025,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
 });
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -74,30 +89,27 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function ProductDetail(props) {
   const small = useMediaQuery(theme.breakpoints.up("sm"));
   const medium = useMediaQuery(theme.breakpoints.up("md"));
+  const laptop = useMediaQuery(theme.breakpoints.up("laptop"));
   const large = useMediaQuery(theme.breakpoints.up("lg"));
 
   const [reviewed, setReviewed] = useState(false);
   const classes = useStyles();
 
-  const hasAlreadyReviewed = (reviews, currentId) => {
-    const reviewedBeers = reviews.filter(
-      (review) => review.user_id === currentId
+  const hasAlreadyReviewed = () => {
+    const reviewedBeers = props.reviews.filter(
+      (review) => review.user_id === props.currentUser.id
     );
-    console.log("reviewed beers", reviewedBeers.length);
     return reviewedBeers.length > 0;
   };
   const fakeIBU = Math.floor(Math.random() * 100);
 
   useEffect(() => {
-    if (
-      props.curerentUser &&
-      hasAlreadyReviewed(props.reviews, props.currentUser.id)
-    ) {
-      setReviewed(true);
+    if (props.currentUser) {
+      const hasReviewed = hasAlreadyReviewed();
+      setReviewed(hasReviewed);
     } else {
       setReviewed(false);
     }
-    console.log("reviewed: ", reviewed);
   }, [props.currentBeer]);
 
   const imgError = (e) => {
@@ -133,7 +145,7 @@ export default function ProductDetail(props) {
           <List
             className={`${medium ? classes.desktopList : classes.mobileList}`}
           >
-            <div className={`${medium ? classes.desktopBeer : ""}`}>
+            <div className={`${laptop ? classes.desktopBeer : ""}`}>
               <ListItem>
                 <Box width={1}>
                   <Typography align="center" variant="h6">
@@ -167,8 +179,8 @@ export default function ProductDetail(props) {
               </ListItem>
 
               <ListItem>
-                <Grid container spacing={1} textAlign="center">
-                  <Grid container item xs={3} spacing={1}>
+                <Grid container spacing={2} className={classes.gridContainer}>
+                  <Grid container item xs={3} spacing={1} textAlign="center">
                     <Box m={"auto"}>
                       <Typography variant="p">
                         ABV: {props.currentBeer.abv}%
@@ -210,15 +222,16 @@ export default function ProductDetail(props) {
                       onClick={props.handleAddToWishlist}
                     />
                   </IconButton>
-                  {props.currentUser && props.reviews && !reviewed && (
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={props.openForm}
-                    >
-                      Review
-                    </Button>
-                  )}
+                  {!props.currentUser ||
+                    (!reviewed && (
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={props.openForm}
+                      >
+                        Review
+                      </Button>
+                    ))}
                   {!props.currentUser && (
                     <Alert severity="warning">
                       <a
@@ -230,8 +243,8 @@ export default function ProductDetail(props) {
                       to leave a review
                     </Alert>
                   )}
-                  {props.currentUser && props.reviews && reviewed && (
-                    <Alert severity="info">
+                  {reviewed && (
+                    <Alert severity="warning">
                       You've already reviewed this beer
                     </Alert>
                   )}
