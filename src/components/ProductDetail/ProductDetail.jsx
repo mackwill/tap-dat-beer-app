@@ -24,7 +24,7 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import GradeIcon from "@material-ui/icons/Grade";
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    position: "relative",
+    position: "sticky",
   },
   title: {
     marginLeft: theme.spacing(2),

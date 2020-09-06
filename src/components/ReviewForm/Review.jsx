@@ -20,8 +20,22 @@ const qStyles = makeStyles((theme) => ({
   },
 }));
 
+const dStyles = makeStyles((theme) => ({
+  root: {
+    margin: "32px",
+    position: "relative",
+    overflow: "none",
+    //flexDirection: "row",
+    //alignItems: "center",
+    //justifyContent: "center",
+    //padding: "50px",
+    //overflow-y: "hidden"
+  },
+}));
+
 export default function Review(props) {
   const qs = qStyles();
+  const ds = dStyles();
 
   const [questionA, setQuestionA] = useState(null);
   const [questionB, setQuestionB] = useState(null);
@@ -69,10 +83,11 @@ export default function Review(props) {
 
   return (
     <Dialog
+      className={ds.root}
       open={props.open}
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
-      maxWidth={"sm"}
+      maxWidth={"lg"}
       fullWidth
     >
       {currentQuestion === 1 && (
@@ -126,9 +141,9 @@ export default function Review(props) {
           color="inherit"
           onClick={handleClose}
           aria-label="close"
-          size="small"
+          size="large"
         >
-          Cancel
+          X
         </Button>
       </DialogActions>
     </Dialog>
