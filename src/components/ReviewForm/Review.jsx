@@ -87,37 +87,45 @@ export default function Review(props) {
       open={props.open}
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
-      maxWidth={"lg"}
+      maxWidth={"md"}
       fullWidth
     >
       {currentQuestion === 1 && (
         <Question
           className={qs.root}
           question="Sweet"
+          answer={questionA}
           setQuestion={setQuestionA}
           nextQuestion={nextQuestion}
+          handleClose={handleClose}
         />
       )}
 
       {currentQuestion === 2 && (
         <Question
           question="Bitter"
+          answer={questionB}
           setQuestion={setQuestionB}
           nextQuestion={nextQuestion}
+          handleClose={handleClose}
         />
       )}
       {currentQuestion === 3 && (
         <Question
           question="Hoppy"
+          answer={questionC}
           setQuestion={setQuestionC}
           nextQuestion={nextQuestion}
+          handleClose={handleClose}
         />
       )}
       {currentQuestion === 4 && (
         <Question
           question="Sour"
+          answer={questionD}
           setQuestion={setQuestionD}
           nextQuestion={nextQuestion}
+          handleClose={handleClose}
         />
       )}
       {currentQuestion === 5 && (
@@ -126,6 +134,7 @@ export default function Review(props) {
           ratingQuestion={true}
           setQuestion={setQuestionE}
           nextQuestion={nextQuestion}
+          handleClose={handleClose}
         />
       )}
       {currentQuestion > 5 && (
@@ -134,9 +143,10 @@ export default function Review(props) {
           finalQuestion={true}
           handleQuestionF={handleQuestionF}
           nextAndSubmit={nextAndSubmit}
+          handleClose={handleClose}
         />
       )}
-      <DialogActions>
+      {/* <DialogActions>
         <Button
           edge="end"
           color="inherit"
@@ -146,7 +156,7 @@ export default function Review(props) {
         >
           X
         </Button>
-      </DialogActions>
+      </DialogActions> */}
     </Dialog>
   );
 }

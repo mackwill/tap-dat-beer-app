@@ -3,6 +3,11 @@ import Button from "@material-ui/core/Button";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { TextField } from "@material-ui/core";
 import DialogActions from "@material-ui/core/DialogActions";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 
 import { makeStyles } from "@material-ui/styles";
 const userStyles = makeStyles((theme) => ({
@@ -72,50 +77,100 @@ export default function Question(props) {
     { answer: "fairly", value: 4 },
     { answer: "very", value: 5 },
   ];
-  const wordButtons = answers.map((elm) => {
-    return (
-      <Button
-        className={classes.root}
-        size="small"
-        variant="contained"
-        color="primary"
-        onClick={() => setQuestion(`${elm.value}`)}
-      >
-        {elm.answer}
-      </Button>
-    );
-  });
-  const rankButton = [1, 2, 3, 4, 5].map((elm) => {
-    return (
-      <Button
-        className={classes.root}
-        size="small"
-        variant="contained"
-        color="primary"
-        onClick={() => setQuestion(`${elm}`)}
-      >
-        {elm}
-      </Button>
-    );
-  });
+
+  const handleChange = (event) => {
+    props.setQuestion(event.target.value);
+  };
 
   return (
     <>
       {!props.finalQuestion && !props.ratingQuestion && (
         <>
-          <DialogTitle style={{ textAlign: "center" }} id="form-dialog-title">
-            This beer was:
-          </DialogTitle>
-          <div className={classes.root}>{wordButtons}</div>
-          <DialogTitle style={{ textAlign: "center" }} id="form-dialog-title">
-            {props.question}
-          </DialogTitle>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-around",
+            }}
+          >
+            <DialogTitle
+              style={{ padding: "1em", fontSize: "3vw" }}
+              id="form-dialog-title"
+            >
+              This beer was:
+            </DialogTitle>
+
+            <FormControl className={classes.formControl}>
+              <Select
+                required={true}
+                style={{ width: "150px", padding: "1em", fontSize: "3vw" }}
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={props.answer}
+                onChange={handleChange}
+              >
+                {answers.map((elm) => {
+                  return <MenuItem value={elm.value}>{elm.answer}</MenuItem>;
+                })}
+              </Select>
+            </FormControl>
+
+            <DialogTitle
+              style={{ padding: "1em", fontSize: "3vw" }}
+              id="form-dialog-title"
+            >
+              {props.question}
+            </DialogTitle>
+          </div>
+          <DialogActions>
+            <Button
+              size="large"
+              color="primary"
+              variant="contained"
+              onClick={() => props.nextQuestion()}
+            >
+              Next
+            </Button>
+            <Button
+              edge="end"
+              color="inherit"
+              onClick={props.handleClose}
+              aria-label="close"
+              size="large"
+            >
+              X
+            </Button>
+          </DialogActions>
         </>
       )}
       {!props.finalQuestion && props.ratingQuestion && (
         <>
           <DialogTitle id="form-dialog-title">{props.question}</DialogTitle>
-          <div className={classes.root}>{rankButton}</div>
+          <div className={classes.root}>
+            {[1, 2, 3, 4, 5].map((elm) => {
+              return (
+                <Button
+                  className={classes.root}
+                  size="small"
+                  variant="contained"
+                  color="primary"
+                  onClick={() => setQuestion(`${elm}`)}
+                >
+                  {elm}
+                </Button>
+              );
+            })}
+          </div>
+          <DialogActions>
+            <Button
+              edge="end"
+              color="inherit"
+              onClick={props.handleClose}
+              aria-label="close"
+              size="large"
+            >
+              X
+            </Button>
+          </DialogActions>
         </>
       )}
       {props.finalQuestion && (
@@ -131,15 +186,25 @@ export default function Question(props) {
             onChange={props.handleQuestionF}
             placeholder="Type here"
           />
-          <Button
-            className={button.root}
-            size="large"
-            color="primary"
-            variant="contained"
-            onClick={() => submitReview()}
-          >
-            Submit
-          </Button>
+          <DialogActions>
+            <Button
+              size="large"
+              color="primary"
+              variant="contained"
+              onClick={() => submitReview()}
+            >
+              Submit
+            </Button>
+            <Button
+              edge="end"
+              color="inherit"
+              onClick={props.handleClose}
+              aria-label="close"
+              size="large"
+            >
+              X
+            </Button>
+          </DialogActions>
         </>
       )}
     </>
