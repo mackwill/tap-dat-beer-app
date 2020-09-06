@@ -18,7 +18,7 @@ export default function ProductDetail(props) {
               return <Review {...review} />;
             })
           ) : (
-            <BlankReview />
+            <BlankReview text="No reviews for this beer yet. If you have taste this beer, leave a review to help fellow beer lover. The more you review beers, the better your recommendations will be!" />
           )}
         </Grid>
       )}
