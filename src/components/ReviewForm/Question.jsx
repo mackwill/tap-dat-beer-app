@@ -25,6 +25,7 @@ const buttonStyles = makeStyles((theme) => ({
     left: "30%",
     width: "min-content",
     margin: 20,
+    fontSize: "10%",
     // paddingLeft: 20,
     //paddingRight: 30,
     //paddingBottom: 0,
@@ -63,12 +64,12 @@ export default function Question(props) {
     props.nextAndSubmit();
   };
 
-  const answers = [1, 2, 3, 4, 5];
+  const answers = ["none", "faintly", "somewhat", "fairly", "A lot"];
   const buttons = answers.map((elm) => {
     return (
       <Button
         className={classes.root}
-        size="large"
+        size="small"
         variant="contained"
         color="primary"
         onClick={() => setQuestion(`${elm}`)}
