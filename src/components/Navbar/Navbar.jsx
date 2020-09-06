@@ -283,7 +283,7 @@ export default function PrimarySearchAppBar(props) {
             >
               <Typography className={classes.title} variant="h6">
                 <img
-                  src="images/tapdat-logo.png"
+                  src="images/IMG_1524.png"
                   alt="Logo"
                   height="50px"
                   width="150px"

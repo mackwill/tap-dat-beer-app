@@ -28,7 +28,7 @@ export default function Banner() {
   const medium = useMediaQuery(theme.breakpoints.up("md"));
   const large = useMediaQuery(theme.breakpoints.up("lg"));
 
-  let carouselHeight = "60rem";
+  let carouselHeight = "20rem";
 
   if (large) {
     carouselHeight = "40rem";
@@ -46,29 +46,28 @@ export default function Banner() {
       id: 1,
       //title: "OctoberFest 2021 is here!",
       //subtitle: "Celebrate beer in Covid times",
-      image: "images/27th-annual-Great-Canadian-Beer-Festival-2019.jpg",
+      image: "images/27th-annual.png",
       url: "#",
     },
     {
       id: 2,
       //title: "Discover the new Fall Stouts",
       //subtitle: "Guiness, Dark Horse & PumpStout",
-      image: "images/og-summer.jpg",
+      image: "images/og.png",
       url: "#",
     },
     {
       id: 3,
       //title: "The perfect home brewing kit",
       //subtitle: "Brew you own beer this winter",
-      image: "images/toronto-craft-beer-festival-1885192-3157672-regular.jpg",
+      image: "images/toronto.png",
       url: "#",
     },
     {
       id: 4,
       //title: "The perfect home brewing kit",
       //subtitle: "Brew you own beer this winter",
-      image:
-        "images/newmarket-craftbeer-food-festival-2003262-3623942-regular.jpg",
+      image: "images/newmarket.png",
       url: "#",
     },
   ];
