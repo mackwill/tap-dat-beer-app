@@ -7,13 +7,11 @@ import DialogActions from "@material-ui/core/DialogActions";
 import { makeStyles } from "@material-ui/styles";
 const userStyles = makeStyles((theme) => ({
   root: {
-    height: 40,
-    //width: 20,
+    height: 70,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
-    fontSize: "small",
   },
 }));
 
@@ -21,30 +19,13 @@ const buttonStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "flex-start",
-    alignContent: "center",
-    left: "30%",
-    width: "min-content",
-    margin: 20,
-    //fontSize: "10%",
-    // paddingLeft: 20,
-    //paddingRight: 30,
-    //paddingBottom: 0,
-  },
-}));
-
-const textStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
     justifyContent: "space-evenly",
     alignContent: "center",
-    left: "5%",
-    //right: "10%",
-    //margin: 20,
-    // paddingLeft: 20,
-    paddingRight: "10%",
-    //paddingBottom: 20,
+    left: "40%",
+    margin: 20,
+    paddingLeft: 20,
+    paddingRight: 30,
+    paddingBottom: 20,
   },
 }));
 
@@ -55,7 +36,6 @@ const inputProps = {
 export default function Question(props) {
   const classes = userStyles();
   const button = buttonStyles();
-  const text = textStyles();
 
   const setQuestion = (id) => {
     props.setQuestion(id);
@@ -70,8 +50,8 @@ export default function Question(props) {
     return (
       <Button
         className={classes.root}
-        size="small"
-        variant="contained"
+        size="large"
+        variant="outlined"
         color="primary"
         onClick={() => setQuestion(`${elm}`)}
       >
@@ -86,7 +66,6 @@ export default function Question(props) {
       {props.finalQuestion && (
         <>
           <TextField
-            className={text.root}
             inputProps={{ size: 80 }}
             id="outlined-basic"
             label=""
@@ -99,7 +78,6 @@ export default function Question(props) {
             className={button.root}
             size="large"
             color="primary"
-            variant="contained"
             onClick={() => submitReview()}
           >
             Submit

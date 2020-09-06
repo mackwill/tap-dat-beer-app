@@ -11,11 +11,11 @@ import Button from "@material-ui/core/Button";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    height: "30vh",
-    width: "88vw",
-    border: "none",
+    height: "35vh",
+    width: "85vw",
+    //border: "none",
     justifyContent: "center",
-    // objectFit: "fill",
+    //objectFit: "fill",
     alignContent: "center",
     marginLeft: "3%",
     //marginTop: "5%",
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   cover: {
     width: "100%",
     height: "100%",
-    backgroundSize: "cover",
+    // backgroundSize: "cover",
     //objectFit: "fill",
     padding: "0",
     border: "none",
@@ -67,7 +67,6 @@ export default function MediaControlCard(props) {
   return (
     <Box p={"1rem"}>
       <Card className={classes.root}>
-        <div className={classes.details}></div>
         <CardMedia
           className={classes.cover}
           image={props.image}
@@ -77,3 +76,5 @@ export default function MediaControlCard(props) {
     </Box>
   );
 }
+
+//<div className={classes.details}></div>
