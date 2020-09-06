@@ -12,12 +12,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     height: "30vh",
-    width: "85vw",
+    width: "88vw",
     border: "none",
     justifyContent: "center",
-    objectFit: "fill",
+    // objectFit: "fill",
     alignContent: "center",
-    marginLeft: "5%",
+    marginLeft: "3%",
     //marginTop: "5%",
   },
   details: {
@@ -40,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
     //objectFit: "cover",
   },
+
   controls: {
     display: "flex",
     alignItems: "center",
@@ -66,21 +67,11 @@ export default function MediaControlCard(props) {
   return (
     <Box p={"1rem"}>
       <Card className={classes.root}>
-        <div className={classes.details}>
-          <CardContent className={classes.content}>
-            <Typography component="h5" variant="h5">
-              {props.title}
-            </Typography>
-            <Typography variant="subtitle1" color="textSecondary">
-              {props.subtitle}
-            </Typography>
-          </CardContent>
-          <div className={classes.controls}></div>
-        </div>
+        <div className={classes.details}></div>
         <CardMedia
           className={classes.cover}
           image={props.image}
-          title={props.title}
+          // title={props.title}
         />
       </Card>
     </Box>

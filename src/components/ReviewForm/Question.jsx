@@ -65,7 +65,7 @@ export default function Question(props) {
     props.nextAndSubmit();
   };
 
-  const answers = ["none", "faintly", "somewhat", "fairly", "A lot"];
+  const answers = [1, 2, 3, 4, 5];
   const buttons = answers.map((elm) => {
     return (
       <Button
