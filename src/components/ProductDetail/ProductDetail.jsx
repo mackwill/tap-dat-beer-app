@@ -213,7 +213,10 @@ export default function ProductDetail(props) {
                   <Grid container item xs={3} spacing={1}>
                     <Box m={"auto"}>
                       <Typography variant="p">
-                        {props.currentBeer.avg_rank}/5
+                        {props.currentBeer.avg_rank
+                          ? props.currentBeer.avg_rank
+                          : "--"}
+                        /5
                       </Typography>
                     </Box>
                   </Grid>
