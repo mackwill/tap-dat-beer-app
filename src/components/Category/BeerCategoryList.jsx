@@ -116,7 +116,7 @@ export default function CategoryList(props) {
                 key={category}
                 component="a"
                 href="JavaScript:void(0);"
-                onClick={() => props.handleCategoryClick()}
+                onClick={() => props.handleCategoryClick(category.type)}
               >
                 <BeerCategoryCard title={category.type} />
               </GridListTile>
