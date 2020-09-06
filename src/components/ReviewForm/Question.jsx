@@ -7,12 +7,13 @@ import DialogActions from "@material-ui/core/DialogActions";
 import { makeStyles } from "@material-ui/styles";
 const userStyles = makeStyles((theme) => ({
   root: {
-    height: 70,
+    height: 40,
+    //width: 20,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
-    fontSize: "larger",
+    fontSize: "small",
   },
 }));
 
@@ -25,7 +26,7 @@ const buttonStyles = makeStyles((theme) => ({
     left: "30%",
     width: "min-content",
     margin: 20,
-    fontSize: "10%",
+    //fontSize: "10%",
     // paddingLeft: 20,
     //paddingRight: 30,
     //paddingBottom: 0,
@@ -96,7 +97,7 @@ export default function Question(props) {
           />
           <Button
             className={button.root}
-            size="medium"
+            size="large"
             color="primary"
             variant="contained"
             onClick={() => submitReview()}

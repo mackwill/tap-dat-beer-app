@@ -141,7 +141,7 @@ export default function Review(props) {
           color="inherit"
           onClick={handleClose}
           aria-label="close"
-          size="medium"
+          size="large"
         >
           X
         </Button>
