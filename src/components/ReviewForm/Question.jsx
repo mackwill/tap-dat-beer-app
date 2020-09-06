@@ -12,6 +12,7 @@ const userStyles = makeStyles((theme) => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
+    fontSize: "larger",
   },
 }));
 
@@ -19,13 +20,29 @@ const buttonStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
+    justifyContent: "flex-start",
+    alignContent: "center",
+    left: "30%",
+    width: "min-content",
+    margin: 20,
+    // paddingLeft: 20,
+    //paddingRight: 30,
+    //paddingBottom: 0,
+  },
+}));
+
+const textStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
     justifyContent: "space-evenly",
     alignContent: "center",
-    left: "40%",
-    margin: 20,
-    paddingLeft: 20,
-    paddingRight: 30,
-    paddingBottom: 20,
+    left: "5%",
+    //right: "10%",
+    //margin: 20,
+    // paddingLeft: 20,
+    paddingRight: "10%",
+    //paddingBottom: 20,
   },
 }));
 
@@ -36,6 +53,7 @@ const inputProps = {
 export default function Question(props) {
   const classes = userStyles();
   const button = buttonStyles();
+  const text = textStyles();
 
   const setQuestion = (id) => {
     props.setQuestion(id);
@@ -51,7 +69,6 @@ export default function Question(props) {
       <Button
         className={classes.root}
         size="large"
-        font
         variant="contained"
         color="primary"
         onClick={() => setQuestion(`${elm}`)}
@@ -67,18 +84,20 @@ export default function Question(props) {
       {props.finalQuestion && (
         <>
           <TextField
+            className={text.root}
             inputProps={{ size: 80 }}
             id="outlined-basic"
             label=""
-            variant="contained"
+            variant="outlined"
             aria-label="empty textarea"
             onChange={props.handleQuestionF}
             placeholder="Type here"
           />
           <Button
             className={button.root}
-            size="large"
+            size="medium"
             color="primary"
+            variant="contained"
             onClick={() => submitReview()}
           >
             Submit

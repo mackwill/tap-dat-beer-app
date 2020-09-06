@@ -31,11 +31,11 @@ export default function Banner() {
   let carouselHeight = "20rem";
 
   if (large) {
-    carouselHeight = "40rem";
-  } else if (medium) {
-    carouselHeight = "35rem";
-  } else if (small) {
     carouselHeight = "30rem";
+  } else if (medium) {
+    carouselHeight = "25rem";
+  } else if (small) {
+    carouselHeight = "20rem";
   }
 
   const handleSelect = (selectedIndex, e) => {
@@ -53,21 +53,21 @@ export default function Banner() {
       id: 2,
       //title: "Discover the new Fall Stouts",
       //subtitle: "Guiness, Dark Horse & PumpStout",
-      image: "images/og-450.png",
+      image: "images/og-summer-450.png",
       url: "#",
     },
     {
       id: 3,
       //title: "The perfect home brewing kit",
       //subtitle: "Brew you own beer this winter",
-      image: "images/toronto-450.png",
+      image: "images/toronto-craft-beer-festival.png",
       url: "#",
     },
     {
       id: 4,
       //title: "The perfect home brewing kit",
       //subtitle: "Brew you own beer this winter",
-      image: "images/newmarket-450.png",
+      image: "images/newmarket-craftbeer-580.png",
       url: "#",
     },
   ];
