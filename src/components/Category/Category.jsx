@@ -30,7 +30,7 @@ const theme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: ["Oswald", "sans-serif"],
+    fontFamily: "Oswald",
   },
 });
 
@@ -59,6 +59,9 @@ const useStyles = makeStyles(() => ({
     marginTop: "0.5rem",
     background:
       "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
+  },
+  typography: {
+    fontFamily: "Oswald",
   },
 }));
 
@@ -93,11 +96,16 @@ export default function Category(props) {
           mt={"1rem"}
           textAlign="center"
         >
-          <ThemeProvider theme={theme}>
-            <Typography variant="h5" component="h3" mb={2}>
-              {props.category}
-            </Typography>
-          </ThemeProvider>
+          {/* <ThemeProvider theme={theme}> */}
+          <Typography
+            variant="h5"
+            component="h3"
+            mb={2}
+            className={classes.typography}
+          >
+            {props.category}
+          </Typography>
+          {/* </ThemeProvider> */}
           <Box mt={"1rem"}>
             <Divider />
           </Box>

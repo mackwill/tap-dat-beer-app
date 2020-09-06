@@ -78,7 +78,7 @@ export default function Scanner(props) {
         aria-labelledby="form-dialog-title"
       >
         <video
-          style={{ objectFit: "fill" }}
+          style={{ width: "100%", height: "auto" }}
           width={containerRef.current?.clientWidth}
           height="480"
           autoPlay

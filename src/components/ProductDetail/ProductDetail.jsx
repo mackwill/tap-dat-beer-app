@@ -52,6 +52,11 @@ const useStyles = makeStyles((theme) => ({
   gridContainer: {
     justifyContent: "center",
   },
+  breweryLink: {
+    "&:hover": {
+      textDecoration: "solid",
+    },
+  },
 }));
 
 const theme = createMuiTheme({
@@ -151,13 +156,19 @@ export default function ProductDetail(props) {
                   <Typography align="center" variant="h6">
                     {props.currentBeer.name}
                   </Typography>
-                  <Typography
-                    align="center"
-                    style={{ opacity: "0.6" }}
-                    variant="subtitle1"
-                  >
-                    {props.currentBeer.brewery}
-                  </Typography>
+                  <Box display={"flex"} justifyContent={"center"}>
+                    <Typography
+                      align="center"
+                      style={{ opacity: "0.6", color: "inherit" }}
+                      variant="subtitle1"
+                      component="a"
+                      onClick={() =>
+                        props.searchByBrewery(props.currentBeer.brewery)
+                      }
+                    >
+                      {props.currentBeer.brewery}
+                    </Typography>
+                  </Box>
                 </Box>
               </ListItem>
               <ListItem

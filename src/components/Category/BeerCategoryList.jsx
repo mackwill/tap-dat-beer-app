@@ -1,7 +1,8 @@
 import React from "react";
 import BeerCategoryCard from "./BeerCategoryCard";
 import { Box, Divider } from "@material-ui/core/";
-import Grid from "@material-ui/core/Grid";
+import "../../index.css";
+
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import GridListTile from "@material-ui/core/GridListTile";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
@@ -63,6 +64,9 @@ const useStyles = makeStyles(() => ({
     background:
       "linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)",
   },
+  typography: {
+    fontFamily: "Oswald",
+  },
 }));
 
 export default function CategoryList(props) {
@@ -96,7 +100,12 @@ export default function CategoryList(props) {
           mt={"1rem"}
           textAlign="center"
         >
-          <Typography variant="h5" component="h3" mb={2}>
+          <Typography
+            variant="h5"
+            component="h3"
+            mb={2}
+            className={classes.typography}
+          >
             {props.title}
           </Typography>
           <Box mt={"1rem"}>
@@ -116,15 +125,13 @@ export default function CategoryList(props) {
                 key={category}
                 component="a"
                 href="JavaScript:void(0);"
-                onClick={() => props.handleCategoryClick()}
+                onClick={() => props.handleCategoryClick(category.type)}
               >
                 <BeerCategoryCard title={category.type} />
               </GridListTile>
             ))}
           </GridList>
         </Box>
-
-        {/* </Grid> */}
       </Box>
     </div>
   );
