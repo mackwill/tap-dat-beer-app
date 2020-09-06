@@ -5,6 +5,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Box,
 } from "@material-ui/core";
 
 export default function Login(props) {
@@ -21,7 +22,9 @@ export default function Login(props) {
         <DialogContent style={{ textAlign: "center" }}>
           Hold your camera at the beer and stand still for a few second. If we
           have your beer in our database, the beer profile will shortly appear
-          <img src="images/scanner.png" />
+          <Box component="div" width={1}>
+            <img style={{ width: "100%" }} src="images/scanner.png" />
+          </Box>
         </DialogContent>
 
         <DialogActions>

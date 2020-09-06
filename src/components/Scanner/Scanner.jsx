@@ -13,8 +13,10 @@ export default function Scanner(props) {
   const [beers, setBeers] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/beers").then((data) => setBeers(data.data.data));
-  }, []);
+    if (props.open) {
+      axios.get("/api/beers").then((data) => setBeers(data.data.data));
+    }
+  }, [props.open]);
 
   beers.forEach((elm) => (beersId[elm.id] = 0));
   let track;
