@@ -9,6 +9,7 @@ import BeerItemCard from "./BeerItemCard";
 
 import "./Category.css";
 import { GridList, Typography, Divider } from "@material-ui/core";
+import { ThemeProvider } from "styled-components";
 
 const theme = createMuiTheme({
   palette: {
@@ -27,6 +28,9 @@ const theme = createMuiTheme({
     defaultBackground: {
       main: "#f0f0f0",
     },
+  },
+  typography: {
+    fontFamily: ["Oswald", "sans-serif"],
   },
 });
 
@@ -89,9 +93,11 @@ export default function Category(props) {
           mt={"1rem"}
           textAlign="center"
         >
-          <Typography variant="h5" component="h3" mb={2}>
-            {props.category}
-          </Typography>
+          <ThemeProvider theme={theme}>
+            <Typography variant="h5" component="h3" mb={2}>
+              {props.category}
+            </Typography>
+          </ThemeProvider>
           <Box mt={"1rem"}>
             <Divider />
           </Box>
