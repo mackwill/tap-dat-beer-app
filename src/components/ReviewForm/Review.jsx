@@ -93,7 +93,7 @@ export default function Review(props) {
       {currentQuestion === 1 && (
         <Question
           className={qs.root}
-          question="You've had your first sip, what level of Sweetness do you taste?"
+          question="Sweet"
           setQuestion={setQuestionA}
           nextQuestion={nextQuestion}
         />
@@ -101,21 +101,21 @@ export default function Review(props) {
 
       {currentQuestion === 2 && (
         <Question
-          question="You've had another sip, tell me if you taste any bitterness?"
+          question="Bitter"
           setQuestion={setQuestionB}
           nextQuestion={nextQuestion}
         />
       )}
       {currentQuestion === 3 && (
         <Question
-          question="On your last sip did it taste very hoppy?"
+          question="Hoppy"
           setQuestion={setQuestionC}
           nextQuestion={nextQuestion}
         />
       )}
       {currentQuestion === 4 && (
         <Question
-          question="On this sip did you taste any sourness?"
+          question="Sour"
           setQuestion={setQuestionD}
           nextQuestion={nextQuestion}
         />
@@ -123,13 +123,14 @@ export default function Review(props) {
       {currentQuestion === 5 && (
         <Question
           question="Overall I would rate this beer as?"
+          ratingQuestion={true}
           setQuestion={setQuestionE}
           nextQuestion={nextQuestion}
         />
       )}
       {currentQuestion > 5 && (
         <Question
-          question="Great, we have saved your review.  Are there any additional details you would like to share with others interested in trying this beer?"
+          question="Are there any additional details you would like to share with others interested in trying this beer?"
           finalQuestion={true}
           handleQuestionF={handleQuestionF}
           nextAndSubmit={nextAndSubmit}
