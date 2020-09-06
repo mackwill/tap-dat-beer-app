@@ -74,30 +74,29 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function ProductDetail(props) {
   const small = useMediaQuery(theme.breakpoints.up("sm"));
   const medium = useMediaQuery(theme.breakpoints.up("md"));
+  const mediumLarge = useMediaQuery(
+    theme.breakpoints.up("(min-width: 1024px)")
+  );
   const large = useMediaQuery(theme.breakpoints.up("lg"));
 
   const [reviewed, setReviewed] = useState(false);
   const classes = useStyles();
 
-  const hasAlreadyReviewed = (reviews, currentId) => {
-    const reviewedBeers = reviews.filter(
-      (review) => review.user_id === currentId
+  const hasAlreadyReviewed = () => {
+    const reviewedBeers = props.reviews.filter(
+      (review) => review.user_id === props.currentUser.id
     );
-    console.log("reviewed beers", reviewedBeers.length);
     return reviewedBeers.length > 0;
   };
   const fakeIBU = Math.floor(Math.random() * 100);
 
   useEffect(() => {
-    if (
-      props.curerentUser &&
-      hasAlreadyReviewed(props.reviews, props.currentUser.id)
-    ) {
-      setReviewed(true);
+    if (props.currentUser) {
+      const hasReviewed = hasAlreadyReviewed();
+      setReviewed(hasReviewed);
     } else {
       setReviewed(false);
     }
-    console.log("reviewed: ", reviewed);
   }, [props.currentBeer]);
 
   const imgError = (e) => {
@@ -210,7 +209,7 @@ export default function ProductDetail(props) {
                       onClick={props.handleAddToWishlist}
                     />
                   </IconButton>
-                  {props.currentUser && props.reviews && !reviewed && (
+                  {!reviewed && (
                     <Button
                       variant="contained"
                       color="secondary"
@@ -230,8 +229,8 @@ export default function ProductDetail(props) {
                       to leave a review
                     </Alert>
                   )}
-                  {props.currentUser && props.reviews && reviewed && (
-                    <Alert severity="info">
+                  {reviewed && (
+                    <Alert severity="warning">
                       You've already reviewed this beer
                     </Alert>
                   )}
