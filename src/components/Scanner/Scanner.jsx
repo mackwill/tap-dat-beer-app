@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
+import axios from "axios";
 import * as ml5 from "ml5";
 
 export default function Scanner(props) {
@@ -9,9 +10,15 @@ export default function Scanner(props) {
   const [classifier, setClassifier] = useState(null);
   const beersId = { noBeer: 0 };
   const [btnText, setBtnText] = useState("Start Scanning");
-  props.beers.forEach((elm) => (beersId[elm.id] = 0));
-  let track;
+  const [beers, setBeers] = useState([]);
 
+  useEffect(() => {
+    axios.get("/api/beers").then((data) => setBeers(data.data.data));
+  }, []);
+
+  beers.forEach((elm) => (beersId[elm.id] = 0));
+  let track;
+  console.log("beersTable;", beersId);
   useEffect(() => {
     if (props.open) {
       navigator.mediaDevices
@@ -45,7 +52,7 @@ export default function Scanner(props) {
 
       return;
     }
-    if (counter > 100) {
+    if (counter > 300) {
       setBtnText("Sorry we couldn't find the beer that matches");
 
       setTimeout(() => {
