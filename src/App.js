@@ -21,6 +21,7 @@ import ConfirmDelete from "./components/MyReviews/ConfirmDelete";
 //import Review from "./components/Review/Review";
 import useApplicationData from "./hooks/useApplicationData";
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
+import ScannerIntro from "./components/Scanner/ScannerIntro";
 
 const theme = createMuiTheme({
   palette: {
@@ -63,6 +64,7 @@ function App() {
 
   const [userNote, setUserNote] = useState(false);
   const [scannerOpen, setScannerOpen] = useState(false);
+  const [scannerIntroOpen, setScannerIntroOpen] = useState(false);
   const [editMyReviewsOpen, setEditMyReviewsOpen] = useState(false);
   const [singleReview, setSingleReview] = useState({});
   const [beers, setBeers] = useState([]);
@@ -317,12 +319,16 @@ function App() {
 
   // Open scanner
   const handleScannerOpen = (e) => {
+    setScannerIntroOpen(true);
+  };
+
+  const handleScannerIntroClose = () => {
+    setScannerIntroOpen(false);
+  };
+
+  const handleStartScanner = () => {
+    setScannerIntroOpen(false);
     setScannerOpen(true);
-    // if (state) {
-    //   setScannerOpen(true);
-    // } else {
-    //   setScannerOpen(false);
-    // }
   };
 
   const handleScannerClose = (e) => {
@@ -421,6 +427,7 @@ function App() {
           onClick={handleBeerDetailClick}
           setUserNote={setUserNote}
           handleEditReviewOpen={handleEditReviewOpen}
+          setRegisterOpen={setRegisterOpen}
           //handleConfirmDeleteOpen={handleConfirmDeleteOpen}
         />
       )}
@@ -473,6 +480,11 @@ function App() {
         handleClose={handleScannerClose}
         openBeer={handleBeerDetailClick}
         beers={beers}
+      />
+      <ScannerIntro
+        startScanner={handleStartScanner}
+        open={scannerIntroOpen}
+        close={handleScannerIntroClose}
       />
     </div>
   );

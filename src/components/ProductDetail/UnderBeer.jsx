@@ -70,7 +70,7 @@ export default function UnderBeer(props) {
           <Tab label="Reviews" />
           <Tab label="Similar Beers" onClick={() => getSimilarBeers()} />
           {props.currentUser && (
-            <Tab label="Personal Notes" onClick={() => getNote()} />
+            <Tab label="Notepad" onClick={() => getNote()} />
           )}
           {!props.currentUser && <Tab label="Personal Notes" disabled />}
         </Tabs>

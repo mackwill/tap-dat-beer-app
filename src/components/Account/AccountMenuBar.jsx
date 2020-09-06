@@ -46,7 +46,7 @@ export default function AccountMenuBar(props) {
               component="div"
               style={{ backgroundColor: "#f0f0f0" }}
             >
-              Personal notes about
+              Reviews I have left
             </ListSubheader>
             <Grid container spacing={3}>
               {props.reviews.map((review) => {

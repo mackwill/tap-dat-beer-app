@@ -12,7 +12,8 @@ import Avatar from "@material-ui/core/Avatar";
 import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ConfirmDelete from "../../components/MyReviews/ConfirmDelete";
-
+import LocalDrinkIcon from "@material-ui/icons/LocalDrink";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -85,21 +86,17 @@ export default function Review(props) {
                     {props.first_name[0]}
                   </Avatar>
                   <Typography variant="h5" component="h5">
-                    {props.first_name} -
-                  </Typography>
-                  <Typography
-                    style={{ opacity: "0.7" }}
-                    variant="h6"
-                    component="h6"
-                  >
-                    {new Intl.DateTimeFormat("en-US").format(
-                      new Date(props.creation_date)
-                    )}
+                    {props.first_name}
                   </Typography>
                 </Box>
               )}
               {props.beer_name && (
                 <Box component="div" display="flex" alignItems="center">
+                  <ListItemAvatar>
+                    <Avatar src={props.beer_image}>
+                      <LocalDrinkIcon />
+                    </Avatar>
+                  </ListItemAvatar>
                   <Typography variant="p" component="p">
                     {props.beer_name}
                   </Typography>
@@ -151,20 +148,43 @@ export default function Review(props) {
               {props.review}
             </Typography>
           </CardContent>
+          {!props.myReviews && (
+            <CardActions
+              style={{ display: "flex", justifyContent: "flex-end" }}
+            >
+              <Typography style={{ opacity: "0.7" }} variant="p">
+                {new Intl.DateTimeFormat("en-US").format(
+                  new Date(props.creation_date)
+                )}
+              </Typography>
+            </CardActions>
+          )}
           {props.myReviews && (
-            <CardActions>
-              <IconButton>
-                <EditIcon
-                  className={classes.iconBlue}
-                  onClick={() => props.handleEditReviewOpen(props.id)}
-                />
-              </IconButton>
-              <IconButton>
-                <DeleteIcon
-                  className={classes.iconBlue}
-                  onClick={handleConfirmDeleteOpen}
-                />
-              </IconButton>
+            <CardActions
+              style={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <div>
+                <IconButton>
+                  <EditIcon
+                    className={classes.iconBlue}
+                    onClick={() => props.handleEditReviewOpen(props.id)}
+                  />
+                </IconButton>
+                <IconButton>
+                  <DeleteIcon
+                    className={classes.iconBlue}
+                    onClick={handleConfirmDeleteOpen}
+                  />
+                </IconButton>
+              </div>
+              <Typography
+                style={{ opacity: "0.7", justifyContent: "flex-end" }}
+                variant="p"
+              >
+                {new Intl.DateTimeFormat("en-US").format(
+                  new Date(props.creation_date)
+                )}
+              </Typography>
             </CardActions>
           )}
         </Card>

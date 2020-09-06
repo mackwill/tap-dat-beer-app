@@ -8,7 +8,7 @@ export default function Scanner(props) {
   const webcamRef = React.useRef(null);
   const [classifier, setClassifier] = useState(null);
   const beersId = { noBeer: 0 };
-  const [btnText, setBtnText] = useState("Click");
+  const [btnText, setBtnText] = useState("Start Scanning");
   props.beers.forEach((elm) => (beersId[elm.id] = 0));
   let track;
 
@@ -59,7 +59,7 @@ export default function Scanner(props) {
   const closeScanner = () => {
     const track = webcamRef.current.srcObject.getTracks()[0];
     track.stop();
-    setBtnText("Click");
+    setBtnText("Start Scanning");
     props.handleClose();
   };
 
