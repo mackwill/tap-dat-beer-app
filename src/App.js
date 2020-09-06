@@ -428,6 +428,7 @@ function App() {
           setUserNote={setUserNote}
           handleEditReviewOpen={handleEditReviewOpen}
           setRegisterOpen={setRegisterOpen}
+          searchByBrewery={handleCategoryClick}
           //handleConfirmDeleteOpen={handleConfirmDeleteOpen}
         />
       )}
