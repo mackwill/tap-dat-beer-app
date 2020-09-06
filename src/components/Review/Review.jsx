@@ -30,7 +30,7 @@ const theme = createMuiTheme({
     },
   },
 });
-const useStyles = makeStyles({
+const useStyles = makeStyles(() => ({
   root: {
     minWidth: 275,
   },
@@ -53,8 +53,9 @@ const useStyles = makeStyles({
   iconBlue: {
     color: theme.palette.secondary.main,
   },
-});
+}));
 export default function Review(props) {
+  console.log("props: ", props);
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 
   const handleConfirmDeleteOpen = (e) => {
@@ -68,7 +69,7 @@ export default function Review(props) {
   const classes = useStyles();
 
   return (
-    <Grid item xs={12} md={6} lg={6}>
+    <Grid item xs={12} md={12} lg={6}>
       <Box m={"auto"}>
         <Card className={classes.root} variant="outlined">
           <CardContent>

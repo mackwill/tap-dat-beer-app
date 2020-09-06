@@ -47,6 +47,10 @@ const useStyles = makeStyles((theme) => ({
   desktopUnder: {
     alignItems: "flex-start",
     flexGrow: "1",
+    overflow: "auto",
+  },
+  gridContainer: {
+    justifyContent: "center",
   },
 }));
 
@@ -65,6 +69,17 @@ const theme = createMuiTheme({
       contrastText: "#fff",
     },
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      tablet: 640,
+      md: 960,
+      laptop: 1025,
+      lg: 1280,
+      xl: 1920,
+    },
+  },
 });
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -74,9 +89,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function ProductDetail(props) {
   const small = useMediaQuery(theme.breakpoints.up("sm"));
   const medium = useMediaQuery(theme.breakpoints.up("md"));
-  const mediumLarge = useMediaQuery(
-    theme.breakpoints.up("(min-width: 1024px)")
-  );
+  const laptop = useMediaQuery(theme.breakpoints.up("laptop"));
   const large = useMediaQuery(theme.breakpoints.up("lg"));
 
   const [reviewed, setReviewed] = useState(false);
@@ -132,7 +145,7 @@ export default function ProductDetail(props) {
           <List
             className={`${medium ? classes.desktopList : classes.mobileList}`}
           >
-            <div className={`${medium ? classes.desktopBeer : ""}`}>
+            <div className={`${laptop ? classes.desktopBeer : ""}`}>
               <ListItem>
                 <Box width={1}>
                   <Typography align="center" variant="h6">
@@ -166,8 +179,8 @@ export default function ProductDetail(props) {
               </ListItem>
 
               <ListItem>
-                <Grid container spacing={1} textAlign="center">
-                  <Grid container item xs={3} spacing={1}>
+                <Grid container spacing={2} className={classes.gridContainer}>
+                  <Grid container item xs={3} spacing={1} textAlign="center">
                     <Box m={"auto"}>
                       <Typography variant="p">
                         ABV: {props.currentBeer.abv}%
@@ -209,15 +222,16 @@ export default function ProductDetail(props) {
                       onClick={props.handleAddToWishlist}
                     />
                   </IconButton>
-                  {!reviewed && (
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      onClick={props.openForm}
-                    >
-                      Review
-                    </Button>
-                  )}
+                  {!props.currentUser ||
+                    (!reviewed && (
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={props.openForm}
+                      >
+                        Review
+                      </Button>
+                    ))}
                   {!props.currentUser && (
                     <Alert severity="warning">
                       <a
