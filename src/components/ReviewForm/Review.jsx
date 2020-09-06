@@ -15,7 +15,8 @@ const qStyles = makeStyles((theme) => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    padding: "50px",
+    //padding: "50px",
+    paddingLeft: "15px",
     //overflow-y: "hidden"
   },
 }));

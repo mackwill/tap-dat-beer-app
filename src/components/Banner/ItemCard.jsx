@@ -11,10 +11,11 @@ import Button from "@material-ui/core/Button";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    height: "30vh",
+    height: "40vh",
     width: "85vw",
-
+    border: "none",
     justifyContent: "center",
+    objectFit: "fill",
     alignContent: "center",
     marginLeft: "5%",
     //marginTop: "5%",
@@ -22,16 +23,21 @@ const useStyles = makeStyles((theme) => ({
   details: {
     display: "flex",
     flexDirection: "column",
+    border: "none",
   },
   content: {
     flex: "1 0 auto",
-    backgroundColor: "#e83e8c",
+    backgroundColor: "#f0f0f0",
+    objectFit: "fill",
+    border: "none",
   },
   cover: {
     width: "100%",
     height: "100%",
     backgroundSize: "cover",
+    //objectFit: "fill",
     padding: "0",
+    border: "none",
     //objectFit: "cover",
   },
   controls: {
@@ -39,6 +45,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     paddingLeft: theme.spacing(1),
     paddingBottom: theme.spacing(1),
+    objectFit: "fill",
+    border: "none",
   },
   media: {
     height: "9rem",

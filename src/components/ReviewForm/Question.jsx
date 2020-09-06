@@ -51,7 +51,8 @@ export default function Question(props) {
       <Button
         className={classes.root}
         size="large"
-        variant="outlined"
+        font
+        variant="contained"
         color="primary"
         onClick={() => setQuestion(`${elm}`)}
       >
@@ -69,7 +70,7 @@ export default function Question(props) {
             inputProps={{ size: 80 }}
             id="outlined-basic"
             label=""
-            variant="outlined"
+            variant="contained"
             aria-label="empty textarea"
             onChange={props.handleQuestionF}
             placeholder="Type here"
