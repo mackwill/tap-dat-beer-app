@@ -301,6 +301,7 @@ export default function useApplicationData() {
     console.log("in the addReview", reviewObject);
     const newReview = await axios.post("/api/reviews", reviewObject);
     console.log("test new review", newReview);
+    newReview.data.data.first_name = state.currentUser.first_name;
     //const newBeerReview = removeDeletedBeerReview(review_id);
     const updateReviews = [...state.currentBeerReviews, newReview.data.data];
     dispatch({
