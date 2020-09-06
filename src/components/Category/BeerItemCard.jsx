@@ -123,7 +123,7 @@ export default function BeerItemCard(props) {
             precision={0.25}
             readOnly
           />
-          ({props.num_reviews})
+          <span style={{ fontSize: "0.7em" }}>({props.num_reviews})</span>
         </Box>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit></Collapse>

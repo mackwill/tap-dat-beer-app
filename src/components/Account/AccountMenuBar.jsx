@@ -7,6 +7,7 @@ import Results from "../Search/Results";
 import Review from "../Review/Review";
 import { List, ListItem, Grid } from "@material-ui/core";
 import ListSubheader from "@material-ui/core/ListSubheader";
+import BlankReview from "../Review/BlankReview";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,35 +34,49 @@ export default function AccountMenuBar(props) {
       </AppBar>
       <List>
         {value === 0 && (
-          <Results
-            onClick={props.onClick}
-            searchResults={props.beers}
-            title="Wishlisted Beers"
-          />
+          <>
+            {props.beers.length === 0 && (
+              <BlankReview text="You haven't added any beers to your wishlist." />
+            )}
+            {props.beers.length > 0 && (
+              <Results
+                onClick={props.onClick}
+                searchResults={props.beers}
+                title="Wishlisted Beers"
+              />
+            )}
+          </>
         )}
 
         {value === 1 && props.reviews && (
           <>
-            <ListSubheader
-              component="div"
-              style={{ backgroundColor: "#f0f0f0" }}
-            >
-              Reviews I have left
-            </ListSubheader>
-            <Grid container spacing={3}>
-              {props.reviews.map((review) => {
-                return (
-                  <Review
-                    {...review}
-                    myReview={true}
-                    myReviews={true}
-                    handleDeleteMyReview={props.handleDeleteMyReview}
-                    handleEditReviewOpen={props.handleEditReviewOpen}
-                    handleConfirmDeleteOpen={props.handleConfirmDeleteOpen}
-                  />
-                );
-              })}
-            </Grid>
+            {props.reviews.length === 0 && (
+              <BlankReview text="You haven't left any review yet." />
+            )}
+            {props.reviews.length > 0 && (
+              <>
+                <ListSubheader
+                  component="div"
+                  style={{ backgroundColor: "#f0f0f0" }}
+                >
+                  Reviews I have left
+                </ListSubheader>
+                <Grid container spacing={3}>
+                  {props.reviews.map((review) => {
+                    return (
+                      <Review
+                        {...review}
+                        myReview={true}
+                        myReviews={true}
+                        handleDeleteMyReview={props.handleDeleteMyReview}
+                        handleEditReviewOpen={props.handleEditReviewOpen}
+                        handleConfirmDeleteOpen={props.handleConfirmDeleteOpen}
+                      />
+                    );
+                  })}
+                </Grid>
+              </>
+            )}
           </>
         )}
       </List>

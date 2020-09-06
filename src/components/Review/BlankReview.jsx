@@ -63,7 +63,7 @@ export default function BlankReview(props) {
               component="p"
               style={{ marginTop: "1rem" }}
             >
-              Hmm...No reviews for this beer yet. Be the first!
+              {props.text}
             </Typography>
           </CardContent>
         </Card>
