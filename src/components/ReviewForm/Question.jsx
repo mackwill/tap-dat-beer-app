@@ -7,13 +7,14 @@ import DialogActions from "@material-ui/core/DialogActions";
 import { makeStyles } from "@material-ui/styles";
 const userStyles = makeStyles((theme) => ({
   root: {
-    height: 40,
+    height: 90,
     //width: 20,
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
-    justifyContent: "space-evenly",
+    justifyContent: "flex-start",
     fontSize: "small",
+    margin: 5,
   },
 }));
 
@@ -21,7 +22,7 @@ const buttonStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
     alignContent: "center",
     left: "30%",
     width: "min-content",
