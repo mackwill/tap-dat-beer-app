@@ -17,15 +17,15 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: "#7e5dc0",
-      main: "#5e35b1",
-      dark: "#41257b",
+      light: "#71a0be",
+      main: "#4e89ae",
+      dark: "#365f79",
       contrastText: "#fff",
     },
     secondary: {
-      light: "#637bfe",
-      main: "#318fb5",
-      dark: "#2a3eb1",
+      light: "#efb033",
+      main: "#EC9D00",
+      dark: "#a56d00",
       contrastText: "#fff",
     },
   },
@@ -33,6 +33,7 @@ const theme = createMuiTheme({
 const useStyles = makeStyles(() => ({
   root: {
     minWidth: 275,
+    backgroundColor: "#ffffff",
   },
   bullet: {
     display: "inline-block",

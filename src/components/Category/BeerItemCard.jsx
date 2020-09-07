@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     textDecoration: "none",
     maxWidth: 365,
+    backgroundColor: "#ffffff",
   },
   media: {
     height: "9rem",

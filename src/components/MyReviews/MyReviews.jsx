@@ -33,15 +33,15 @@ const useStyles = makeStyles((theme) => ({
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: "#7e5dc0",
-      main: "#5e35b1",
-      dark: "#41257b",
+      light: "#71a0be",
+      main: "#4e89ae",
+      dark: "#365f79",
       contrastText: "#fff",
     },
     secondary: {
-      light: "#637bfe",
-      main: "#3d5afe",
-      dark: "#2a3eb1",
+      light: "#efb033",
+      main: "#EC9D00",
+      dark: "#a56d00",
       contrastText: "#fff",
     },
   },
@@ -85,7 +85,7 @@ export default function MyReviews(props) {
             </Toolbar>
           </AppBar>
           <List>
-          <Grid container spacing={3}>
+            <Grid container spacing={3}>
               {props.reviews &&
                 props.reviews.map((review) => {
                   return <Review {...review} myReview={true} />;
