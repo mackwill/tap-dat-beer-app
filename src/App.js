@@ -170,22 +170,6 @@ function App() {
     setReviewOpen(false);
   };
 
-  // Removes the deleted beer from =the state list of currentBeer Reviews
-  const removeDeletedBeerReview = (id) => {
-    const filteredList = currentBeerReviews.filter((beer) => {
-      return id !== beer.id;
-    });
-    return filteredList;
-  };
-
-  // Check if user has already reviewed that beer
-  const hasUserReviewedBeer = (id) => {
-    const filteredList = currentBeerReviews.filter((beer) => {
-      return id === beer.id;
-    });
-    return filteredList;
-  };
-
   // Delete a review from your list of My Reviews
   const handleDeleteMyReview = (review_id) => {
     if (!currentUser) {
@@ -228,11 +212,6 @@ function App() {
 
   const handleClickFromSearchResult = (id) => {
     handleBeerDetailClick(id);
-  };
-
-  const isBeerInRecentlyViewedList = (id) => {
-    const filteredList = recentlyViewed.filter((beer) => beer.id === id);
-    return filteredList;
   };
 
   const handleBeerDetailClick = async (id) => {
