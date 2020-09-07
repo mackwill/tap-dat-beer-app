@@ -83,6 +83,7 @@ function App() {
     setRecentlyViewed,
     deleteReviewById,
     addReviewById,
+    logUserOut,
   } = useApplicationData();
 
   const {
@@ -220,24 +221,13 @@ function App() {
     // e.preventDefault();
 
     return axios.post("/api/logout").then((data) => {
-      setLoggedInUser(null);
-
+      logUserOut();
       handleClickSB(`You are now logged out`);
     });
   };
 
   const handleClickFromSearchResult = (id) => {
     handleBeerDetailClick(id);
-
-    const body = {
-      beer_id: id,
-      query: searchQuery,
-      user_id: currentUser && currentUser.id,
-    };
-    return axios
-      .post("/api/search/analytics", body)
-      .then((data) => console.log("added search analytics:", data))
-      .catch((e) => console.log("Search analytics failed", e));
   };
 
   const isBeerInRecentlyViewedList = (id) => {
@@ -247,19 +237,15 @@ function App() {
 
   const handleBeerDetailClick = async (id) => {
     setBeerDetailOpen(true);
-    let userId = null;
-    if (currentUser) {
-      userId = currentUser.id;
-    }
+    const body = {
+      beer_id: id,
+      query: searchQuery,
+      user_id: currentUser && currentUser.id,
+    };
+    if (searchQuery) body.query = searchQuery;
 
-    console.log("id here:", id);
+    await axios.post("/api/search/analytics", body);
 
-    if (isBeerInRecentlyViewedList(id).length === 0) {
-      await axios.post("/api/search/analytics", {
-        user_id: userId,
-        beer_id: id,
-      });
-    }
     setRecentlyViewed();
     setClickedBeerToCurrent(id);
   };
