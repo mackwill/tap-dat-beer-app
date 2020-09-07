@@ -52,6 +52,8 @@ const useStyles = makeStyles((theme) => ({
   },
   gridContainer: {
     justifyContent: "center",
+    marginTop: "0.2rem",
+    marginBottom: "0.2rem",
   },
   breweryLink: {
     "&:hover": {
@@ -66,15 +68,15 @@ const useStyles = makeStyles((theme) => ({
 const theme = createMuiTheme({
   palette: {
     primary: {
-      light: "#7e5dc0",
-      main: "#005792",
-      dark: "#41257b",
+      light: "#71a0be",
+      main: "#4e89ae",
+      dark: "#365f79",
       contrastText: "#fff",
     },
     secondary: {
-      light: "#637bfe",
-      main: "#318fb5",
-      dark: "#2a3eb1",
+      light: "#efb033",
+      main: "#EC9D00",
+      dark: "#a56d00",
       contrastText: "#fff",
     },
   },
@@ -194,37 +196,42 @@ export default function ProductDetail(props) {
               </ListItem>
 
               <ListItem>
-                <Grid container spacing={2} className={classes.gridContainer}>
-                  <Grid container item xs={3} spacing={1} textAlign="center">
-                    <Box m={"auto"}>
-                      <Typography variant="p">
-                        ABV: {props.currentBeer.abv}%
-                      </Typography>
-                    </Box>
+                <Box display="block" width={0.9} margin={"auto"}>
+                  <Divider />
+
+                  <Grid container spacing={2} className={classes.gridContainer}>
+                    <Grid container item xs={3} spacing={1} textAlign="center">
+                      <Box m={"auto"}>
+                        <Typography variant="p">
+                          ABV: {props.currentBeer.abv}%
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid container item xs={3} spacing={1}>
+                      <Box m={"auto"}>
+                        <Typography variant="p">IBU: {fakeIBU}</Typography>
+                      </Box>
+                    </Grid>
+                    <Grid container item xs={3} spacing={1}>
+                      <Box m={"auto"}>
+                        <Typography variant="p">
+                          {props.currentBeer.type}
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    <Grid container item xs={3} spacing={1}>
+                      <Box m={"auto"}>
+                        <Typography variant="p">
+                          {props.currentBeer.avg_rank
+                            ? props.currentBeer.avg_rank
+                            : "--"}
+                          /5
+                        </Typography>
+                      </Box>
+                    </Grid>
                   </Grid>
-                  <Grid container item xs={3} spacing={1}>
-                    <Box m={"auto"}>
-                      <Typography variant="p">IBU: {fakeIBU}</Typography>
-                    </Box>
-                  </Grid>
-                  <Grid container item xs={3} spacing={1}>
-                    <Box m={"auto"}>
-                      <Typography variant="p">
-                        {props.currentBeer.type}
-                      </Typography>
-                    </Box>
-                  </Grid>
-                  <Grid container item xs={3} spacing={1}>
-                    <Box m={"auto"}>
-                      <Typography variant="p">
-                        {props.currentBeer.avg_rank
-                          ? props.currentBeer.avg_rank
-                          : "--"}
-                        /5
-                      </Typography>
-                    </Box>
-                  </Grid>
-                </Grid>
+                  <Divider />
+                </Box>
                 <Divider />
               </ListItem>
 
