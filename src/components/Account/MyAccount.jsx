@@ -69,6 +69,10 @@ const useStyles = makeStyles((theme) => ({
   desktopUnder: {
     alignItems: "flex-start",
     flexGrow: "1",
+    oveflow: "auto !important",
+  },
+  listItem: {
+    justifyContent: "center",
   },
 }));
 
@@ -123,7 +127,7 @@ export default function ProductDetail(props) {
                   </Typography>
                 </Box>
               </ListItem>
-              <ListItem>
+              <ListItem className={classes.listItem}>
                 <UserDetails
                   changeAccountDetails={props.changeAccountDetails}
                   first_name={props.firstName}
@@ -132,7 +136,10 @@ export default function ProductDetail(props) {
                 />
               </ListItem>
             </div>
-            <ListItem className={`${medium ? classes.desktopUnder : ""}`}>
+            <ListItem
+              className={`${medium ? classes.desktopUnder : ""}`}
+              style={{ overflow: "auto" }}
+            >
               <AccountMenuBar
                 onClick={props.handleBeerDetailClick}
                 beers={props.beers}
