@@ -115,7 +115,7 @@ export default function ProductDetail(props) {
     } else {
       setReviewed(false);
     }
-  }, [props.currentBeer]);
+  }, [props.currentBeer, props.reviews]);
 
   const imgError = (e) => {
     e.target.onerror = null;
