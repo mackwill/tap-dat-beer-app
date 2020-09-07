@@ -72,7 +72,7 @@ export default function UnderBeer(props) {
           {props.currentUser && (
             <Tab label="Notepad" onClick={() => getNote()} />
           )}
-          {!props.currentUser && <Tab label="Personal Notes" disabled />}
+          {!props.currentUser && <Tab label="Notepad" disabled />}
         </Tabs>
       </AppBar>
       {value === 0 && <UserReviews reviews={props.reviews} />}

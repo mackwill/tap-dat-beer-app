@@ -57,7 +57,7 @@ export default function AccountMenuBar(props) {
               <>
                 <ListSubheader
                   component="div"
-                  style={{ backgroundColor: "#f0f0f0" }}
+                  style={{ backgroundColor: "#f0f0f0", position: "static" }}
                 >
                   Reviews I have left
                 </ListSubheader>
@@ -80,12 +80,6 @@ export default function AccountMenuBar(props) {
           </>
         )}
       </List>
-
-      {/* {value === 0 && <UserReviews reviews={props.reviews} />}
-      {value === 1 && (
-        <SimilarBeer beers={props.beers} currentBeer={props.currentBeer} />
-      )}
-      {value === 2 && <Notes currentBeer={props.currentBeer} />} */}
     </div>
   );
 }

@@ -24,13 +24,13 @@ const rootTheme = createMuiTheme({
   palette: {
     primary: {
       light: "#7e5dc0",
-      main: "#5e35b1",
+      main: "#005792",
       dark: "#41257b",
       contrastText: "#fff",
     },
     secondary: {
       light: "#637bfe",
-      main: "#3d5afe",
+      main: "#318fb5",
       dark: "#2a3eb1",
       contrastText: "#fff",
     },
@@ -39,7 +39,7 @@ const rootTheme = createMuiTheme({
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
-    position: "relative",
+    position: "sticky",
   },
   title: {
     marginLeft: theme.spacing(2),
@@ -65,10 +65,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     flexGrow: "1",
     padding: "0 3rem",
+    justifyContent: "flex-start",
   },
   desktopUnder: {
     alignItems: "flex-start",
     flexGrow: "1",
+    overflowY: "auto",
   },
 }));
 
@@ -123,7 +125,7 @@ export default function ProductDetail(props) {
                   </Typography>
                 </Box>
               </ListItem>
-              <ListItem>
+              <ListItem className={classes.listItem}>
                 <UserDetails
                   changeAccountDetails={props.changeAccountDetails}
                   first_name={props.firstName}
@@ -132,7 +134,10 @@ export default function ProductDetail(props) {
                 />
               </ListItem>
             </div>
-            <ListItem className={`${medium ? classes.desktopUnder : ""}`}>
+            <ListItem
+              className={`${medium ? classes.desktopUnder : ""}`}
+              style={{ overflow: "auto" }}
+            >
               <AccountMenuBar
                 onClick={props.handleBeerDetailClick}
                 beers={props.beers}

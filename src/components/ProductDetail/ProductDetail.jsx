@@ -47,7 +47,8 @@ const useStyles = makeStyles((theme) => ({
   desktopUnder: {
     alignItems: "flex-start",
     flexGrow: "1",
-    overflow: "auto",
+    overflowY: "auto",
+    overflowX: "hidden",
   },
   gridContainer: {
     justifyContent: "center",
@@ -56,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       textDecoration: "solid",
     },
+  },
+  reviewButtonSection: {
+    height: "2rem",
   },
 }));
 
@@ -226,9 +230,11 @@ export default function ProductDetail(props) {
 
               <ListItem>
                 <Box
-                  style={{ display: "flex", justifyContent: "space-between" }}
+                  display={"flex"}
+                  justifyContent={"space-between"}
                   width={1}
                   textAlign="right"
+                  alignItems={"center"}
                 >
                   <IconButton>
                     <FavoriteIcon
@@ -239,6 +245,7 @@ export default function ProductDetail(props) {
                   {!props.currentUser ||
                     (!reviewed && (
                       <Button
+                        className={classes.reviewButtonSection}
                         variant="contained"
                         color="secondary"
                         onClick={props.openForm}
@@ -258,9 +265,7 @@ export default function ProductDetail(props) {
                     </Alert>
                   )}
                   {reviewed && (
-                    <Alert severity="warning">
-                      You've already reviewed this beer
-                    </Alert>
+                    <Alert severity="warning">Reviewed by you</Alert>
                   )}
                   <IconButton>
                     <ShareIcon
