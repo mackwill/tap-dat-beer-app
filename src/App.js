@@ -474,6 +474,7 @@ function App() {
           changeAccountDetails={changeAccountDetails}
           // handleConfirmDeleteOpen={handleConfirmDeleteOpen}
           changeAccountDetails={handleChangeAccountDetails}
+          handleBeerDetailClick={handleBeerDetailClick}
         />
       )}
       <Scanner
