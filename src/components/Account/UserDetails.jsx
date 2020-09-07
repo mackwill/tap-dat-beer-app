@@ -17,7 +17,7 @@ export default function UserDetails(props) {
   return (
     <div>
       <form onSubmit={handleAccountChangeSubmit}>
-        <Box>
+        <Box width={1}>
           <TextField
             required
             autoFocus
