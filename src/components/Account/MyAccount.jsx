@@ -35,6 +35,13 @@ const rootTheme = createMuiTheme({
       contrastText: "#fff",
     },
   },
+  overrides: {
+    MuiPaper: {
+      root: {
+        backgroundColor: "#f0f0f0",
+      },
+    },
+  },
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -75,6 +82,12 @@ const useStyles = makeStyles((theme) => ({
   listItem: {
     justifyContent: "center",
   },
+  dialog: {
+    backgroundColor: "#f0f0f0",
+    container: {
+      backgroundColor: "#f0f0f0",
+    },
+  },
 }));
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -95,6 +108,7 @@ export default function ProductDetail(props) {
           open={props.open}
           onClose={props.handleClose}
           TransitionComponent={Transition}
+          className={classes.dialog}
         >
           <AppBar className={classes.appBar}>
             <Toolbar>

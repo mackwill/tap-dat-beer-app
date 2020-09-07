@@ -37,15 +37,15 @@ const theme = createMuiTheme({
       dark: "#a56d00",
       contrastText: "#fff",
     },
-    defaultBackground: {
-      main: "#f0f0f0",
-    },
+  },
+  defaultBackground: {
+    main: "#f0f0f0",
   },
 });
 
 const useStyles = makeStyles(() => ({
   body: {
-    backgroundColor: theme.palette.defaultBackground.main,
+    backgroundColor: theme.defaultBackground.main,
   },
 }));
 

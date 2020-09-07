@@ -33,6 +33,7 @@ const theme = createMuiTheme({
 const useStyles = makeStyles(() => ({
   root: {
     minWidth: 275,
+    backgroundColor: "#ffffff",
   },
   bullet: {
     display: "inline-block",
