@@ -20,7 +20,6 @@ export default function Scanner(props) {
 
   beers.forEach((elm) => (beersId[elm.id] = 0));
   let track;
-  console.log("beersTable;", beersId);
   useEffect(() => {
     if (props.open) {
       navigator.mediaDevices

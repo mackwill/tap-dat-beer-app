@@ -98,7 +98,7 @@ export default function useApplicationData() {
       .catch((err) => {
         console.log("Error getting beers: ", err);
       });
-  }, [state.currentUser]);
+  }, []);
 
   const submitLoginData = (email, password) => {
     return axios
@@ -160,7 +160,7 @@ export default function useApplicationData() {
         beer_id: beer_id,
         user_id: state.currentUser.id,
       })
-      .then(() => {
+      .then((data) => {
         return axios.get("/api/wishlists");
       })
       .then((res) => {

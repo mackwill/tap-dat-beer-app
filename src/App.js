@@ -125,6 +125,7 @@ function App() {
     setSearchOpen(true);
   };
   const handleSearchClose = (e) => {
+    setSearchQuery("");
     setSearchOpen(false);
   };
 

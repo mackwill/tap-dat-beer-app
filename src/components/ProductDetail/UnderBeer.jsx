@@ -30,11 +30,6 @@ export default function UnderBeer(props) {
     setPersonalNotes(e.target.value);
   };
 
-  const getSimilarBeers = async () => {
-    const beers = await axios.get(`/api/beers/similar/${props.currentBeer.id}`);
-    setSimilarBeers(beers.data.data);
-  };
-
   const saveNote = async () => {
     const notes = { text: personalNotes, beer_id: props.currentBeer.id };
     await axios.post("/api/notes", notes);
@@ -61,6 +56,7 @@ export default function UnderBeer(props) {
 
   useEffect(() => {
     updateSimilarBeers();
+    getNote();
   }, [props.currentBeer]);
 
   return (
@@ -68,10 +64,8 @@ export default function UnderBeer(props) {
       <AppBar style={{ borderRadius: "5px" }} position="static">
         <Tabs centered value={value} onChange={handleChange}>
           <Tab label="Reviews" />
-          <Tab label="Similar Beers" onClick={() => getSimilarBeers()} />
-          {props.currentUser && (
-            <Tab label="Notepad" onClick={() => getNote()} />
-          )}
+          <Tab label="Similar Beers" />
+          {props.currentUser && <Tab label="Notepad" />}
           {!props.currentUser && <Tab label="Notepad" disabled />}
         </Tabs>
       </AppBar>

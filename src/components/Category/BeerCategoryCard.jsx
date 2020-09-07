@@ -58,22 +58,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const beerTypes = {
-  "Ale":
+  Ale:
     "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap.svg",
-  "Porter":
+  Porter:
     "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap4.svg",
-  "Lager":
+  Lager:
     "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap1.svg",
-  "Malt":
+  Malt:
     "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap2.svg",
   "Flavoured Malt":
     "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap2.svg",
-  "Stout":
+  Stout:
     "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap4.svg",
 };
 
 export default function BeerItemCard(props) {
-  console.log("props: ", props);
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
