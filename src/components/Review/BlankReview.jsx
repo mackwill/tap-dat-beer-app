@@ -30,6 +30,7 @@ const theme = createMuiTheme({
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
+    backgroundColor: "#ffffff",
   },
   bullet: {
     display: "inline-block",
@@ -58,13 +59,15 @@ export default function BlankReview(props) {
       <Box m={"auto"}>
         <Card className={classes.root} variant="outlined">
           <CardContent>
-            <Typography
-              variant="body2"
-              component="p"
-              style={{ marginTop: "1rem" }}
-            >
-              {props.text}
-            </Typography>
+            <Box width={1} display={"flex"} justifyContent={"center"}>
+              <Typography
+                variant="body2"
+                component="p"
+                style={{ marginTop: "1rem" }}
+              >
+                {props.text}
+              </Typography>
+            </Box>
           </CardContent>
         </Card>
       </Box>
