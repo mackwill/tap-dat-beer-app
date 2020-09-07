@@ -15,7 +15,7 @@ const qStyles = makeStyles((theme) => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    padding: "50px",
+    //padding: "10px",
     //overflow-y: "hidden"
   },
 }));
@@ -31,11 +31,21 @@ const dStyles = makeStyles((theme) => ({
     //padding: "50px",
     //overflow-y: "hidden"
   },
+  height: {
+    height: "20rem",
+  },
+}));
+
+const dialogStyle = makeStyles((theme) => ({
+  root: {
+    height: "20rem",
+  },
 }));
 
 export default function Review(props) {
   const qs = qStyles();
   const ds = dStyles();
+  const dialogStyles = dialogStyle();
 
   const [questionA, setQuestionA] = useState(null);
   const [questionB, setQuestionB] = useState(null);
@@ -83,17 +93,19 @@ export default function Review(props) {
 
   return (
     <Dialog
-      className={ds.root}
+      className={dialogStyles.root}
       open={props.open}
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
-      maxWidth={"lg"}
+      height
+      // maxWidth={"md"}
+      // style={{ height: "20rem" }}
       fullWidth
     >
       {currentQuestion === 1 && (
         <Question
           className={qs.root}
-          question="Sweet"
+          question="sweet"
           setQuestion={setQuestionA}
           nextQuestion={nextQuestion}
         />
@@ -101,21 +113,21 @@ export default function Review(props) {
 
       {currentQuestion === 2 && (
         <Question
-          question="Bitter"
+          question="bitter"
           setQuestion={setQuestionB}
           nextQuestion={nextQuestion}
         />
       )}
       {currentQuestion === 3 && (
         <Question
-          question="Hoppy"
+          question="hoppy"
           setQuestion={setQuestionC}
           nextQuestion={nextQuestion}
         />
       )}
       {currentQuestion === 4 && (
         <Question
-          question="Sour"
+          question="sour"
           setQuestion={setQuestionD}
           nextQuestion={nextQuestion}
         />

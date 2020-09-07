@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { TextField } from "@material-ui/core";
+import { TextField, Typography } from "@material-ui/core";
 import DialogActions from "@material-ui/core/DialogActions";
 
 import { makeStyles } from "@material-ui/styles";
@@ -12,9 +12,9 @@ const userStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "flex-start",
-    fontSize: "small",
-    margin: 5,
+    //justifyContent: "flex-start",
+    //fontSize: "small",
+    //margin: 5,
   },
 }));
 
@@ -32,6 +32,11 @@ const buttonStyles = makeStyles((theme) => ({
     //paddingRight: 30,
     //paddingBottom: 0,
   },
+  questionButtons: {
+    width: "8rem",
+    marginTop: ".5rem",
+    //padd
+  },
 }));
 
 const textStyles = makeStyles((theme) => ({
@@ -44,8 +49,17 @@ const textStyles = makeStyles((theme) => ({
     //right: "10%",
     //margin: 20,
     // paddingLeft: 20,
-    paddingRight: "10%",
+    paddingRight: "5%",
     //paddingBottom: 20,
+  },
+}));
+
+const questionStyles = makeStyles((theme) => ({
+  root: {
+    //display: "flex",
+    fontSize: "1rem",
+    textAlign: "center",
+    paddingBottom: ".5rem",
   },
 }));
 
@@ -57,6 +71,7 @@ export default function Question(props) {
   const classes = userStyles();
   const button = buttonStyles();
   const text = textStyles();
+  const question = questionStyles();
 
   const setQuestion = (id) => {
     props.setQuestion(id);
@@ -67,8 +82,8 @@ export default function Question(props) {
   };
 
   const answers = [
-    { answer: "not", value: 1 },
-    { answer: "faintly", value: 2 },
+    { answer: "not at all", value: 1 },
+    { answer: "minimal", value: 2 },
     { answer: "somewhat", value: 3 },
     { answer: "fairly", value: 4 },
     { answer: "very", value: 5 },
@@ -76,8 +91,8 @@ export default function Question(props) {
   const wordButtons = answers.map((elm) => {
     return (
       <Button
-        className={classes.root}
-        size="small"
+        className={button.questionButtons}
+        size="medium"
         variant="contained"
         color="primary"
         onClick={() => setQuestion(`${elm.value}`)}
@@ -89,7 +104,7 @@ export default function Question(props) {
   const rankButton = [1, 2, 3, 4, 5].map((elm) => {
     return (
       <Button
-        className={classes.root}
+        className={button.questionButtons}
         size="small"
         variant="contained"
         color="primary"
@@ -104,13 +119,17 @@ export default function Question(props) {
     <>
       {!props.finalQuestion && !props.ratingQuestion && (
         <>
-          <DialogTitle style={{ textAlign: "center" }} id="form-dialog-title">
-            This beer was:
+          <DialogTitle
+            className={question.root}
+            id="form-dialog-title"
+            disableTypography
+          >
+            When tasting this beer how {props.question} was it?
           </DialogTitle>
           <div className={classes.root}>{wordButtons}</div>
-          <DialogTitle style={{ textAlign: "center" }} id="form-dialog-title">
+          {/* <DialogTitle style={{ textAlign: "left" }} id="form-dialog-title">
             {props.question}
-          </DialogTitle>
+          </DialogTitle> */}
         </>
       )}
       {!props.finalQuestion && props.ratingQuestion && (
