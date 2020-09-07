@@ -7,7 +7,6 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/styles";
 import Question from "./Question";
 import axios from "axios";
-//import useApplicationData from "../../hooks/useApplicationData";
 
 const qStyles = makeStyles((theme) => ({
   root: {
@@ -15,8 +14,7 @@ const qStyles = makeStyles((theme) => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    //padding: "10px",
-    //overflow-y: "hidden"
+    overflowY: "hidden",
   },
 }));
 
@@ -25,21 +23,29 @@ const dStyles = makeStyles((theme) => ({
     margin: "32px",
     position: "relative",
     overflow: "none",
-    //flexDirection: "row",
-    //alignItems: "center",
-    //justifyContent: "center",
-    //padding: "50px",
-    //overflow-y: "hidden"
   },
-  height: {
-    height: "20rem",
+  container: {
+    height: "30rem",
+  },
+  close: {
+    display: "flex",
+    justifyContent: "flex-end",
+    alignContent: "flex-end",
+  },
+  submit: {
+    display: "flex",
+    flexDirection: "row-reverse",
+    justifyContent: "space-between",
+    alignContent: "center",
+    paddingLeft: "35%",
   },
 }));
 
 const dialogStyle = makeStyles((theme) => ({
-  root: {
+  desktop: {
     height: "20rem",
   },
+  mobile: {},
 }));
 
 export default function Review(props) {
@@ -76,8 +82,8 @@ export default function Review(props) {
     props.close();
   };
 
-  const nextAndSubmit = (id) => {
-    console.log("in next and submit", id);
+  const nextAndSubmit = () => {
+    console.log("in next and submit");
     const reviewObject = {
       sweet: questionA,
       sour: questionD,
@@ -98,8 +104,11 @@ export default function Review(props) {
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
       height
-      // maxWidth={"md"}
-      // style={{ height: "20rem" }}
+      PaperProps={{
+        style: {
+          minHeight: "1rem",
+        },
+      }}
       fullWidth
     >
       {currentQuestion === 1 && (
@@ -142,13 +151,13 @@ export default function Review(props) {
       )}
       {currentQuestion > 5 && (
         <Question
-          question="Are there any additional details you would like to share with others interested in trying this beer?"
+          question="Are there any last thoughts you would like to share?"
           finalQuestion={true}
           handleQuestionF={handleQuestionF}
           nextAndSubmit={nextAndSubmit}
         />
       )}
-      <DialogActions>
+      <DialogActions className={ds.submit}>
         <Button
           edge="end"
           color="inherit"
@@ -156,8 +165,18 @@ export default function Review(props) {
           aria-label="close"
           size="large"
         >
-          X
+          close
         </Button>
+        {currentQuestion > 5 && (
+          <Button
+            size="large"
+            color="primary"
+            variant="contained"
+            onClick={nextAndSubmit}
+          >
+            Submit
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );
