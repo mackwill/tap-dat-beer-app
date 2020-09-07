@@ -266,7 +266,7 @@ export default function ProductDetail(props) {
                         href="javascript:void(0)"
                         onClick={() => props.setRegisterOpen(true)}
                       >
-                        Create an account
+                        Register
                       </a>{" "}
                       to leave a review
                     </Alert>
