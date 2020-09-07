@@ -107,6 +107,7 @@ export default function Review(props) {
       PaperProps={{
         style: {
           minHeight: "1rem",
+          maxWidth: "fit-content",
         },
       }}
       fullWidth
