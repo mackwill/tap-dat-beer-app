@@ -67,10 +67,10 @@ export default function Question(props) {
 
   const answers = [
     { answer: "not at all", value: 1 },
-    { answer: "minimal", value: 2 },
-    { answer: "somewhat", value: 3 },
-    { answer: "fairly", value: 4 },
-    { answer: "very", value: 5 },
+    { answer: "hardly", value: 2 },
+    { answer: "partially", value: 3 },
+    { answer: "moderately", value: 4 },
+    { answer: "Extremely", value: 5 },
   ];
   const wordButtons = answers.map((elm) => {
     return (
