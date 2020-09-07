@@ -1,24 +1,52 @@
 import Box from "@material-ui/core/Box";
 import React from "react";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { makeStyles, useTheme, createMuiTheme } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    height: "30vh",
-    width: "88vw",
-    border: "none",
-    justifyContent: "center",
-    // objectFit: "fill",
-    alignContent: "center",
-    marginLeft: "3%",
-    //marginTop: "5%",
+    [theme.breakpoints.up("xs")]: {
+      display: "flex",
+      height: 210,
+      width: "100%",
+      border: "none",
+      //justifyContent: "center",
+      //alignContent: "center",
+      margin: "auto",
+    },
+    [theme.breakpoints.up("sm")]: {
+      display: "flex",
+      height: "52vh",
+      width: "90vw",
+      border: "none",
+      justifyContent: "center",
+      alignContent: "center",
+      margin: "auto",
+    },
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
+      height: "530px",
+      width: "89vw",
+      border: "none",
+      justifyContent: "center",
+      alignContent: "center",
+      margin: "auto",
+    },
+    [theme.breakpoints.up("lg")]: {
+      display: "flex",
+      height: "590px",
+      width: "89vw",
+      border: "none",
+      justifyContent: "center",
+      alignContent: "center",
+      margin: "auto",
+    },
   },
   details: {
     display: "flex",
@@ -26,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
     border: "none",
   },
   content: {
-    flex: "1 0 auto",
+    //flex: "1 0 auto",
     backgroundColor: "#f0f0f0",
     objectFit: "fill",
     border: "none",
@@ -36,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     backgroundSize: "cover",
     //objectFit: "fill",
-    padding: "0",
+    //padding: "0",
     border: "none",
     //objectFit: "cover",
   },
@@ -49,31 +77,30 @@ const useStyles = makeStyles((theme) => ({
     objectFit: "fill",
     border: "none",
   },
-  media: {
-    height: "9rem",
-    backgroundSize: "contain",
-    objectFit: "contain",
-    padding: "0.5rem",
-    width: "90%",
-    margin: "auto",
-    // paddingTop: "100%", // 16:9
-  },
+
+  //media: {
+  //height: "9rem",
+  //  backgroundSize: "contain",
+  //objectFit: "contain",
+  //padding: "0.5rem",
+  // width: "90%",
+  //margin: "auto",
+  // paddingTop: "100%", // 16:9
+  //},
 }));
 
 export default function MediaControlCard(props) {
   const classes = useStyles();
-  const theme = useTheme();
+  //const theme = useTheme();
 
   return (
     <Box p={"1rem"}>
       <Card className={classes.root}>
-        <div className={classes.details}></div>
-        <CardMedia
-          className={classes.cover}
-          image={props.image}
-          // title={props.title}
-        />
+        <CardMedia className={classes.cover} image={props.image} />
       </Card>
     </Box>
   );
 }
+
+// title={props.title}
+//<div className={classes.details}></div>
