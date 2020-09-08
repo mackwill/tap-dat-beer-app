@@ -6,6 +6,8 @@ import Tab from "@material-ui/core/Tab";
 import Notes from "./Notes";
 import axios from "axios";
 
+import "../../index.css";
+
 import SimilarBeer_v2 from "./SimilarBeer_v2";
 import UserReviews from "./UserReviews";
 
@@ -13,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
+  },
+  menuText: {
+    fontFamily: ["Oswald", "sans-serif"],
   },
 }));
 
@@ -63,10 +68,14 @@ export default function UnderBeer(props) {
     <div className={classes.root} style={{ backgroundColor: "#f0f0f0" }}>
       <AppBar style={{ borderRadius: "5px" }} position="static">
         <Tabs centered value={value} onChange={handleChange}>
-          <Tab label="Reviews" />
-          <Tab label="Similar Beers" />
-          {props.currentUser && <Tab label="Notepad" />}
-          {!props.currentUser && <Tab label="Notepad" disabled />}
+          <Tab className={classes.menuText} label="Reviews" />
+          <Tab className={classes.menuText} label="Similar Beers" />
+          {props.currentUser && (
+            <Tab className={classes.menuText} label="Notepad" />
+          )}
+          {!props.currentUser && (
+            <Tab className={classes.menuText} label="Notepad" disabled />
+          )}
         </Tabs>
       </AppBar>
       {value === 0 && <UserReviews reviews={props.reviews} />}

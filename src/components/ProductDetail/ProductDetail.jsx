@@ -22,12 +22,15 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Alert from "@material-ui/lab/Alert";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
+import "../../index.css";
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "sticky",
   },
   title: {
     marginLeft: theme.spacing(2),
+    fontFamily: ["Oswald", "sans-serif"],
     flex: 1,
   },
   desktopList: {
@@ -59,9 +62,15 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       textDecoration: "solid",
     },
+    fontFamily: ["Oswald", "sans-serif"],
+    opacity: "60%",
+    color: "inherit",
   },
   reviewButtonSection: {
     height: "2rem",
+  },
+  beerName: {
+    fontFamily: ["Oswald", "sans-serif"],
   },
 }));
 
@@ -110,7 +119,6 @@ export default function ProductDetail(props) {
     );
     return reviewedBeers.length > 0;
   };
-  const fakeIBU = Math.floor(Math.random() * 100);
 
   useEffect(() => {
     if (props.currentUser) {
@@ -157,13 +165,17 @@ export default function ProductDetail(props) {
             <div className={`${laptop ? classes.desktopBeer : ""}`}>
               <ListItem>
                 <Box width={1}>
-                  <Typography align="center" variant="h6">
+                  <Typography
+                    align="center"
+                    variant="h6"
+                    className={classes.beerName}
+                  >
                     {props.currentBeer.name}
                   </Typography>
                   <Box display={"flex"} justifyContent={"center"}>
                     <Typography
                       align="center"
-                      style={{ opacity: "0.6", color: "inherit" }}
+                      className={classes.breweryLink}
                       variant="subtitle1"
                       component="a"
                       onClick={() =>
@@ -208,7 +220,9 @@ export default function ProductDetail(props) {
                     </Grid>
                     <Grid container item xs={3} spacing={1}>
                       <Box m={"auto"}>
-                        <Typography variant="p">IBU: {fakeIBU}</Typography>
+                        <Typography variant="p">
+                          IBU: {props.currentBeer.ibu}
+                        </Typography>
                       </Box>
                     </Grid>
                     <Grid container item xs={3} spacing={1}>
