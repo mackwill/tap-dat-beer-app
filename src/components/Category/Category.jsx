@@ -9,7 +9,6 @@ import BeerItemCard from "./BeerItemCard";
 
 import "./Category.css";
 import { GridList, Typography, Divider } from "@material-ui/core";
-import { ThemeProvider } from "styled-components";
 
 const theme = createMuiTheme({
   palette: {
@@ -69,7 +68,6 @@ export default function Category(props) {
   let columns = 2.25;
 
   const theme = useTheme();
-  const xsmall = useMediaQuery(theme.breakpoints.up("xs"));
   const betweenXSAndS = useMediaQuery("(min-width: 425px)");
   const small = useMediaQuery(theme.breakpoints.up("sm"));
   const medium = useMediaQuery(theme.breakpoints.up("md"));
