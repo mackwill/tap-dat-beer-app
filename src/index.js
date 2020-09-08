@@ -5,9 +5,16 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import axios from "axios";
 
-if (process.env.REACT_APP_API_BASE_URL) {
-  axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
+import "firebase-functions";
+
+if (functions.config().server) {
+  axios.defaults.baseURL = functions.config().server.key;
 }
+// if (process.env.REACT_APP_API_BASE_URL) {
+//   axios.defaults.baseURL = process.env.REACT_APP_API_BASE_URL;
+// }
 
 ReactDOM.render(
   <React.StrictMode>
