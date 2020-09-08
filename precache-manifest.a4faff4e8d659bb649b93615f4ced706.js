@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "368d81fbf3524ca8fdc770066a44616f",
+    "revision": "486b0a67cee2ee7b5e9acc1ae90352a2",
     "url": "/tap-dat-beer-app/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/tap-dat-beer-app/static/css/2.11829350.chunk.css"
   },
   {
-    "revision": "c6493d5495debc05a5f4",
+    "revision": "ca85a1f2f02bb8426a6e",
     "url": "/tap-dat-beer-app/static/css/main.6e697da3.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/tap-dat-beer-app/static/js/2.a7b2c742.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "c6493d5495debc05a5f4",
-    "url": "/tap-dat-beer-app/static/js/main.a12c1d50.chunk.js"
+    "revision": "ca85a1f2f02bb8426a6e",
+    "url": "/tap-dat-beer-app/static/js/main.43e5021b.chunk.js"
   },
   {
     "revision": "f7698b40fad12dee1f82",
