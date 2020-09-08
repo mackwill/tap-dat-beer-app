@@ -3,7 +3,25 @@ import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { makeStyles } from "@material-ui/styles";
+import { makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: "#71a0be",
+      main: "#4e89ae",
+      dark: "#365f79",
+      contrastText: "#fff",
+    },
+    secondary: {
+      light: "#efb033",
+      main: "#EC9D00",
+      dark: "#a56d00",
+      contrastText: "#fff",
+    },
+  },
+});
 
 const buttonStyles = makeStyles((theme) => ({
   root: {
@@ -29,40 +47,42 @@ export default function ConfirmDelete(props) {
 
   return (
     <div>
-      <Dialog
-        open={props.open}
-        aria-labelledby="form-dialog-title"
-        onClose={props.close}
-      >
-        <DialogTitle
-          id="form-dialog-title"
-          className={button.text}
-          disableTypography
+      <MuiThemeProvider theme={theme}>
+        <Dialog
+          open={props.open}
+          aria-labelledby="form-dialog-title"
+          onClose={props.close}
         >
-          Are you sure you want to delete this review?
-        </DialogTitle>
-        <DialogContent className={button.root}>
-          <Button
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={props.close}
-            aria-label="close"
+          <DialogTitle
+            id="form-dialog-title"
+            className={button.text}
+            disableTypography
           >
-            Cancel
-          </Button>
+            Are you sure you want to delete this review?
+          </DialogTitle>
+          <DialogContent className={button.root}>
+            <Button
+              size="medium"
+              variant="contained"
+              color="secondary"
+              onClick={props.close}
+              aria-label="close"
+            >
+              Cancel
+            </Button>
 
-          <Button
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={editSelect}
-            aria-label="close"
-          >
-            Confirm
-          </Button>
-        </DialogContent>
-      </Dialog>
+            <Button
+              size="medium"
+              variant="contained"
+              color="secondary"
+              onClick={editSelect}
+              aria-label="close"
+            >
+              Confirm
+            </Button>
+          </DialogContent>
+        </Dialog>
+      </MuiThemeProvider>
     </div>
   );
 }
