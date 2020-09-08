@@ -1,19 +1,16 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { TextField } from "@material-ui/core";
+import { TextField, Typography, Box } from "@material-ui/core";
 import DialogActions from "@material-ui/core/DialogActions";
 
 import { makeStyles } from "@material-ui/styles";
 const userStyles = makeStyles((theme) => ({
   root: {
-    height: 40,
-    //width: 20,
+    overflowY: "hidden",
     display: "flex",
-    flexDirection: "row",
+    flexDirection: "column",
     alignItems: "center",
-    justifyContent: "space-evenly",
-    fontSize: "small",
   },
 }));
 
@@ -21,15 +18,13 @@ const buttonStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignContent: "center",
-    left: "30%",
-    width: "min-content",
-    margin: 20,
-    //fontSize: "10%",
-    // paddingLeft: 20,
-    //paddingRight: 30,
-    //paddingBottom: 0,
+    width: "2ren",
+  },
+  questionButtons: {
+    width: "8rem",
+    marginTop: ".5rem",
   },
 }));
 
@@ -39,12 +34,16 @@ const textStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "space-evenly",
     alignContent: "center",
-    left: "5%",
-    //right: "10%",
-    //margin: 20,
-    // paddingLeft: 20,
-    paddingRight: "10%",
-    //paddingBottom: 20,
+    width: "100% ",
+  },
+}));
+
+const questionStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    justifyContent: "center",
+    fontSize: "1rem",
+    paddingBottom: ".5rem",
   },
 }));
 
@@ -56,6 +55,7 @@ export default function Question(props) {
   const classes = userStyles();
   const button = buttonStyles();
   const text = textStyles();
+  const question = questionStyles();
 
   const setQuestion = (id) => {
     props.setQuestion(id);
@@ -66,17 +66,17 @@ export default function Question(props) {
   };
 
   const answers = [
-    { answer: "not", value: 1 },
-    { answer: "faintly", value: 2 },
-    { answer: "somewhat", value: 3 },
-    { answer: "fairly", value: 4 },
-    { answer: "very", value: 5 },
+    { answer: "not at all", value: 1 },
+    { answer: "hardly", value: 2 },
+    { answer: "partially", value: 3 },
+    { answer: "moderately", value: 4 },
+    { answer: "Extremely", value: 5 },
   ];
   const wordButtons = answers.map((elm) => {
     return (
       <Button
-        className={classes.root}
-        size="small"
+        className={button.questionButtons}
+        size="medium"
         variant="contained"
         color="primary"
         onClick={() => setQuestion(`${elm.value}`)}
@@ -88,8 +88,8 @@ export default function Question(props) {
   const rankButton = [1, 2, 3, 4, 5].map((elm) => {
     return (
       <Button
-        className={classes.root}
-        size="small"
+        className={button.questionButtons}
+        size="medium"
         variant="contained"
         color="primary"
         onClick={() => setQuestion(`${elm}`)}
@@ -103,43 +103,54 @@ export default function Question(props) {
     <>
       {!props.finalQuestion && !props.ratingQuestion && (
         <>
-          <DialogTitle style={{ textAlign: "center" }} id="form-dialog-title">
-            This beer was:
+          <DialogTitle
+            id="form-dialog-title"
+            className={question.root}
+            disableTypography
+          >
+            When tasting this beer how {props.question} was it?
           </DialogTitle>
           <div className={classes.root}>{wordButtons}</div>
-          <DialogTitle style={{ textAlign: "center" }} id="form-dialog-title">
-            {props.question}
-          </DialogTitle>
         </>
       )}
       {!props.finalQuestion && props.ratingQuestion && (
         <>
-          <DialogTitle id="form-dialog-title">{props.question}</DialogTitle>
+          <DialogTitle
+            id="form-dialog-title"
+            className={question.root}
+            disableTypography
+          >
+            {props.question}
+          </DialogTitle>
           <div className={classes.root}>{rankButton}</div>
         </>
       )}
       {props.finalQuestion && (
         <>
-          <DialogTitle id="form-dialog-title">{props.question}</DialogTitle>
-          <TextField
-            className={text.root}
-            inputProps={{ size: 80 }}
-            id="outlined-basic"
-            label=""
-            variant="outlined"
-            aria-label="empty textarea"
-            onChange={props.handleQuestionF}
-            placeholder="Type here"
-          />
-          <Button
-            className={button.root}
-            size="large"
-            color="primary"
-            variant="contained"
-            onClick={() => submitReview()}
+          <DialogTitle
+            id="form-dialog-title"
+            className={question.root}
+            disableTypography
           >
-            Submit
-          </Button>
+            {props.question}{" "}
+          </DialogTitle>
+          <Box
+            width={0.8}
+            display={"flex"}
+            justifyContent={"center"}
+            margin={"auto"}
+          >
+            <TextField
+              className={text.root}
+              id="outlined-basic"
+              multiline
+              rowsMax={4}
+              variant="outlined"
+              aria-label="empty textarea"
+              onChange={props.handleQuestionF}
+              placeholder="Type here"
+            />
+          </Box>
         </>
       )}
     </>

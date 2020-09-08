@@ -10,13 +10,19 @@ import {
 import { EmailIcon, FacebookIcon, TwitterIcon } from "react-share";
 import { makeStyles } from "@material-ui/styles";
 const userStyles = makeStyles((theme) => ({
-  root: {
-    width: 300,
+  button: {
+    width: "100%",
     height: 100,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
+  },
+  text: {
+    display: "flex",
+    justifyContent: "center",
+    alignContent: "center",
+    fontSize: "1.2rem",
   },
 }));
 
@@ -30,10 +36,14 @@ export default function Login(props) {
         aria-labelledby="form-dialog-title"
         onClose={props.close}
       >
-        <DialogTitle id="form-dialog-title">
+        <DialogTitle
+          id="form-dialog-title"
+          className={classes.text}
+          disableTypography
+        >
           Share this beer with your friends!
         </DialogTitle>
-        <DialogContent className={classes.root}>
+        <DialogContent className={classes.button}>
           <FacebookShareButton
             quote="Check out the great reviews of beers at TapDatBeerApp"
             url={"http://www.facebook.com"}

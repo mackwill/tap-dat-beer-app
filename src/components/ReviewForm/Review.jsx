@@ -7,7 +7,6 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/styles";
 import Question from "./Question";
 import axios from "axios";
-//import useApplicationData from "../../hooks/useApplicationData";
 
 const qStyles = makeStyles((theme) => ({
   root: {
@@ -15,8 +14,7 @@ const qStyles = makeStyles((theme) => ({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    padding: "50px",
-    //overflow-y: "hidden"
+    overflowY: "hidden",
   },
 }));
 
@@ -25,17 +23,35 @@ const dStyles = makeStyles((theme) => ({
     margin: "32px",
     position: "relative",
     overflow: "none",
-    //flexDirection: "row",
-    //alignItems: "center",
-    //justifyContent: "center",
-    //padding: "50px",
-    //overflow-y: "hidden"
   },
+  container: {
+    height: "30rem",
+  },
+  close: {
+    display: "flex",
+    justifyContent: "flex-end",
+    alignContent: "flex-end",
+  },
+  submit: {
+    display: "flex",
+    flexDirection: "row-reverse",
+    justifyContent: "space-between",
+    alignContent: "center",
+    paddingLeft: "35%",
+  },
+}));
+
+const dialogStyle = makeStyles((theme) => ({
+  desktop: {
+    height: "20rem",
+  },
+  mobile: {},
 }));
 
 export default function Review(props) {
   const qs = qStyles();
   const ds = dStyles();
+  const dialogStyles = dialogStyle();
 
   const [questionA, setQuestionA] = useState(null);
   const [questionB, setQuestionB] = useState(null);
@@ -66,8 +82,8 @@ export default function Review(props) {
     props.close();
   };
 
-  const nextAndSubmit = (id) => {
-    console.log("in next and submit", id);
+  const nextAndSubmit = () => {
+    console.log("in next and submit");
     const reviewObject = {
       sweet: questionA,
       sour: questionD,
@@ -83,17 +99,23 @@ export default function Review(props) {
 
   return (
     <Dialog
-      className={ds.root}
+      className={dialogStyles.root}
       open={props.open}
       onClose={handleClose}
       aria-labelledby="form-dialog-title"
-      maxWidth={"lg"}
+      height
+      PaperProps={{
+        style: {
+          minHeight: "1rem",
+          maxWidth: "fit-content",
+        },
+      }}
       fullWidth
     >
       {currentQuestion === 1 && (
         <Question
           className={qs.root}
-          question="Sweet"
+          question="sweet"
           setQuestion={setQuestionA}
           nextQuestion={nextQuestion}
         />
@@ -101,21 +123,21 @@ export default function Review(props) {
 
       {currentQuestion === 2 && (
         <Question
-          question="Bitter"
+          question="bitter"
           setQuestion={setQuestionB}
           nextQuestion={nextQuestion}
         />
       )}
       {currentQuestion === 3 && (
         <Question
-          question="Hoppy"
+          question="hoppy"
           setQuestion={setQuestionC}
           nextQuestion={nextQuestion}
         />
       )}
       {currentQuestion === 4 && (
         <Question
-          question="Sour"
+          question="sour"
           setQuestion={setQuestionD}
           nextQuestion={nextQuestion}
         />
@@ -130,13 +152,13 @@ export default function Review(props) {
       )}
       {currentQuestion > 5 && (
         <Question
-          question="Are there any additional details you would like to share with others interested in trying this beer?"
+          question="Are there any last thoughts you would like to share?"
           finalQuestion={true}
           handleQuestionF={handleQuestionF}
           nextAndSubmit={nextAndSubmit}
         />
       )}
-      <DialogActions>
+      <DialogActions className={ds.submit}>
         <Button
           edge="end"
           color="inherit"
@@ -144,8 +166,18 @@ export default function Review(props) {
           aria-label="close"
           size="large"
         >
-          X
+          close
         </Button>
+        {currentQuestion > 5 && (
+          <Button
+            size="large"
+            color="primary"
+            variant="contained"
+            onClick={nextAndSubmit}
+          >
+            Submit
+          </Button>
+        )}
       </DialogActions>
     </Dialog>
   );
