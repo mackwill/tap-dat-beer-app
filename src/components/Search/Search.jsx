@@ -65,18 +65,20 @@ export default function FullScreenDialog(props) {
   }, []);
 
   useEffect(() => {
-    setPageNumber(1);
-    axios
-      .get(`/api/search?q=${encodeURI(props.searchQuery)}&page=1&limit=10`)
-      .then((data) => {
-        setSearchResults(data.data.results);
-        if (data.data.next) {
-          setPageNumber(data.data.next.page);
-        } else {
-          setPageNumber(null);
-        }
-      })
-      .catch((e) => console.log("Error on search query:", e));
+    if (props.searchQuery.length > 0) {
+      setPageNumber(1);
+      axios
+        .get(`/api/search?q=${encodeURI(props.searchQuery)}&page=1&limit=10`)
+        .then((data) => {
+          setSearchResults(data.data.results);
+          if (data.data.next) {
+            setPageNumber(data.data.next.page);
+          } else {
+            setPageNumber(null);
+          }
+        })
+        .catch((e) => console.log("Error on search query:", e));
+    }
   }, [props.searchQuery]);
 
   const loadMore = () => {

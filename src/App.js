@@ -83,6 +83,7 @@ function App() {
     setRecentlyViewed,
     deleteReviewById,
     addReviewById,
+    logUserOut,
   } = useApplicationData();
 
   const {
@@ -125,6 +126,7 @@ function App() {
     setSearchOpen(true);
   };
   const handleSearchClose = (e) => {
+    setSearchQuery("");
     setSearchOpen(false);
   };
 
@@ -168,22 +170,6 @@ function App() {
     setReviewOpen(false);
   };
 
-  // Removes the deleted beer from =the state list of currentBeer Reviews
-  const removeDeletedBeerReview = (id) => {
-    const filteredList = currentBeerReviews.filter((beer) => {
-      return id !== beer.id;
-    });
-    return filteredList;
-  };
-
-  // Check if user has already reviewed that beer
-  const hasUserReviewedBeer = (id) => {
-    const filteredList = currentBeerReviews.filter((beer) => {
-      return id === beer.id;
-    });
-    return filteredList;
-  };
-
   // Delete a review from your list of My Reviews
   const handleDeleteMyReview = (review_id) => {
     if (!currentUser) {
@@ -219,46 +205,26 @@ function App() {
     // e.preventDefault();
 
     return axios.post("/api/logout").then((data) => {
-      setLoggedInUser(null);
-
+      logUserOut();
       handleClickSB(`You are now logged out`);
     });
   };
 
   const handleClickFromSearchResult = (id) => {
     handleBeerDetailClick(id);
+  };
 
+  const handleBeerDetailClick = async (id) => {
+    setBeerDetailOpen(true);
     const body = {
       beer_id: id,
       query: searchQuery,
       user_id: currentUser && currentUser.id,
     };
-    return axios
-      .post("/api/search/analytics", body)
-      .then((data) => console.log("added search analytics:", data))
-      .catch((e) => console.log("Search analytics failed", e));
-  };
+    if (searchQuery) body.query = searchQuery;
 
-  const isBeerInRecentlyViewedList = (id) => {
-    const filteredList = recentlyViewed.filter((beer) => beer.id === id);
-    return filteredList;
-  };
+    await axios.post("/api/search/analytics", body);
 
-  const handleBeerDetailClick = async (id) => {
-    setBeerDetailOpen(true);
-    let userId = null;
-    if (currentUser) {
-      userId = currentUser.id;
-    }
-
-    console.log("id here:", id);
-
-    if (isBeerInRecentlyViewedList(id).length === 0) {
-      await axios.post("/api/search/analytics", {
-        user_id: userId,
-        beer_id: id,
-      });
-    }
     setRecentlyViewed();
     setClickedBeerToCurrent(id);
   };

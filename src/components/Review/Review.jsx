@@ -56,7 +56,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 export default function Review(props) {
-  console.log("props: ", props);
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
 
   const handleConfirmDeleteOpen = (e) => {

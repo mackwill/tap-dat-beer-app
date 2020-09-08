@@ -11,10 +11,14 @@ const SET_REGISTRATION_OR_USER_DATA = "SET_REGISTRATION_OR_USER_DATA";
 const SET_RECENTLY_VIEWED = "SET_RECENTLY_VIEWED";
 const SET_USER_REVIEWS = "SET_USER_REVIEWS";
 const SET_CURRENT_BEER = "SET_CURRENT_BEER";
+const SET_USER_LOGOUT = "SET_USER_LOGOUT";
 const reducer = (state, action) => {
   switch (action.type) {
     case SET_CURRENT_USER: {
-      return { ...state, currentUser: action.value };
+      return { ...state, currentUser: action.value, isActive: true };
+    }
+    case SET_USER_LOGOUT: {
+      return { ...state, currentUser: null, isActive: false };
     }
     case SET_VISITOR_BEER_DATA: {
       return { ...state, ...action.value };
@@ -68,6 +72,7 @@ export default function useApplicationData() {
     email: null,
     password: null,
     passwordConfirmation: null,
+    isActive: null,
   });
 
   useEffect(() => {
@@ -98,7 +103,7 @@ export default function useApplicationData() {
       .catch((err) => {
         console.log("Error getting beers: ", err);
       });
-  }, [state.currentUser]);
+  }, []);
 
   const submitLoginData = (email, password) => {
     return axios
@@ -138,7 +143,7 @@ export default function useApplicationData() {
         });
       })
       .catch((err) => {});
-  }, [state.currentUser]);
+  }, [state.isActive]);
 
   const deleteBeerFromWishlist = (wishlist_id, currentBeer) => {
     return axios
@@ -160,7 +165,7 @@ export default function useApplicationData() {
         beer_id: beer_id,
         user_id: state.currentUser.id,
       })
-      .then(() => {
+      .then((data) => {
         return axios.get("/api/wishlists");
       })
       .then((res) => {
@@ -256,13 +261,12 @@ export default function useApplicationData() {
       last_name: user.lastName,
       email: user.email,
     };
-
     try {
       await axios.put("/api/user", newAccountDetails);
-      const updatedUser = await axios.get("/api/user");
+
       dispatch({
         type: SET_CURRENT_USER,
-        value: updatedUser.data.data,
+        value: newAccountDetails,
       });
     } catch (error) {
       console.log("Error updating account: ", error);
@@ -310,6 +314,12 @@ export default function useApplicationData() {
     });
   };
 
+  const logUserOut = () => {
+    dispatch({
+      type: SET_USER_LOGOUT,
+    });
+  };
+
   return {
     state,
     submitLoginData,
@@ -324,5 +334,6 @@ export default function useApplicationData() {
     setRecentlyViewed,
     deleteReviewById,
     addReviewById,
+    logUserOut,
   };
 }
