@@ -3,10 +3,28 @@ import Dialog from "@material-ui/core/Dialog";
 import IconButton from "@material-ui/core/IconButton";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
+import { createMuiTheme } from "@material-ui/core/styles";
 
-import { makeStyles } from "@material-ui/styles";
+import { fade, makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
 import Question from "./Question";
 import axios from "axios";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: "#71a0be",
+      main: "#4e89ae",
+      dark: "#365f79",
+      contrastText: "#fff",
+    },
+    secondary: {
+      light: "#efb033",
+      main: "#EC9D00",
+      dark: "#a56d00",
+      contrastText: "#fff",
+    },
+  },
+});
 
 const qStyles = makeStyles((theme) => ({
   root: {
@@ -98,87 +116,89 @@ export default function Review(props) {
   };
 
   return (
-    <Dialog
-      className={dialogStyles.root}
-      open={props.open}
-      onClose={handleClose}
-      aria-labelledby="form-dialog-title"
-      height
-      PaperProps={{
-        style: {
-          minHeight: "1rem",
-          maxWidth: "fit-content",
-        },
-      }}
-      fullWidth
-    >
-      {currentQuestion === 1 && (
-        <Question
-          className={qs.root}
-          question="sweet"
-          setQuestion={setQuestionA}
-          nextQuestion={nextQuestion}
-        />
-      )}
-
-      {currentQuestion === 2 && (
-        <Question
-          question="bitter"
-          setQuestion={setQuestionB}
-          nextQuestion={nextQuestion}
-        />
-      )}
-      {currentQuestion === 3 && (
-        <Question
-          question="hoppy"
-          setQuestion={setQuestionC}
-          nextQuestion={nextQuestion}
-        />
-      )}
-      {currentQuestion === 4 && (
-        <Question
-          question="sour"
-          setQuestion={setQuestionD}
-          nextQuestion={nextQuestion}
-        />
-      )}
-      {currentQuestion === 5 && (
-        <Question
-          question="Overall I would rate this beer as?"
-          ratingQuestion={true}
-          setQuestion={setQuestionE}
-          nextQuestion={nextQuestion}
-        />
-      )}
-      {currentQuestion > 5 && (
-        <Question
-          question="Are there any last thoughts you would like to share?"
-          finalQuestion={true}
-          handleQuestionF={handleQuestionF}
-          nextAndSubmit={nextAndSubmit}
-        />
-      )}
-      <DialogActions className={ds.submit}>
-        <Button
-          edge="end"
-          color="inherit"
-          onClick={handleClose}
-          aria-label="close"
-          size="large"
-        >
-          close
-        </Button>
-        {currentQuestion > 5 && (
-          <Button
-            size="large"
-            color="primary"
-            variant="contained"
-            onClick={nextAndSubmit}
-          >
-            Submit
-          </Button>
+    <MuiThemeProvider theme={theme}>
+      <Dialog
+        className={dialogStyles.root}
+        open={props.open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+        height
+        PaperProps={{
+          style: {
+            minHeight: "1rem",
+            maxWidth: "fit-content",
+          },
+        }}
+        fullWidth
+      >
+        {currentQuestion === 1 && (
+          <Question
+            className={qs.root}
+            question="sweet"
+            setQuestion={setQuestionA}
+            nextQuestion={nextQuestion}
+          />
         )}
-      </DialogActions>
-    </Dialog>
+
+        {currentQuestion === 2 && (
+          <Question
+            question="bitter"
+            setQuestion={setQuestionB}
+            nextQuestion={nextQuestion}
+          />
+        )}
+        {currentQuestion === 3 && (
+          <Question
+            question="hoppy"
+            setQuestion={setQuestionC}
+            nextQuestion={nextQuestion}
+          />
+        )}
+        {currentQuestion === 4 && (
+          <Question
+            question="sour"
+            setQuestion={setQuestionD}
+            nextQuestion={nextQuestion}
+          />
+        )}
+        {currentQuestion === 5 && (
+          <Question
+            question="Overall I would rate this beer as?"
+            ratingQuestion={true}
+            setQuestion={setQuestionE}
+            nextQuestion={nextQuestion}
+          />
+        )}
+        {currentQuestion > 5 && (
+          <Question
+            question="Are there any last thoughts you would like to share?"
+            finalQuestion={true}
+            handleQuestionF={handleQuestionF}
+            nextAndSubmit={nextAndSubmit}
+          />
+        )}
+        <DialogActions className={ds.submit}>
+          <Button
+            edge="end"
+            color="inherit"
+            onClick={handleClose}
+            aria-label="close"
+            size="large"
+          >
+            close
+          </Button>
+          {currentQuestion > 5 && (
+            <Button
+              size="large"
+              color="secondary"
+              variant="contained"
+              onClick={nextAndSubmit}
+            >
+              Submit
+            </Button>
+          )}
+        </DialogActions>
+      </Dialog>
+    </MuiThemeProvider>
   );
 }

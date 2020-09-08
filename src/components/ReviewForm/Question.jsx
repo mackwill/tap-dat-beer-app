@@ -3,8 +3,27 @@ import Button from "@material-ui/core/Button";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { TextField, Typography, Box } from "@material-ui/core";
 import DialogActions from "@material-ui/core/DialogActions";
+import { fade, makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
+import Rating from "@material-ui/lab/Rating";
 
-import { makeStyles } from "@material-ui/styles";
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: "#71a0be",
+      main: "#4e89ae",
+      dark: "#365f79",
+      contrastText: "#fff",
+    },
+    secondary: {
+      light: "#efb033",
+      main: "#EC9D00",
+      dark: "#a56d00",
+      contrastText: "#fff",
+    },
+  },
+});
+
 const userStyles = makeStyles((theme) => ({
   root: {
     overflowY: "hidden",
@@ -72,87 +91,113 @@ export default function Question(props) {
     { answer: "moderately", value: 4 },
     { answer: "Extremely", value: 5 },
   ];
+
   const wordButtons = answers.map((elm) => {
     return (
       <Button
         className={button.questionButtons}
         size="medium"
         variant="contained"
-        color="primary"
+        color="secondary"
         onClick={() => setQuestion(`${elm.value}`)}
       >
         {elm.answer}
       </Button>
     );
   });
-  const rankButton = [1, 2, 3, 4, 5].map((elm) => {
+
+  const stars = [
+    { star: <Rating name="simple-controlled" value={1} />, value: 1 },
+    { star: <Rating name="simple-controlled" value={2} />, value: 2 },
+    { star: <Rating name="simple-controlled" value={3} />, value: 3 },
+    { star: <Rating name="simple-controlled" value={4} />, value: 4 },
+    { star: <Rating name="simple-controlled" value={5} />, value: 5 },
+  ];
+
+  const rankButton = stars.map((elm) => {
     return (
       <Button
         className={button.questionButtons}
-        size="medium"
-        variant="contained"
+        size="large"
+        variant="outlined"
         color="primary"
-        onClick={() => setQuestion(`${elm}`)}
+        onClick={() => setQuestion(`${elm.value}`)}
       >
-        {elm}
+        {elm.star}
       </Button>
     );
   });
 
+  // const rankButton = [1, 2, 3, 4, 5].map((elm) => {
+  //   return (
+  //     <Button
+  //       className={button.questionButtons}
+  //       size="medium"
+  //       variant="contained"
+  //       color="primary"
+  //       onClick={() => setQuestion(`${elm}`)}
+  //     >
+  //       {elm}
+  //     </Button>
+  //   );
+  // });
+
   return (
     <>
-      {!props.finalQuestion && !props.ratingQuestion && (
-        <>
-          <DialogTitle
-            id="form-dialog-title"
-            className={question.root}
-            disableTypography
-          >
-            When tasting this beer how {props.question} was it?
-          </DialogTitle>
-          <div className={classes.root}>{wordButtons}</div>
-        </>
-      )}
-      {!props.finalQuestion && props.ratingQuestion && (
-        <>
-          <DialogTitle
-            id="form-dialog-title"
-            className={question.root}
-            disableTypography
-          >
-            {props.question}
-          </DialogTitle>
-          <div className={classes.root}>{rankButton}</div>
-        </>
-      )}
-      {props.finalQuestion && (
-        <>
-          <DialogTitle
-            id="form-dialog-title"
-            className={question.root}
-            disableTypography
-          >
-            {props.question}{" "}
-          </DialogTitle>
-          <Box
-            width={0.8}
-            display={"flex"}
-            justifyContent={"center"}
-            margin={"auto"}
-          >
-            <TextField
-              className={text.root}
-              id="outlined-basic"
-              multiline
-              rowsMax={4}
-              variant="outlined"
-              aria-label="empty textarea"
-              onChange={props.handleQuestionF}
-              placeholder="Type here"
-            />
-          </Box>
-        </>
-      )}
+      <MuiThemeProvider theme={theme}>
+        {!props.finalQuestion && !props.ratingQuestion && (
+          <>
+            <DialogTitle
+              id="form-dialog-title"
+              className={question.root}
+              disableTypography
+            >
+              When tasting this beer how {props.question} was it?
+            </DialogTitle>
+            <div className={classes.root}>{wordButtons}</div>
+          </>
+        )}
+        {!props.finalQuestion && props.ratingQuestion && (
+          <>
+            <DialogTitle
+              id="form-dialog-title"
+              className={question.root}
+              disableTypography
+            >
+              {props.question}
+            </DialogTitle>
+            <div className={classes.root}>{rankButton}</div>
+          </>
+        )}
+        {props.finalQuestion && (
+          <>
+            <DialogTitle
+              id="form-dialog-title"
+              className={question.root}
+              disableTypography
+            >
+              {props.question}{" "}
+            </DialogTitle>
+            <Box
+              width={0.8}
+              display={"flex"}
+              justifyContent={"center"}
+              margin={"auto"}
+            >
+              <TextField
+                className={text.root}
+                id="outlined-basic"
+                multiline
+                rowsMax={4}
+                variant="outlined"
+                aria-label="empty textarea"
+                onChange={props.handleQuestionF}
+                placeholder="Type here"
+              />
+            </Box>
+          </>
+        )}
+      </MuiThemeProvider>
     </>
   );
 }
