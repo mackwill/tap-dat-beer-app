@@ -9,7 +9,18 @@
   publish = "build/"
 
   # Default build command.
-  command = "npm run build"
+  command = "CI= npm run build"
 
 [build.environment]
   REACT_APP_API_BASE_URL = "https://tap-dat-beer-app.herokuapp.com/"
+
+[[redirects]]
+    from = "/api/*"
+    to = "REACT_APP_API_BASE_URL/:splat"
+    status = 200
+    force = true
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
