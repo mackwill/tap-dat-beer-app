@@ -55,18 +55,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const beerTypes = {
-  Ale:
-    "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap.svg",
-  Porter:
-    "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap4.svg",
-  Lager:
-    "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap1.svg",
-  Malt:
-    "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap2.svg",
-  "Flavoured Malt":
-    "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap2.svg",
-  Stout:
-    "https://oiygp3l4k8i1mg345xogudk6-wpengine.netdna-ssl.com/wp-content/uploads/2019/03/Bitmap4.svg",
+  Ale: "images/category_ale.svg",
+  Porter: "images/category_porter.svg",
+  Lager: "images/category_lager.svg",
+  Malt: "images/category_malt.svg",
+  "Flavoured Malt": "images/category_flavoured_malt.svg",
+  Stout: "images/category_stout.svg",
 };
 
 export default function BeerItemCard(props) {
