@@ -1,9 +1,8 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { TextField, Typography, Box } from "@material-ui/core";
-import DialogActions from "@material-ui/core/DialogActions";
-import { fade, makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
+import { TextField, Box } from "@material-ui/core";
+import { makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
 import Rating from "@material-ui/lab/Rating";
 
@@ -66,22 +65,15 @@ const questionStyles = makeStyles((theme) => ({
   },
 }));
 
-const inputProps = {
-  step: 300,
-};
-
 export default function Question(props) {
-  const classes = userStyles();
-  const button = buttonStyles();
-  const text = textStyles();
-  const question = questionStyles();
+  const classes = userStyles(theme);
+  const button = buttonStyles(theme);
+  const text = textStyles(theme);
+  const question = questionStyles(theme);
 
   const setQuestion = (id) => {
     props.setQuestion(id);
     props.nextQuestion(id);
-  };
-  const submitReview = () => {
-    props.nextAndSubmit();
   };
 
   const answers = [
@@ -107,11 +99,11 @@ export default function Question(props) {
   });
 
   const stars = [
-    { star: <Rating name="simple-controlled" value={1} />, value: 1 },
-    { star: <Rating name="simple-controlled" value={2} />, value: 2 },
-    { star: <Rating name="simple-controlled" value={3} />, value: 3 },
-    { star: <Rating name="simple-controlled" value={4} />, value: 4 },
-    { star: <Rating name="simple-controlled" value={5} />, value: 5 },
+    { star: <Rating readOnly name="simple-controlled" value={1} />, value: 1 },
+    { star: <Rating readOnly name="simple-controlled" value={2} />, value: 2 },
+    { star: <Rating readOnly name="simple-controlled" value={3} />, value: 3 },
+    { star: <Rating readOnly name="simple-controlled" value={4} />, value: 4 },
+    { star: <Rating readOnly name="simple-controlled" value={5} />, value: 5 },
   ];
 
   const rankButton = stars.map((elm) => {
@@ -127,20 +119,6 @@ export default function Question(props) {
       </Button>
     );
   });
-
-  // const rankButton = [1, 2, 3, 4, 5].map((elm) => {
-  //   return (
-  //     <Button
-  //       className={button.questionButtons}
-  //       size="medium"
-  //       variant="contained"
-  //       color="primary"
-  //       onClick={() => setQuestion(`${elm}`)}
-  //     >
-  //       {elm}
-  //     </Button>
-  //   );
-  // });
 
   return (
     <>

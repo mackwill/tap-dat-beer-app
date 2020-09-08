@@ -23,7 +23,11 @@ export default function Login(props) {
           Hold your camera at the beer and stand still for a few second. If we
           have your beer in our database, the beer profile will shortly appear
           <Box component="div" width={1}>
-            <img style={{ width: "100%" }} src="images/scanner.png" />
+            <img
+              style={{ width: "100%" }}
+              src="images/scanner.png"
+              alt="Scanner Instruction"
+            />
           </Box>
         </DialogContent>
 

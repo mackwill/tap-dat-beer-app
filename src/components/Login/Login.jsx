@@ -5,31 +5,16 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
 } from "@material-ui/core";
 
 import CustomAlert from "../Alert/CustomAlert";
-import useApplicationData from "../../hooks/useApplicationData";
 
 export default function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const {
-    // email,
-    // password,
-    errMessage,
-    changeUserData,
-    setLoginOpen,
-    submitLoginData,
-    setErrorMessage,
-  } = props;
-
-  const handleLoginChange = (e) => {
-    e.persist();
-    changeUserData(e);
-  };
+  const { errMessage, submitLoginData, setErrorMessage } = props;
 
   const handleLoginSubmit = (e) => {
     e.preventDefault();

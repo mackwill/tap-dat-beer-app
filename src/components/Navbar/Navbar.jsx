@@ -23,6 +23,7 @@ const ACCOUNT = "account";
 const REGISTER = "register";
 const SCANNER = "scanner";
 const SEARCH = "search";
+
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -87,7 +88,6 @@ const useStyles = makeStyles(() => ({
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
     transition: theme.transitions.create("width"),
     width: "100%",
@@ -127,10 +127,6 @@ export default function PrimarySearchAppBar(props) {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-  // const handleProfileMenuOpen = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
@@ -164,6 +160,8 @@ export default function PrimarySearchAppBar(props) {
       case SEARCH:
         props.handleSearchOpen();
         break;
+      default:
+        throw new Error("Incorrect action chosen: ", action);
     }
 
     setMobileMoreAnchorEl(null);
