@@ -45,27 +45,27 @@ export default function Login(props) {
         </DialogTitle>
         <DialogContent className={classes.button}>
           <FacebookShareButton
-            quote="Check out the great reviews of beers at TapDatBeerApp"
+            quote="Check out the great reviews of beers at Tap Dat Beer App"
             url={"http://www.facebook.com"}
           >
-            <FacebookIcon size={60} round={true} />{" "}
+            <FacebookIcon size={60} round={true} />
           </FacebookShareButton>
 
           <EmailShareButton
+            url="tapdatbeerapp.com"
             subject="Check out TapDat Beer App"
-            body="Check out the great reviews of beers at TapDatBeerApp"
+            body="Check out the great reviews of beers at Tap Dat Beer App"
+            separator=" "
           >
-            {" "}
-            <EmailIcon size={60} round={true} />{" "}
+            <EmailIcon size={60} round={true} />
           </EmailShareButton>
 
           <TwitterShareButton
-            title="Check out the great reviews of beers at TapDatBeerApp"
+            title="Check out the great reviews of beers at Tap Dat Beer App"
             via="sent from @TapDatBeerApp"
             url={"http://www.twitter.com"}
           >
-            {" "}
-            <TwitterIcon size={60} round={true} />{" "}
+            <TwitterIcon size={60} round={true} />
           </TwitterShareButton>
         </DialogContent>
       </Dialog>
