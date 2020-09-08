@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { Box, Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+
+import "../../index.css";
 
 const theme = createMuiTheme({
   palette: {
@@ -20,7 +23,15 @@ const theme = createMuiTheme({
   },
 });
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    fontFamily: ["Oswald", "sans-serif"],
+  },
+}));
+
 export default function UserDetails(props) {
+  const classes = useStyles();
+
   const { first_name, last_name, email, changeAccountDetails } = props;
 
   const [firstName, setFirstName] = useState(first_name);
@@ -74,7 +85,12 @@ export default function UserDetails(props) {
           </Box>
 
           <Box width={1} textAlign="right">
-            <Button variant="contained" type="submit" color="secondary">
+            <Button
+              className={classes.root}
+              variant="contained"
+              type="submit"
+              color="secondary"
+            >
               Update Info
             </Button>
           </Box>

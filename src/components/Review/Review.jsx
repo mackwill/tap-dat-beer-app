@@ -54,6 +54,9 @@ const useStyles = makeStyles(() => ({
   iconBlue: {
     color: theme.palette.secondary.main,
   },
+  beerName: {
+    fontWeight: "500",
+  },
 }));
 export default function Review(props) {
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
@@ -98,7 +101,11 @@ export default function Review(props) {
                       <LocalDrinkIcon />
                     </Avatar>
                   </ListItemAvatar>
-                  <Typography variant="p" component="p">
+                  <Typography
+                    variant="p"
+                    component="p"
+                    className={classes.beerName}
+                  >
                     {props.beer_name}
                   </Typography>
                 </Box>

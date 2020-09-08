@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     marginLeft: theme.spacing(2),
     flex: 1,
+    fontFamily: ["Oswald", "sans-serif"],
   },
   avatar: {
     color: theme.palette.secondary.contrastText,
@@ -85,6 +86,10 @@ const useStyles = makeStyles((theme) => ({
     container: {
       backgroundColor: "#f0f0f0",
     },
+  },
+  displayName: {
+    fontFamily: ["Oswald", "sans-serif"],
+    fontWeight: 400,
   },
 }));
 
@@ -133,7 +138,7 @@ export default function ProductDetail(props) {
               </ListItem>
               <ListItem>
                 <Box width={1} textAlign="center">
-                  <Typography variant="h6">
+                  <Typography className={classes.displayName} variant="h6">
                     {props.firstName}
                     {` `}
                     {props.lastName}

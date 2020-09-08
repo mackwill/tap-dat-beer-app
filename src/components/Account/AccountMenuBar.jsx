@@ -14,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
   },
+  menuText: {
+    fontFamily: ["Oswald", "sans-serif"],
+  },
 }));
 
 export default function AccountMenuBar(props) {
@@ -27,8 +30,8 @@ export default function AccountMenuBar(props) {
     <div className={classes.root} style={{ backgroundColor: "#f0f0f0" }}>
       <AppBar style={{ borderRadius: "5px" }} position="static">
         <Tabs value={value} onChange={handleChange}>
-          <Tab label="My Wishlist" />
-          <Tab label="My Reviews" />
+          <Tab className={classes.menuText} label="My Wishlist" />
+          <Tab className={classes.menuText} label="My Reviews" />
         </Tabs>
       </AppBar>
       <List>
