@@ -17,6 +17,8 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import { Button } from "@material-ui/core";
 
+import "../../index.css";
+
 const LOGIN = "login";
 const LOGOUT = "logout";
 const ACCOUNT = "account";
@@ -110,10 +112,13 @@ const useStyles = makeStyles(() => ({
     },
   },
   menuItemText: {
+    fontFamily: ["Oswald", "sans-serif"],
+
     margin: 0,
   },
   button: {
     color: theme.palette.primary.contrastText,
+    fontFamily: ["Oswald", "sans-serif"],
     marginLeft: "0.25rem",
     marginRight: "0.25rem",
   },
