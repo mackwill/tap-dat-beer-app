@@ -3,9 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardMedia from "@material-ui/core/CardMedia";
-
-import Collapse from "@material-ui/core/Collapse";
-
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 
@@ -21,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
     padding: "0.5rem",
     width: "90%",
     margin: "auto",
-    // paddingTop: "100%", // 16:9
   },
   header: {
     display: "flex",
@@ -75,11 +71,6 @@ const beerTypes = {
 
 export default function BeerItemCard(props) {
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
 
   const imgError = (e) => {
     e.target.onerror = null;
@@ -92,28 +83,15 @@ export default function BeerItemCard(props) {
     </Typography>
   );
 
-  const cardSubHeader = (
-    <Typography
-      className={classes.subHeaderTypography}
-      variant="p"
-      component="p"
-    >
-      {props.brewery}
-    </Typography>
-  );
-
   return (
     <Card className={classes.root} variant="outlined">
       <CardHeader className={classes.header} title={cardHeader} />
       <CardMedia
         className={classes.media}
-        // image={props.beer_image}
-        // title={props.name}s
         src={beerTypes[props.title]}
         component="img"
         onError={imgError}
       />
-      <Collapse in={expanded} timeout="auto" unmountOnExit></Collapse>
     </Card>
   );
 }

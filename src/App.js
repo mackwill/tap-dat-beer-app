@@ -1,9 +1,8 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import Navbar from "./components/Navbar/Navbar";
 import Login from "./components/Login/Login";
 import axios from "axios";
 
-// import "./App.css";
 import Register from "./components/Register/Register";
 import Banner from "./components/Banner/Banner";
 import Category from "./components/Category/Category";
@@ -12,13 +11,10 @@ import ProductDetail from "./components/ProductDetail/ProductDetail";
 import Search from "./components/Search/Search";
 import Review from "./components/ReviewForm/Review";
 import ShareOption from "./components/ShareOption/ShareOption";
-import Button from "@material-ui/core/Button";
 import Snackbar from "./components/Small-Components/Snackbar";
 import MyAccount from "./components/Account/MyAccount";
 import Scanner from "./components/Scanner/Scanner";
 import EditReview from "./components/MyReviews/EditReview";
-import ConfirmDelete from "./components/MyReviews/ConfirmDelete";
-//import Review from "./components/Review/Review";
 import useApplicationData from "./hooks/useApplicationData";
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import ScannerIntro from "./components/Scanner/ScannerIntro";
@@ -52,7 +48,6 @@ const useStyles = makeStyles(() => ({
 function App() {
   const classes = useStyles();
 
-  let userData;
   const [registerOpen, setRegisterOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
   const [beerDetailOpen, setBeerDetailOpen] = useState(false);
@@ -67,7 +62,6 @@ function App() {
   const [scannerIntroOpen, setScannerIntroOpen] = useState(false);
   const [editMyReviewsOpen, setEditMyReviewsOpen] = useState(false);
   const [singleReview, setSingleReview] = useState({});
-  const [beers, setBeers] = useState([]);
 
   const {
     state,
@@ -94,15 +88,9 @@ function App() {
     beerCategories,
     currentWishlist,
     currentBeer,
-    setCurrentBeerReviews,
     currentBeerReviews,
     currentUser,
     errMessage,
-    firstName,
-    lastName,
-    email,
-    password,
-    passwordConfirmation,
   } = state;
 
   const [openSB, setOpenSB] = useState(false);
@@ -395,7 +383,6 @@ function App() {
           handleEditReviewOpen={handleEditReviewOpen}
           setRegisterOpen={setRegisterOpen}
           searchByBrewery={handleCategoryClick}
-          //handleConfirmDeleteOpen={handleConfirmDeleteOpen}
         />
       )}
       <Search
@@ -406,7 +393,6 @@ function App() {
         onClick={handleClickFromSearchResult}
       />
 
-      {/* Move review component and share option to beer detail page */}
       <Review
         currentBeer={currentBeer}
         open={reviewOpen}
@@ -414,7 +400,6 @@ function App() {
         handleDeleteMyReview={handleDeleteMyReview}
         addReviewById={addReviewById}
       />
-      {/* Move review component and share option to beer detail page */}
       <ShareOption open={shareOpen} close={handleShareOptionClose} />
 
       {editMyReviewsOpen && (
@@ -437,8 +422,6 @@ function App() {
           reviews={currentBeerReviews}
           handleEditReviewOpen={handleEditReviewOpen}
           handleDeleteMyReview={handleDeleteMyReview}
-          changeAccountDetails={changeAccountDetails}
-          // handleConfirmDeleteOpen={handleConfirmDeleteOpen}
           changeAccountDetails={handleChangeAccountDetails}
           handleBeerDetailClick={handleBeerDetailClick}
         />
@@ -447,7 +430,6 @@ function App() {
         open={scannerOpen}
         handleClose={handleScannerClose}
         openBeer={handleBeerDetailClick}
-        beers={beers}
       />
       <ScannerIntro
         startScanner={handleStartScanner}

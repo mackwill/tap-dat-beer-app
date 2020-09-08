@@ -1,9 +1,8 @@
 import React from "react";
 import Button from "@material-ui/core/Button";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import { TextField, Typography, Box } from "@material-ui/core";
-import DialogActions from "@material-ui/core/DialogActions";
-import { fade, makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
+import { TextField, Box } from "@material-ui/core";
+import { makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
 import Rating from "@material-ui/lab/Rating";
 
@@ -66,22 +65,15 @@ const questionStyles = makeStyles((theme) => ({
   },
 }));
 
-const inputProps = {
-  step: 300,
-};
-
 export default function Question(props) {
-  const classes = userStyles();
-  const button = buttonStyles();
-  const text = textStyles();
-  const question = questionStyles();
+  const classes = userStyles(theme);
+  const button = buttonStyles(theme);
+  const text = textStyles(theme);
+  const question = questionStyles(theme);
 
   const setQuestion = (id) => {
     props.setQuestion(id);
     props.nextQuestion(id);
-  };
-  const submitReview = () => {
-    props.nextAndSubmit();
   };
 
   const answers = [

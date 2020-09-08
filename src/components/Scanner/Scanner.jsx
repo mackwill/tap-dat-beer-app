@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import axios from "axios";
@@ -19,7 +19,7 @@ export default function Scanner(props) {
   }, [props.open]);
 
   beers.forEach((elm) => (beersId[elm.id] = 0));
-  let track;
+
   useEffect(() => {
     if (props.open) {
       navigator.mediaDevices

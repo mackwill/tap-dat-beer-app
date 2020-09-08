@@ -4,23 +4,21 @@ import {
   MuiThemeProvider,
   createMuiTheme,
 } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import ListItem from "@material-ui/core/ListItem";
 import List from "@material-ui/core/List";
-import Divider from "@material-ui/core/Divider";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
-import { Box, Grid, Avatar } from "@material-ui/core";
+import { Box, Avatar } from "@material-ui/core";
 import UserDetails from "./UserDetails";
 import AccountMenuBar from "./AccountMenuBar";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 
-const rootTheme = createMuiTheme({
+const theme = createMuiTheme({
   palette: {
     primary: {
       light: "#71a0be",
@@ -30,7 +28,7 @@ const rootTheme = createMuiTheme({
     },
     secondary: {
       light: "#efb033",
-      main: "#EC9D00",
+      main: "#EC9D00 !important",
       dark: "#a56d00",
       contrastText: "#fff",
     },
@@ -52,9 +50,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     flex: 1,
   },
-  mainBlue: {
-    color: rootTheme.palette.secondary.contrastText,
-    backgroundColor: rootTheme.palette.secondary.main,
+  avatar: {
+    color: theme.palette.secondary.contrastText,
+    backgroundColor: "#EC9D00",
     width: "5rem",
     height: "5rem",
   },
@@ -95,14 +93,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function ProductDetail(props) {
-  const small = useMediaQuery(rootTheme.breakpoints.up("sm"));
-  const medium = useMediaQuery(rootTheme.breakpoints.up("md"));
-  const large = useMediaQuery(rootTheme.breakpoints.up("lg"));
-  const classes = useStyles();
+  const medium = useMediaQuery(theme.breakpoints.up("md"));
+  const classes = useStyles(theme);
 
   return (
     <div>
-      <MuiThemeProvider theme={rootTheme}>
+      <MuiThemeProvider theme={theme}>
         <Dialog
           fullScreen
           open={props.open}
@@ -130,7 +126,7 @@ export default function ProductDetail(props) {
           >
             <div className={`${medium ? classes.desktopBeer : ""}`}>
               <ListItem style={{ display: "flex", justifyContent: "center" }}>
-                <Avatar className={classes.mainBlue}>
+                <Avatar className={classes.avatar}>
                   {props.firstName[0]}
                   {props.lastName[0]}
                 </Avatar>
@@ -138,7 +134,9 @@ export default function ProductDetail(props) {
               <ListItem>
                 <Box width={1} textAlign="center">
                   <Typography variant="h6">
-                    {props.firstName} {props.lastName}
+                    {props.firstName}
+                    {` `}
+                    {props.lastName}
                   </Typography>
                 </Box>
               </ListItem>

@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
-import IconButton from "@material-ui/core/IconButton";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import { createMuiTheme } from "@material-ui/core/styles";
 
-import { fade, makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
+import { makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
 import Question from "./Question";
-import axios from "axios";
 
 const theme = createMuiTheme({
   palette: {

@@ -3,13 +3,9 @@ import "./styles.css";
 import ItemCard from "./ItemCard";
 import Carousel from "react-bootstrap/Carousel";
 import "bootstrap/dist/css/bootstrap.min.css";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
-import { useTheme } from "@material-ui/core/styles";
 
 export default function Banner() {
   const [index, setIndex] = useState(0);
-
-  const theme = useTheme();
 
   const handleSelect = (selectedIndex, e) => {
     setIndex(selectedIndex);

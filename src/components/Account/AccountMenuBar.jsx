@@ -5,7 +5,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Results from "../Search/Results";
 import Review from "../Review/Review";
-import { List, ListItem, Grid } from "@material-ui/core";
+import { List, Grid } from "@material-ui/core";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import BlankReview from "../Review/BlankReview";
 

@@ -21,7 +21,7 @@ import UnderBeer from "./UnderBeer";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import Alert from "@material-ui/lab/Alert";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
-import GradeIcon from "@material-ui/icons/Grade";
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "sticky",
@@ -98,13 +98,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function ProductDetail(props) {
-  const small = useMediaQuery(theme.breakpoints.up("sm"));
   const medium = useMediaQuery(theme.breakpoints.up("md"));
   const laptop = useMediaQuery(theme.breakpoints.up("laptop"));
-  const large = useMediaQuery(theme.breakpoints.up("lg"));
 
   const [reviewed, setReviewed] = useState(false);
-  const classes = useStyles();
+  const classes = useStyles(theme);
 
   const hasAlreadyReviewed = () => {
     const reviewedBeers = props.reviews.filter(
@@ -192,6 +190,7 @@ export default function ProductDetail(props) {
                   }}
                   src={props.currentBeer.beer_image}
                   onError={imgError}
+                  alt=""
                 />
               </ListItem>
 

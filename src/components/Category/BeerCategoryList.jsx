@@ -5,12 +5,8 @@ import "../../index.css";
 
 import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import GridListTile from "@material-ui/core/GridListTile";
-import GridListTileBar from "@material-ui/core/GridListTileBar";
-import IconButton from "@material-ui/core/IconButton";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
-
-import StarBorderIcon from "@material-ui/icons/StarBorder";
 
 import "./Category.css";
 import { GridList, Typography } from "@material-ui/core";
@@ -57,7 +53,6 @@ const useStyles = makeStyles(() => ({
     },
   },
   title: {
-    // color: theme.palette.primary.light,
     color: "#fff",
   },
   titleBar: {
@@ -73,7 +68,6 @@ export default function CategoryList(props) {
   let columns = 2.25;
 
   const theme = useTheme();
-  const xsmall = useMediaQuery(theme.breakpoints.up("xs"));
   const betweenXSAndS = useMediaQuery("(min-width: 425px)");
   const small = useMediaQuery(theme.breakpoints.up("sm"));
   const medium = useMediaQuery(theme.breakpoints.up("md"));
