@@ -127,17 +127,10 @@ function App() {
   };
 
   const handleEditReviewOpen = async (id) => {
-    console.log("id passed in editreview open", id);
     const selectedEditReviewId = currentBeerReviews.filter((beer) => {
       return id === beer.id;
     });
-    console.log("this is selectedEdit", selectedEditReviewId);
     await setSingleReview(selectedEditReviewId[0]);
-    console.log(
-      "single review after await",
-      singleReview,
-      selectedEditReviewId
-    );
     setEditMyReviewsOpen(true);
   };
 
@@ -165,7 +158,6 @@ function App() {
       return;
     }
     deleteReviewById(review_id);
-    console.log("made it after deletereviewbyid");
     handleClickSB(`Your review was removed from your Review list`);
   };
 

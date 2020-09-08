@@ -23,7 +23,6 @@ export default function AccountMenuBar(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  console.log("Account Menu Bar: ", props);
   return (
     <div className={classes.root} style={{ backgroundColor: "#f0f0f0" }}>
       <AppBar style={{ borderRadius: "5px" }} position="static">

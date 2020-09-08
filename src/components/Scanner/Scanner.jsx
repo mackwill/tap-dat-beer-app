@@ -28,10 +28,9 @@ export default function Scanner(props) {
           if (webcamRef.current && stream) webcamRef.current.srcObject = stream;
           ml5
             .imageClassifier("model/model.json", webcamRef.current)
-            .then((model) => setClassifier(model))
-            .catch((e) => console.log(e));
+            .then((model) => setClassifier(model));
         })
-        .catch((e) => console.log(e));
+        .catch((e) => console.log("Error opening scanner: ", e));
     }
   }, [props.open]);
 
@@ -42,7 +41,7 @@ export default function Scanner(props) {
   let counter = 0;
   const resultsReady = (error, results) => {
     if (error) {
-      console.log("error", error);
+      return;
     }
     if (results[0].confidence >= 0.9) {
       beersId[results[0].label]++;

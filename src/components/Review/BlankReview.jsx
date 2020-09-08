@@ -47,7 +47,6 @@ const useStyles = makeStyles({
 
 export default function BlankReview(props) {
   const classes = useStyles();
-  console.log("review: ", props);
 
   return (
     <Grid item xs={12} md={12} lg={12} style={{ margin: "auto" }}>

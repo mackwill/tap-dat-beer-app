@@ -10,7 +10,6 @@ import Divider from "@material-ui/core/Divider";
 // import CustomAlert from "../CustomAlert";
 
 export default function Account(props) {
-  console.log("props: ", props);
   return (
     <div>
       <Dialog

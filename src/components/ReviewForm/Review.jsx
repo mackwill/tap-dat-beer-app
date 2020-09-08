@@ -99,7 +99,6 @@ export default function Review(props) {
   };
 
   const nextAndSubmit = () => {
-    console.log("in next and submit");
     const reviewObject = {
       sweet: questionA,
       sour: questionD,

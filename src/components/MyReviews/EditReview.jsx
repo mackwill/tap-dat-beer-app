@@ -8,8 +8,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import axios from "axios";
 
 export default function EditReview(props) {
-  console.log("props in Edit REview ", props.review);
-
   const [review, setReview] = useState(props.review);
 
   const handleChange = (event) => {
@@ -24,11 +22,9 @@ export default function EditReview(props) {
 
   const editAndSubmit = (event) => {
     event.preventDefault();
-    console.log(review);
     return axios
       .put(`/api/reviews/${review.id}`, review)
       .then((data) => {
-        console.log("Sent a review to db", review);
         //its now time to update the state of the existing review id.  Update the review.
         //option to refresh all my reviews.
         props.close();
@@ -37,7 +33,7 @@ export default function EditReview(props) {
         //props another function  happens in app.js
       })
       .catch((error) => {
-        console.log("past axios", error.response);
+        console.log("Error editting review: ", error);
       });
   };
 

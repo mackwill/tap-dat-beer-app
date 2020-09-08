@@ -45,4 +45,3 @@ export const getSimilarBeers = (currentBeer, otherBeers) => {
   );
   return similarBeers;
 };
-//console.log(getSimilarBeers(currentBeer, beers));

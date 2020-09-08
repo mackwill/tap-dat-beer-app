@@ -20,7 +20,7 @@ export default function Login(props) {
     e.preventDefault();
     Promise.resolve(submitLoginData(email, password))
       .then(() => props.handleClose())
-      .catch((err) => console.log("Nothing: ", err));
+      .catch((err) => console.log("Error logging in: ", err));
   };
 
   const loginClose = (e) => {

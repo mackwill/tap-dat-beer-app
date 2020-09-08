@@ -174,7 +174,7 @@ export default function useApplicationData() {
           value: res.data.data,
         });
       })
-      .catch((err) => console.log("err, ", err));
+      .catch((error) => console.log("Error adding beer to wishlist: ", error));
   };
 
   const setClickedBeerToCurrent = async (id) => {
@@ -291,7 +291,6 @@ export default function useApplicationData() {
 
   // Delete a review from your list of My Reviews
   const deleteReviewById = async (review_id) => {
-    console.log("deletereviewbyid", review_id);
     await axios.delete(`/api/reviews/${review_id}`);
     const newBeerReview = removeDeletedBeerReview(review_id);
     dispatch({
@@ -302,9 +301,7 @@ export default function useApplicationData() {
 
   // Add a review from your list of My Reviews
   const addReviewById = async (reviewObject) => {
-    console.log("in the addReview", reviewObject);
     const newReview = await axios.post("/api/reviews", reviewObject);
-    console.log("test new review", newReview);
     newReview.data.data.first_name = state.currentUser.first_name;
     //const newBeerReview = removeDeletedBeerReview(review_id);
     const updateReviews = [...state.currentBeerReviews, newReview.data.data];
