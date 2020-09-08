@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.up("sm")]: {
       display: "flex",
-      height: "52vh",
+      height: "47vh",
       width: "90vw",
       border: "none",
       justifyContent: "center",
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.up("md")]: {
       display: "flex",
-      height: "530px",
+      height: "450px",
       width: "89vw",
       border: "none",
       justifyContent: "center",
