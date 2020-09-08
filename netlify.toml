@@ -13,3 +13,8 @@
 
 [build.environment]
   REACT_APP_API_BASE_URL = "https://tap-dat-beer-app.herokuapp.com/"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
