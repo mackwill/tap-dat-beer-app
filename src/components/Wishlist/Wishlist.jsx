@@ -6,27 +6,13 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import Results from "../Search/Results";
+import theme from "../Styles/Theme";
 import {
   makeStyles,
   MuiThemeProvider,
   createMuiTheme,
 } from "@material-ui/core/styles";
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: "#71a0be",
-      main: "#4e89ae",
-      dark: "#365f79",
-      contrastText: "#fff",
-    },
-    secondary: {
-      light: "#efb033",
-      main: "#EC9D00",
-      dark: "#a56d00",
-      contrastText: "#fff",
-    },
-  },
-});
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "relative",

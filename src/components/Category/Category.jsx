@@ -9,30 +9,7 @@ import BeerItemCard from "./BeerItemCard";
 
 import "./Category.css";
 import { GridList, Typography, Divider } from "@material-ui/core";
-import { ThemeProvider } from "styled-components";
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: "#71a0be",
-      main: "#4e89ae",
-      dark: "#365f79",
-      contrastText: "#fff",
-    },
-    secondary: {
-      light: "#efb033",
-      main: "#EC9D00",
-      dark: "#a56d00",
-      contrastText: "#fff",
-    },
-    defaultBackground: {
-      main: "#f0f0f0",
-    },
-  },
-  typography: {
-    fontFamily: "Oswald",
-  },
-});
+import theme from "../Styles/Theme";
 
 const useStyles = makeStyles(() => ({
   root: {

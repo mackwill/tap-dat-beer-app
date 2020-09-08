@@ -3,7 +3,6 @@ import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Box, Grid, IconButton } from "@material-ui/core";
 import Divider from "@material-ui/core/Divider";
@@ -14,23 +13,9 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import ConfirmDelete from "../../components/MyReviews/ConfirmDelete";
 import LocalDrinkIcon from "@material-ui/icons/LocalDrink";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: "#71a0be",
-      main: "#4e89ae",
-      dark: "#365f79",
-      contrastText: "#fff",
-    },
-    secondary: {
-      light: "#efb033",
-      main: "#EC9D00",
-      dark: "#a56d00",
-      contrastText: "#fff",
-    },
-  },
-});
-const useStyles = makeStyles(() => ({
+import theme from "../Styles/Theme";
+
+const useStyles = makeStyles((theme) => ({
   root: {
     minWidth: 275,
     backgroundColor: "#ffffff",

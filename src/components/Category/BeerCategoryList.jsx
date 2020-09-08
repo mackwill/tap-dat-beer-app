@@ -3,37 +3,14 @@ import BeerCategoryCard from "./BeerCategoryCard";
 import { Box, Divider } from "@material-ui/core/";
 import "../../index.css";
 
-import { makeStyles, createMuiTheme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import GridListTile from "@material-ui/core/GridListTile";
-import GridListTileBar from "@material-ui/core/GridListTileBar";
-import IconButton from "@material-ui/core/IconButton";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { useTheme } from "@material-ui/core/styles";
-
-import StarBorderIcon from "@material-ui/icons/StarBorder";
+import theme from "../Styles/Theme";
 
 import "./Category.css";
 import { GridList, Typography } from "@material-ui/core";
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: "#71a0be",
-      main: "#4e89ae",
-      dark: "#365f79",
-      contrastText: "#fff",
-    },
-    secondary: {
-      light: "#efb033",
-      main: "#EC9D00",
-      dark: "#a56d00",
-      contrastText: "#fff",
-    },
-    defaultBackground: {
-      main: "#f0f0f0",
-    },
-  },
-});
 
 const useStyles = makeStyles(() => ({
   body: {

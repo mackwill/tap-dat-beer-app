@@ -12,6 +12,7 @@ const SET_RECENTLY_VIEWED = "SET_RECENTLY_VIEWED";
 const SET_USER_REVIEWS = "SET_USER_REVIEWS";
 const SET_CURRENT_BEER = "SET_CURRENT_BEER";
 const SET_USER_LOGOUT = "SET_USER_LOGOUT";
+const SET_POPULAR_SEARCH = "SET_POPULAR_SEARCH";
 const reducer = (state, action) => {
   switch (action.type) {
     case SET_CURRENT_USER: {
@@ -19,6 +20,9 @@ const reducer = (state, action) => {
     }
     case SET_USER_LOGOUT: {
       return { ...state, currentUser: null, isActive: false };
+    }
+    case SET_POPULAR_SEARCH: {
+      return { ...state, popularSearch: action.value };
     }
     case SET_VISITOR_BEER_DATA: {
       return { ...state, ...action.value };
@@ -73,6 +77,7 @@ export default function useApplicationData() {
     password: null,
     passwordConfirmation: null,
     isActive: null,
+    popularSearch: [],
   });
 
   useEffect(() => {
@@ -80,6 +85,15 @@ export default function useApplicationData() {
       dispatch({
         type: SET_CURRENT_USER,
         value: res.data.data,
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    return axios.get("/api/search/analytics").then((res) => {
+      dispatch({
+        type: SET_POPULAR_SEARCH,
+        value: res.data.finalData,
       });
     });
   }, []);

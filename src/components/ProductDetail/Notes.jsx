@@ -1,6 +1,5 @@
 import React from "react";
 import TextareaAutosize from "@material-ui/core/TextareaAutosize";
-import SaveIcon from "@material-ui/icons/Save";
 import Button from "@material-ui/core/Button";
 import { Box } from "@material-ui/core";
 import ListSubheader from "@material-ui/core/ListSubheader";

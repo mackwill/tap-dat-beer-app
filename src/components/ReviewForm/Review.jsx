@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
-import IconButton from "@material-ui/core/IconButton";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 
 import { makeStyles } from "@material-ui/styles";
 import Question from "./Question";
-import axios from "axios";
 
 const qStyles = makeStyles((theme) => ({
   root: {
@@ -59,7 +57,6 @@ export default function Review(props) {
   const [questionD, setQuestionD] = useState(null);
   const [questionE, setQuestionE] = useState(null);
   const [questionF, setQuestionF] = useState(null);
-  const [newReview, setNewReview] = useState(null);
   const [currentQuestion, setCurrentQuestion] = useState(1);
 
   const nextQuestion = () => {
@@ -77,13 +74,11 @@ export default function Review(props) {
     setQuestionD(null);
     setQuestionE(null);
     setQuestionF(null);
-    setNewReview(null);
     setCurrentQuestion(1);
     props.close();
   };
 
   const nextAndSubmit = () => {
-    console.log("in next and submit");
     const reviewObject = {
       sweet: questionA,
       sour: questionD,
@@ -155,7 +150,6 @@ export default function Review(props) {
           question="Are there any last thoughts you would like to share?"
           finalQuestion={true}
           handleQuestionF={handleQuestionF}
-          nextAndSubmit={nextAndSubmit}
         />
       )}
       <DialogActions className={ds.submit}>

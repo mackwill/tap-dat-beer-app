@@ -20,7 +20,6 @@ const buttonStyles = makeStyles((theme) => ({
 
 export default function ConfirmDelete(props) {
   const button = buttonStyles();
-  console.log("this is in the confirmdelete section", props);
 
   const editSelect = (event) => {
     props.handleDeleteMyReview(props.reviewId);

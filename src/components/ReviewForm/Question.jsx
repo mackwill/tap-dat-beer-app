@@ -2,7 +2,6 @@ import React from "react";
 import Button from "@material-ui/core/Button";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import { TextField, Typography, Box } from "@material-ui/core";
-import DialogActions from "@material-ui/core/DialogActions";
 
 import { makeStyles } from "@material-ui/styles";
 const userStyles = makeStyles((theme) => ({
@@ -47,10 +46,6 @@ const questionStyles = makeStyles((theme) => ({
   },
 }));
 
-const inputProps = {
-  step: 300,
-};
-
 export default function Question(props) {
   const classes = userStyles();
   const button = buttonStyles();
@@ -60,9 +55,6 @@ export default function Question(props) {
   const setQuestion = (id) => {
     props.setQuestion(id);
     props.nextQuestion(id);
-  };
-  const submitReview = () => {
-    props.nextAndSubmit();
   };
 
   const answers = [

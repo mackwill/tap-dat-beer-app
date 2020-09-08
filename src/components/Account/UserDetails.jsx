@@ -1,28 +1,6 @@
 import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { Box, Button } from "@material-ui/core";
-import {
-  makeStyles,
-  MuiThemeProvider,
-  createMuiTheme,
-} from "@material-ui/core/styles";
-
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: "#71a0be",
-      main: "#4e89ae",
-      dark: "#365f79",
-      contrastText: "#fff",
-    },
-    secondary: {
-      light: "#efb033",
-      main: "#EC9D00",
-      dark: "#a56d00",
-      contrastText: "#fff",
-    },
-  },
-});
 
 export default function UserDetails(props) {
   const { first_name, last_name, email, changeAccountDetails } = props;

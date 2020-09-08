@@ -8,31 +8,19 @@ import Typography from "@material-ui/core/Typography";
 import CloseIcon from "@material-ui/icons/Close";
 import Slide from "@material-ui/core/Slide";
 import Alert from "@material-ui/lab/Alert";
+import theme from "../Styles/Theme";
 
 import Results from "../Search/Results";
 import SearchBar from "../Search/SearchBar";
+import useApplicationData from "../../hooks/useApplicationData";
+
 import axios from "axios";
 import {
   makeStyles,
   MuiThemeProvider,
   createMuiTheme,
 } from "@material-ui/core/styles";
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: "#71a0be",
-      main: "#4e89ae",
-      dark: "#365f79",
-      contrastText: "#fff",
-    },
-    secondary: {
-      light: "#efb033",
-      main: "#EC9D00",
-      dark: "#a56d00",
-      contrastText: "#fff",
-    },
-  },
-});
+
 const useStyles = makeStyles((theme) => ({
   appBar: {
     position: "sticky",
@@ -48,21 +36,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function FullScreenDialog(props) {
+  const { state } = useApplicationData();
+  const { popularSearch } = state;
   const [searchResults, setSearchResults] = useState([]);
-  const [popularSearch, setPopularSearch] = useState([]);
   const [pageNumber, setPageNumber] = useState(0);
   const classes = useStyles();
 
   const onChangeSearch = (e) => {
     props.setSearchQuery(e.target.value);
   };
-
-  useEffect(() => {
-    return axios
-      .get("/api/search/analytics")
-      .then((data) => setPopularSearch(data.data.finalData))
-      .catch((e) => null);
-  }, []);
 
   useEffect(() => {
     if (props.searchQuery.length > 0) {

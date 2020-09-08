@@ -16,6 +16,7 @@ import Box from "@material-ui/core/Box";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import CameraAltIcon from "@material-ui/icons/CameraAlt";
 import { Button } from "@material-ui/core";
+import theme from "../Styles/Theme";
 
 const LOGIN = "login";
 const LOGOUT = "logout";
@@ -23,24 +24,8 @@ const ACCOUNT = "account";
 const REGISTER = "register";
 const SCANNER = "scanner";
 const SEARCH = "search";
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: "#71a0be",
-      main: "#4e89ae",
-      dark: "#365f79",
-      contrastText: "#fff",
-    },
-    secondary: {
-      light: "#efb033",
-      main: "#EC9D00",
-      dark: "#a56d00",
-      contrastText: "#fff",
-    },
-  },
-});
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
