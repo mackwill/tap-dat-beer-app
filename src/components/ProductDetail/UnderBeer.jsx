@@ -37,13 +37,21 @@ export default function UnderBeer(props) {
 
   const saveNote = async () => {
     const notes = { text: personalNotes, beer_id: props.currentBeer.id };
-    await axios.post("/api/notes", notes);
+    await axios.post("/api/notes", notes, {
+      headers: {
+        Authorization: `Bearer ${props.currentUser && props.currentUser.token}`,
+      },
+    });
     props.setOpenSB("Your note was saved");
   };
 
   const getNote = async () => {
     const id = props.currentBeer.id;
-    const note = await axios.get(`/api/notes/${id}`);
+    const note = await axios.get(`/api/notes/${id}`, {
+      headers: {
+        Authorization: `Bearer ${props.currentUser && props.currentUser.token}`,
+      },
+    });
 
     if (!note.data.data) {
       setPersonalNotes("");

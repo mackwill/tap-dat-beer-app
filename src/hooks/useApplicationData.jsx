@@ -76,12 +76,20 @@ export default function useApplicationData() {
   });
 
   useEffect(() => {
-    return axios.get("/api/user").then((res) => {
-      dispatch({
-        type: SET_CURRENT_USER,
-        value: res.data.data,
+    return axios
+      .get("/api/user", {
+        headers: {
+          Authorization: `Bearer ${
+            state.currentUser && state.currentUser.token
+          }`,
+        },
+      })
+      .then((res) => {
+        dispatch({
+          type: SET_CURRENT_USER,
+          value: res.data.data,
+        });
       });
-    });
   }, []);
 
   useEffect(() => {

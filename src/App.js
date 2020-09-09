@@ -203,7 +203,11 @@ function App() {
     };
     if (searchQuery) body.query = searchQuery;
 
-    await axios.post("/api/search/analytics", body);
+    await axios.post("/api/search/analytics", body, {
+      headers: {
+        Authorization: `Bearer ${currentUser && currentUser.token}`,
+      },
+    });
 
     setRecentlyViewed();
     setClickedBeerToCurrent(id);
