@@ -113,7 +113,7 @@ export default function Review(props) {
               <Box textAlign="right">
                 <Rating
                   name="read-only"
-                  value={props.rank / 2}
+                  value={props.rank}
                   precision={0.25}
                   readOnly
                 />
