@@ -107,12 +107,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function ProductDetail(props) {
-  const [overallRank, setRank] = useState(0);
-
-  if (props.currentBeer.avg_rank) {
-    setRank(props.currentBeer.avg_rank);
-  }
-  console.log("prips: ", props);
   const medium = useMediaQuery(theme.breakpoints.up("md"));
   const laptop = useMediaQuery(theme.breakpoints.up("laptop"));
 
@@ -126,18 +120,6 @@ export default function ProductDetail(props) {
     return reviewedBeers.length > 0;
   };
 
-  const averageReviews = () => {
-    let sum = 0;
-    let count = 0;
-    props.reviews.map((review) => {
-      count++;
-      sum += review.rank;
-    });
-    console.log("sum", sum);
-    console.log("count; ", count);
-    return sum / count;
-  };
-
   useEffect(() => {
     if (props.currentUser) {
       const hasReviewed = hasAlreadyReviewed();
@@ -146,13 +128,6 @@ export default function ProductDetail(props) {
       setReviewed(false);
     }
   }, [props.currentBeer, props.reviews]);
-
-  useEffect(() => {
-    if (props.reviews) {
-      setRank(averageReviews());
-      return;
-    }
-  }, [props.reviews]);
 
   const imgError = (e) => {
     e.target.onerror = null;
@@ -260,7 +235,9 @@ export default function ProductDetail(props) {
                     <Grid container item xs={3} spacing={1}>
                       <Box m={"auto"}>
                         <Typography variant="p">
-                          {overallRank ? overallRank : "--"}
+                          {props.currentBeer.avg_rank
+                            ? props.currentBeer.avg_rank
+                            : "--"}
                           /5
                         </Typography>
                       </Box>
