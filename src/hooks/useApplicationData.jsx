@@ -1,6 +1,11 @@
 import { useEffect, useReducer } from "react";
 import axios from "axios";
 
+const header = {
+  headers: {
+    Authorization: `Bearer ${state.currentUser.token}`,
+  },
+};
 // Case variables
 const SET_VISITOR_BEER_DATA = "SET_VISITOR_BEER_DATA";
 const SET_CURRENT_USER = "SET_CURRENT_USER";
@@ -128,9 +133,27 @@ export default function useApplicationData() {
 
   useEffect(() => {
     Promise.all([
-      Promise.resolve(axios.get("/api/beers/recommendations")),
-      Promise.resolve(axios.get("/api/beers/recently")),
-      Promise.resolve(axios.get("/api/wishlists")),
+      Promise.resolve(
+        axios.get("/api/beers/recommendations", {
+          headers: {
+            Authorization: `Bearer ${state.currentUser.token}`,
+          },
+        })
+      ),
+      Promise.resolve(
+        axios.get("/api/beers/recently", {
+          headers: {
+            Authorization: `Bearer ${state.currentUser.token}`,
+          },
+        })
+      ),
+      Promise.resolve(
+        axios.get("/api/wishlists", {
+          headers: {
+            Authorization: `Bearer ${state.currentUser.token}`,
+          },
+        })
+      ),
     ])
       .then((all) => {
         dispatch({
@@ -147,9 +170,17 @@ export default function useApplicationData() {
 
   const deleteBeerFromWishlist = (wishlist_id, currentBeer) => {
     return axios
-      .delete(`/api/wishlists/${wishlist_id}`)
+      .delete(`/api/wishlists/${wishlist_id}`, {
+        headers: {
+          Authorization: `Bearer ${state.currentUser.token}`,
+        },
+      })
       .then((res) => {
-        return axios.get("/api/wishlists");
+        return axios.get("/api/wishlists", {
+          headers: {
+            Authorization: `Bearer ${state.currentUser.token}`,
+          },
+        });
       })
       .then((res) => {
         dispatch({
@@ -161,12 +192,25 @@ export default function useApplicationData() {
 
   const addBeerToWishlist = (beer_id, currentBeer) => {
     return axios
-      .post("/api/wishlists/", {
-        beer_id: beer_id,
-        user_id: state.currentUser.id,
-      })
+      .post(
+        "/api/wishlists/",
+
+        {
+          beer_id: beer_id,
+          user_id: state.currentUser.id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${state.currentUser.token}`,
+          },
+        }
+      )
       .then((data) => {
-        return axios.get("/api/wishlists");
+        return axios.get("/api/wishlists", {
+          headers: {
+            Authorization: `Bearer ${state.currentUser.token}`,
+          },
+        });
       })
       .then((res) => {
         dispatch({
@@ -205,8 +249,20 @@ export default function useApplicationData() {
 
   const getReviewsAndWishlistForSingleUser = async () => {
     Promise.all([
-      Promise.resolve(axios.get("/api/reviews/user")),
-      Promise.resolve(axios.get("/api/wishlists")),
+      Promise.resolve(
+        axios.get("/api/reviews/user", {
+          headers: {
+            Authorization: `Bearer ${state.currentUser.token}`,
+          },
+        })
+      ),
+      Promise.resolve(
+        axios.get("/api/wishlists", {
+          headers: {
+            Authorization: `Bearer ${state.currentUser.token}`,
+          },
+        })
+      ),
     ]).then((all) => {
       dispatch({
         type: SET_USER_BEER_DATA,
@@ -262,7 +318,11 @@ export default function useApplicationData() {
       email: user.email,
     };
     try {
-      await axios.put("/api/user", newAccountDetails);
+      await axios.put("/api/user", newAccountDetails, {
+        headers: {
+          Authorization: `Bearer ${state.currentUser.token}`,
+        },
+      });
 
       dispatch({
         type: SET_CURRENT_USER,
@@ -274,7 +334,11 @@ export default function useApplicationData() {
   };
 
   const setRecentlyViewed = async () => {
-    const newRecentlyViewed = await axios.get("/api/beers/recently");
+    const newRecentlyViewed = await axios.get("/api/beers/recently", {
+      headers: {
+        Authorization: `Bearer ${state.currentUser.token}`,
+      },
+    });
     dispatch({
       type: SET_RECENTLY_VIEWED,
       value: newRecentlyViewed.data.data,
@@ -291,7 +355,11 @@ export default function useApplicationData() {
 
   // Delete a review from your list of My Reviews
   const deleteReviewById = async (review_id) => {
-    await axios.delete(`/api/reviews/${review_id}`);
+    await axios.delete(`/api/reviews/${review_id}`, {
+      headers: {
+        Authorization: `Bearer ${state.currentUser.token}`,
+      },
+    });
     const newBeerReview = removeDeletedBeerReview(review_id);
     dispatch({
       type: SET_USER_REVIEWS,
@@ -301,7 +369,11 @@ export default function useApplicationData() {
 
   // Add a review from your list of My Reviews
   const addReviewById = async (reviewObject) => {
-    const newReview = await axios.post("/api/reviews", reviewObject);
+    const newReview = await axios.post("/api/reviews", reviewObject, {
+      headers: {
+        Authorization: `Bearer ${state.currentUser.token}`,
+      },
+    });
     newReview.data.data.first_name = state.currentUser.first_name;
     //const newBeerReview = removeDeletedBeerReview(review_id);
     const updateReviews = [newReview.data.data, ...state.currentBeerReviews];
