@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   headerTypography: {
     fontSize: "1rem",
+    fontFamily: ["Oswald", "sans-serif"],
   },
   subHeaderTypography: {
     fontSize: "0.6rem",

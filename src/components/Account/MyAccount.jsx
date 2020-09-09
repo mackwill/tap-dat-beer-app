@@ -110,6 +110,7 @@ export default function ProductDetail(props) {
           onClose={props.handleClose}
           TransitionComponent={Transition}
           className={classes.dialog}
+          PaperProps={{ style: { backgroundColor: "#f0f0f0" } }}
         >
           <AppBar className={classes.appBar}>
             <Toolbar>
