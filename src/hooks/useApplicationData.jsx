@@ -1,11 +1,6 @@
 import { useEffect, useReducer } from "react";
 import axios from "axios";
 
-const header = {
-  headers: {
-    Authorization: `Bearer ${state.currentUser.token}`,
-  },
-};
 // Case variables
 const SET_VISITOR_BEER_DATA = "SET_VISITOR_BEER_DATA";
 const SET_CURRENT_USER = "SET_CURRENT_USER";
