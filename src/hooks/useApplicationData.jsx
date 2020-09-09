@@ -131,21 +131,27 @@ export default function useApplicationData() {
       Promise.resolve(
         axios.get("/api/beers/recommendations", {
           headers: {
-            Authorization: `Bearer ${state.currentUser.token}`,
+            Authorization: `Bearer ${
+              state.currentUser && state.currentUser.token
+            }`,
           },
         })
       ),
       Promise.resolve(
         axios.get("/api/beers/recently", {
           headers: {
-            Authorization: `Bearer ${state.currentUser.token}`,
+            Authorization: `Bearer ${
+              state.currentUser && state.currentUser.token
+            }`,
           },
         })
       ),
       Promise.resolve(
         axios.get("/api/wishlists", {
           headers: {
-            Authorization: `Bearer ${state.currentUser.token}`,
+            Authorization: `Bearer ${
+              state.currentUser && state.currentUser.token
+            }`,
           },
         })
       ),
@@ -167,13 +173,17 @@ export default function useApplicationData() {
     return axios
       .delete(`/api/wishlists/${wishlist_id}`, {
         headers: {
-          Authorization: `Bearer ${state.currentUser.token}`,
+          Authorization: `Bearer ${
+            state.currentUser && state.currentUser.token
+          }`,
         },
       })
       .then((res) => {
         return axios.get("/api/wishlists", {
           headers: {
-            Authorization: `Bearer ${state.currentUser.token}`,
+            Authorization: `Bearer ${
+              state.currentUser && state.currentUser.token
+            }`,
           },
         });
       })
@@ -196,14 +206,18 @@ export default function useApplicationData() {
         },
         {
           headers: {
-            Authorization: `Bearer ${state.currentUser.token}`,
+            Authorization: `Bearer ${
+              state.currentUser && state.currentUser.token
+            }`,
           },
         }
       )
       .then((data) => {
         return axios.get("/api/wishlists", {
           headers: {
-            Authorization: `Bearer ${state.currentUser.token}`,
+            Authorization: `Bearer ${
+              state.currentUser && state.currentUser.token
+            }`,
           },
         });
       })
@@ -247,14 +261,18 @@ export default function useApplicationData() {
       Promise.resolve(
         axios.get("/api/reviews/user", {
           headers: {
-            Authorization: `Bearer ${state.currentUser.token}`,
+            Authorization: `Bearer ${
+              state.currentUser && state.currentUser.token
+            }`,
           },
         })
       ),
       Promise.resolve(
         axios.get("/api/wishlists", {
           headers: {
-            Authorization: `Bearer ${state.currentUser.token}`,
+            Authorization: `Bearer ${
+              state.currentUser && state.currentUser.token
+            }`,
           },
         })
       ),
@@ -315,7 +333,9 @@ export default function useApplicationData() {
     try {
       await axios.put("/api/user", newAccountDetails, {
         headers: {
-          Authorization: `Bearer ${state.currentUser.token}`,
+          Authorization: `Bearer ${
+            state.currentUser && state.currentUser.token
+          }`,
         },
       });
 
@@ -331,7 +351,7 @@ export default function useApplicationData() {
   const setRecentlyViewed = async () => {
     const newRecentlyViewed = await axios.get("/api/beers/recently", {
       headers: {
-        Authorization: `Bearer ${state.currentUser.token}`,
+        Authorization: `Bearer ${state.currentUser && state.currentUser.token}`,
       },
     });
     dispatch({
@@ -352,7 +372,7 @@ export default function useApplicationData() {
   const deleteReviewById = async (review_id) => {
     await axios.delete(`/api/reviews/${review_id}`, {
       headers: {
-        Authorization: `Bearer ${state.currentUser.token}`,
+        Authorization: `Bearer ${state.currentUser && state.currentUser.token}`,
       },
     });
     const newBeerReview = removeDeletedBeerReview(review_id);
@@ -366,7 +386,7 @@ export default function useApplicationData() {
   const addReviewById = async (reviewObject) => {
     const newReview = await axios.post("/api/reviews", reviewObject, {
       headers: {
-        Authorization: `Bearer ${state.currentUser.token}`,
+        Authorization: `Bearer ${state.currentUser && state.currentUser.token}`,
       },
     });
     newReview.data.data.first_name = state.currentUser.first_name;
