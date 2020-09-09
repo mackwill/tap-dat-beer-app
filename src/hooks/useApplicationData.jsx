@@ -85,6 +85,7 @@ export default function useApplicationData() {
         },
       })
       .then((res) => {
+        console.log("res: ", res);
         dispatch({
           type: SET_CURRENT_USER,
           value: res.data.data,
