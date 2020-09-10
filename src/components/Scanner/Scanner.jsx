@@ -13,12 +13,6 @@ export default function Scanner(props) {
   const [btnText, setBtnText] = useState("Start Scanning");
   const [beers, setBeers] = useState([]);
 
-  const isDeviceMobile = Boolean(
-    navigator.userAgent.match(
-      /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
-    )
-  );
-
   useEffect(() => {
     if (props.open) {
       axios.get("/api/beers").then((data) => setBeers(data.data.data));
@@ -27,43 +21,17 @@ export default function Scanner(props) {
 
   beers.forEach((elm) => (beersId[elm.id] = 0));
 
-  // useEffect(() => {
-  //   if (props.open) {
-  //     navigator.mediaDevices
-  //       .getUserMedia({ video: true })
-  //       .then((stream) => {
-  //         if (webcamRef.current && stream) webcamRef.current.srcObject = stream;
-  //         ml5
-  //           .imageClassifier("model/model.json", webcamRef.current)
-  //           .then((model) => setClassifier(model));
-  //       })
-  //       .catch((e) => console.log("Error opening scanner: ", e));
-  //   }
-  // }, [props.open]);
-
   useEffect(() => {
     if (props.open) {
-      isDeviceMobile
-        ? navigator.mediaDevices
-            .getUserMedia({ video: { facingMode: { exact: "environment" } } })
-            .then((stream) => {
-              if (webcamRef.current && stream)
-                webcamRef.current.srcObject = stream;
-              ml5
-                .imageClassifier("model/model.json", webcamRef.current)
-                .then((model) => setClassifier(model));
-            })
-            .catch((e) => console.log("Error opening scanner: ", e))
-        : navigator.mediaDevices
-            .getUserMedia({ video: true })
-            .then((stream) => {
-              if (webcamRef.current && stream)
-                webcamRef.current.srcObject = stream;
-              ml5
-                .imageClassifier("model/model.json", webcamRef.current)
-                .then((model) => setClassifier(model));
-            })
-            .catch((e) => console.log("Error opening scanner: ", e));
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
+        .then((stream) => {
+          if (webcamRef.current && stream) webcamRef.current.srcObject = stream;
+          ml5
+            .imageClassifier("model/model.json", webcamRef.current)
+            .then((model) => setClassifier(model));
+        })
+        .catch((e) => console.log("Error opening scanner: ", e));
     }
   }, [props.open]);
 
