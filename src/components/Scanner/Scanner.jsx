@@ -13,6 +13,12 @@ export default function Scanner(props) {
   const [btnText, setBtnText] = useState("Start Scanning");
   const [beers, setBeers] = useState([]);
 
+  const isDeviceMobile = Boolean(
+    navigator.userAgent.match(
+      /Android|BlackBerry|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i
+    )
+  );
+
   useEffect(() => {
     if (props.open) {
       axios.get("/api/beers").then((data) => setBeers(data.data.data));
@@ -37,7 +43,7 @@ export default function Scanner(props) {
 
   useEffect(() => {
     if (props.open) {
-      isMobile
+      isDeviceMobile
         ? navigator.mediaDevices
             .getUserMedia({ video: { facingMode: { exact: "environment" } } })
             .then((stream) => {
