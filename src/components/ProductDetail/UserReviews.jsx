@@ -10,6 +10,10 @@ const useStyles = makeStyles((theme) => ({
   greyBackground: {
     backgroundColor: "#f0f0f0",
   },
+  subHeader: {
+    backgroundColor: "#f0f0f0",
+    position: "static",
+  },
 }));
 
 export default function ProductDetail(props) {
@@ -17,7 +21,7 @@ export default function ProductDetail(props) {
 
   return (
     <>
-      <ListSubheader component="div" className={classes.greyBackground}>
+      <ListSubheader component="div" className={classes.subHeader}>
         Reviews from other users
       </ListSubheader>
       {props.reviews && (

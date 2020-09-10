@@ -72,6 +72,12 @@ const useStyles = makeStyles((theme) => ({
   beerName: {
     fontFamily: ["Oswald", "sans-serif"],
   },
+  notLiked: {
+    color: "#EC9D00",
+  },
+  liked: {
+    color: "#f44336",
+  },
 }));
 
 const theme = createMuiTheme({
@@ -87,6 +93,9 @@ const theme = createMuiTheme({
       main: "#EC9D00",
       dark: "#a56d00",
       contrastText: "#fff",
+    },
+    alreadyLiked: {
+      main: "#f44336",
     },
   },
   breakpoints: {
@@ -107,11 +116,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function ProductDetail(props) {
+  const classes = useStyles(theme);
+
   const medium = useMediaQuery(theme.breakpoints.up("md"));
   const laptop = useMediaQuery(theme.breakpoints.up("laptop"));
 
   const [reviewed, setReviewed] = useState(false);
-  const classes = useStyles(theme);
 
   const hasAlreadyReviewed = () => {
     const reviewedBeers = props.reviews.filter(
@@ -258,7 +268,12 @@ export default function ProductDetail(props) {
                 >
                   <IconButton>
                     <FavoriteIcon
-                      color="secondary"
+                      className={
+                        props.hasUserWishlistedBeer(props.currentBeer.id)
+                          .length > 0
+                          ? classes.liked
+                          : classes.notLiked
+                      }
                       onClick={props.handleAddToWishlist}
                     />
                   </IconButton>
