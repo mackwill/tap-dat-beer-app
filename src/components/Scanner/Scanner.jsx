@@ -46,13 +46,14 @@ export default function Scanner(props) {
     if (results[0].confidence >= 0.9) {
       beersId[results[0].label]++;
     }
-    if (Object.values(beersId).some((elm) => elm > 30)) {
-      props.openBeer(Number(results[0].label));
-      closeScanner();
-
-      return;
+    if (results[0].label !== "noBeer") {
+      if (Object.values(beersId).some((elm) => elm > 30)) {
+        props.openBeer(Number(results[0].label));
+        closeScanner();
+        return;
+      }
     }
-    if (counter > 300) {
+    if (counter > 200) {
       setBtnText("Sorry we couldn't find the beer that matches");
 
       setTimeout(() => {
