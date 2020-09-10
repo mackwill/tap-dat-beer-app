@@ -3,6 +3,7 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import axios from "axios";
 import * as ml5 from "ml5";
+import { isMobile } from "react-device-detect";
 
 export default function Scanner(props) {
   const containerRef = React.useRef(null);
@@ -20,17 +21,43 @@ export default function Scanner(props) {
 
   beers.forEach((elm) => (beersId[elm.id] = 0));
 
+  // useEffect(() => {
+  //   if (props.open) {
+  //     navigator.mediaDevices
+  //       .getUserMedia({ video: true })
+  //       .then((stream) => {
+  //         if (webcamRef.current && stream) webcamRef.current.srcObject = stream;
+  //         ml5
+  //           .imageClassifier("model/model.json", webcamRef.current)
+  //           .then((model) => setClassifier(model));
+  //       })
+  //       .catch((e) => console.log("Error opening scanner: ", e));
+  //   }
+  // }, [props.open]);
+
   useEffect(() => {
     if (props.open) {
-      navigator.mediaDevices
-        .getUserMedia({ video: true })
-        .then((stream) => {
-          if (webcamRef.current && stream) webcamRef.current.srcObject = stream;
-          ml5
-            .imageClassifier("model/model.json", webcamRef.current)
-            .then((model) => setClassifier(model));
-        })
-        .catch((e) => console.log("Error opening scanner: ", e));
+      isMobile
+        ? navigator.mediaDevices
+            .getUserMedia({ video: { facingMode: { exact: "environment" } } })
+            .then((stream) => {
+              if (webcamRef.current && stream)
+                webcamRef.current.srcObject = stream;
+              ml5
+                .imageClassifier("model/model.json", webcamRef.current)
+                .then((model) => setClassifier(model));
+            })
+            .catch((e) => console.log("Error opening scanner: ", e))
+        : navigator.mediaDevices
+            .getUserMedia({ video: true })
+            .then((stream) => {
+              if (webcamRef.current && stream)
+                webcamRef.current.srcObject = stream;
+              ml5
+                .imageClassifier("model/model.json", webcamRef.current)
+                .then((model) => setClassifier(model));
+            })
+            .catch((e) => console.log("Error opening scanner: ", e));
     }
   }, [props.open]);
 
