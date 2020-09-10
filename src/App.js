@@ -170,6 +170,7 @@ function App() {
   const handleLoginClose = (e) => {
     setLoginOpen(false);
     changeUserData(e, true);
+    setErrorMessage(null);
   };
 
   const handleRegisterOpen = (e) => {
@@ -367,6 +368,7 @@ function App() {
           openForm={handleReviewOpen}
           currentUser={currentUser}
           handleAddToWishlist={handleAddToWishlist}
+          hasUserWishlistedBeer={hasUserWishlistedBeer}
           handleShareOptionOpen={handleShareOptionOpen}
           userNote={userNote}
           setOpenSB={handleClickSB}
