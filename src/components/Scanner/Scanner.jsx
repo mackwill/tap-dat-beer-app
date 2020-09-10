@@ -3,7 +3,6 @@ import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
 import axios from "axios";
 import * as ml5 from "ml5";
-import { isMobile } from "react-device-detect";
 
 export default function Scanner(props) {
   const containerRef = React.useRef(null);
@@ -47,13 +46,14 @@ export default function Scanner(props) {
     if (results[0].confidence >= 0.9) {
       beersId[results[0].label]++;
     }
-    if (Object.values(beersId).some((elm) => elm > 30)) {
-      props.openBeer(Number(results[0].label));
-      closeScanner();
-
-      return;
+    if (results[0].label !== "noBeer") {
+      if (Object.values(beersId).some((elm) => elm > 30)) {
+        props.openBeer(Number(results[0].label));
+        closeScanner();
+        return;
+      }
     }
-    if (counter > 300) {
+    if (counter > 200) {
       setBtnText("Sorry we couldn't find the beer that matches");
 
       setTimeout(() => {
