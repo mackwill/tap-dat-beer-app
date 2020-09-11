@@ -11,18 +11,10 @@ Registered users of our site can:
 
 As a registered user, the more you participate, the more you are rewarded. Leaving more reviews will give our recommendation engine more data to work with and will be able to provide that user with recommendations more tailored to them.
 
-Check out our demo that we have deployed!
-
-https://tap-dat-beer-app.netlify.app/
-
 ### Final Product
 
-!["Screenshot of home page"](https://github.com/mackwill/tap-dat-beer-app/blob/admin/readme/docs/homePage.png)
-!["Screenshot of product detail"](https://github.com/mackwill/tap-dat-beer-app/blob/admin/readme/docs/productDetail.png)
-!["Screenshot of user reviews"](https://github.com/mackwill/tap-dat-beer-app/blob/admin/readme/docs/userReviews.png)
-!["Screenshot of review form"](https://github.com/mackwill/tap-dat-beer-app/blob/admin/readme/docs/reviewForm.png)
-!["Screenshot of wishlisting"](https://github.com/mackwill/tap-dat-beer-app/blob/admin/readme/docs/wishlisted.png)
-!["Screenshot of account info"](https://github.com/mackwill/tap-dat-beer-app/blob/admin/readme/docs/accountInfo.png)
+Instead of including screenshots, checkout our demo site here:
+https://tap-dat-beer-app.netlify.app/
 
 ## Dependencies
 
