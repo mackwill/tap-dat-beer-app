@@ -17,12 +17,12 @@ https://tap-dat-beer-app.netlify.app/
 
 ### Final Product
 
-!["Screenshot of home page"](url)
-!["Screenshot of product detail"](url)
-!["Screenshot of user reviews"](url)
-!["Screenshot of review form"](url)
-!["Screenshot of wishlisting"](url)
-!["Screenshot of account info"](url)
+!["Screenshot of home page"](https://github.com/mackwill/tap-dat-beer-app/blob/admin/readme/docs/homePage.png)
+!["Screenshot of product detail"](https://github.com/mackwill/tap-dat-beer-app/blob/admin/readme/docs/productDetail.png)
+!["Screenshot of user reviews"](https://github.com/mackwill/tap-dat-beer-app/blob/admin/readme/docs/userReviews.png)
+!["Screenshot of review form"](https://github.com/mackwill/tap-dat-beer-app/blob/admin/readme/docs/reviewForm.png)
+!["Screenshot of wishlisting"](https://github.com/mackwill/tap-dat-beer-app/blob/admin/readme/docs/wishlisted.png)
+!["Screenshot of account info"](https://github.com/mackwill/tap-dat-beer-app/blob/admin/readme/docs/accountInfo.png)
 
 ## Dependencies
 
