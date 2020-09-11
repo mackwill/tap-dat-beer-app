@@ -1,68 +1,66 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Tap Dat Beer App
 
-## Available Scripts
+Tap Dat Beer App is a tool designed too enhance the craft beer drinking experience for both experienced drinkers and newcomers.
 
-In the project directory, you can run:
+The functinoality of Tap Dat allows for a user to pull out their phone, open up our scanner and can a beer. If the beer is in our database (and the model for that beer has been trained), a page will be automatically be brought up that shows details about the beer as well as its overall ranking and other user reviews.
+Registered users of our site can:
 
-### `npm start`
+- Leave a review for a beer (and go back to edit or delete it later)
+- Save beers to their wishlist
+- Leave personal tasting notes just for themselves to remind them how the beer tasted
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+As a registered user, the more you participate, the more you are rewarded. Leaving more reviews will give our recommendation engine more data to work with and will be able to provide that user with recommendations more tailored to them.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+Check out our demo that we have deployed!
 
-### `npm test`
+https://tap-dat-beer-app.netlify.app/
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Final Product
 
-### `npm run build`
+!["Screenshot of home page"](url)
+!["Screenshot of product detail"](url)
+!["Screenshot of user reviews"](url)
+!["Screenshot of review form"](url)
+!["Screenshot of wishlisting"](url)
+!["Screenshot of account info"](url)
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Dependencies
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+- @material-ui/core: 4.11.0
+- @material-ui/icons: 4.9.1
+- @material-ui/lab: 4.0.0-alpha.56
+- axios: 0.20.0
+- bootstrap: 4.5.2
+- ml5 0.5.0
+- react: 16.13.1
+- react-bootstrap: 1.3.0
+- react-dom: 16.13.1
+- react-elastic-carousel: 0.7.4
+- react-scripts: 3.4.3
+- react-share: 4.2.1
+- styled-components 5.1.1
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Getting Started
 
-### `npm run eject`
+- Install all dependencies using `npm install` command
+- Clone the tap-dat-beer-app-api from https://github.com/mackwill/tap-dat-beer-app-api and run the development server from the scheduler-api root folder using `npm start`
+- On a separate terminal, run development build using `npm start` from project root folder
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Current Functionality
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Visitors can view the homepage and user reviews
+- Scan a beer (list of supported beers will be growing) to pull up information and reviews for that beer
+- Registered users can:
+  - Leave reviews for beers
+  - Save notes about specific beers
+  - Edit & delete their reviews
+  - Wishlist their favourite beers
+  - Edit their accuont information
+  - Get recommendations based on our recommendation engine
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Further Development
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- Incorporate web scrapers to further automate our data aggregation
+- Continue to grow the list of supported beers in our trained models
+- Add a quiz on registration to allow for a more developed recommendation from the minute of registration
+- Add badges and awards to reward users for their contributions
