@@ -56,3 +56,9 @@ https://tap-dat-beer-app.netlify.app/
 - Continue to grow the list of supported beers in our trained models
 - Add a quiz on registration to allow for a more developed recommendation from the minute of registration
 - Add badges and awards to reward users for their contributions
+
+## Authors
+
+- William Mindenhall - [GitHub](https://github.com/mackwill)
+- Rob Polisena - [GitHub](https://github.com/robpolisena)
+- Vincent Bedard Legault - [GitHub](https://github.com/vbedardl)
