@@ -2,7 +2,7 @@
 
 Tap Dat Beer App is a tool designed too enhance the craft beer drinking experience for both experienced drinkers and newcomers.
 
-The functinoality of Tap Dat allows for a user to pull out their phone, open up our scanner and can a beer. If the beer is in our database (and the model for that beer has been trained), a page will be automatically be brought up that shows details about the beer as well as its overall ranking and other user reviews.
+Tap Dat allows for a user to pull out their phone, open up our scanner (that uses machine learning) and scan a beer. If the beer is in our database (and the model for that beer has been trained), a page will automatically be brought up that shows details about the beer as well as its overall ranking and other user reviews.
 Registered users of our site can:
 
 - Leave a review for a beer (and go back to edit or delete it later)
@@ -47,7 +47,7 @@ https://tap-dat-beer-app.netlify.app/
   - Save notes about specific beers
   - Edit & delete their reviews
   - Wishlist their favourite beers
-  - Edit their accuont information
+  - Edit their account informations
   - Get recommendations based on our recommendation engine
 
 ## Further Development
